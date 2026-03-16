@@ -14,7 +14,7 @@ jobs:
       - name: Install
         run: npm ci
       - name: Generate data from Excel
-        run: npm run generate:data
+        run: npx ts-node "src/utils/excelParser.ts" "data/raw/Book 5.xlsx" "data/generated/api-definitions.json"
       - name: Run Playwright API tests
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
