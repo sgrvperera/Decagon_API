@@ -2,7 +2,7 @@
   {
     "apiCommonName": "Get mobile packages",
     "mifeName": "SS-DIA-Get-Gsm-Packages-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/gsm-package/v1/packages?connectionType=POSTPAID' \\\r\n--header 'traceId: DIA865756789012'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/gsm-package/v1/packages?connectionType=POSTPAID' \\\n--header 'traceId: DIA865756789012'",
     "parsed": {
       "method": "GET",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/gsm-package/v1/packages?connectionType=POSTPAID",
@@ -14,7 +14,7 @@
   {
     "apiCommonName": "check eligibility to activate package",
     "mifeName": "SS-DIA-Gsm-Package-Change-Eligibility-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/gsm-package/v1/check-the-eligibility-for-package' \\\r\n--header 'traceId: ONL123412341234' \\\r\n--header 'Content-Type: application/json' \\\r\n--data '{\r\n    \"accountNumber\": \"772856965\",\r\n    \"packageCode\": \"SPM_2700\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/gsm-package/v1/check-the-eligibility-for-package' \\\n--header 'traceId: ONL123412341234' \\\n--header 'Content-Type: application/json' \\\n--data '{\n    \"accountNumber\": \"763290602\",\n    \"packageCode\": \"SPM_2700\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/gsm-package/v1/check-the-eligibility-for-package",
@@ -23,7 +23,7 @@
         "Content-Type": "application/json"
       },
       "data": {
-        "accountNumber": "772856965",
+        "accountNumber": "763290602",
         "packageCode": "SPM_2700"
       }
     }
@@ -31,7 +31,7 @@
   {
     "apiCommonName": "activate package",
     "mifeName": "SS-DIA-Gsm-Package-Change-Activate-Insert - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/gsm-package/v1/activate' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789012' \\\r\n--data '{\r\n    \"accountNumber\": \"772856965\",\r\n    \"packageCode\": \"SPM_2700\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/gsm-package/v1/activate' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789012' \\\n--data '{\n    \"accountNumber\": \"763290602\",\n    \"packageCode\": \"SPM_2700\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/gsm-package/v1/activate",
@@ -40,7 +40,7 @@
         "traceId": "DIA123456789012"
       },
       "data": {
-        "accountNumber": "772856965",
+        "accountNumber": "763290602",
         "packageCode": "SPM_2700"
       }
     }
@@ -61,7 +61,7 @@
   {
     "apiCommonName": "check eligibility to activate package",
     "mifeName": "SS-DIA-DTV-Pack-Act-Eligibility-Query - V1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/dtv-package/v1/eligibility' \\\r\n--header 'traceId: ONL123412341234' \\\r\n--header 'Content-Type: application/json' \\\r\n--data '{\r\n    \"msisdn\":\"81378952\",\r\n    \"packageCode\":\"AARAMBAM_NEW\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/dtv-package/v1/eligibility' \\\n--header 'traceId: ONL123412341234' \\\n--header 'Content-Type: application/json' \\\n--data '{\n    \"msisdn\":\"763290602\",\n    \"packageCode\":\"AARAMBAM_NEW\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/dtv-package/v1/eligibility",
@@ -70,7 +70,7 @@
         "Content-Type": "application/json"
       },
       "data": {
-        "msisdn": "81378952",
+        "msisdn": "763290602",
         "packageCode": "AARAMBAM_NEW"
       }
     }
@@ -78,7 +78,7 @@
   {
     "apiCommonName": "activate package",
     "mifeName": "SS-DIA-DTV-Pack-Act-Activation-Insert - V1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/dtv-package/v1/activate' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789012' \\\r\n--data '{\r\n    \"accountNumber\": \"60953683\",\r\n    \"packageCode\": \"PERLs\"\r\n  }'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/dtv-package/v1/activate' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789012' \\\n--data '{\n    \"accountNumber\": \"763290602\",\n    \"packageCode\": \"PERLs\"\n  }'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/dtv-package/v1/activate",
@@ -87,7 +87,7 @@
         "traceId": "DIA123456789012"
       },
       "data": {
-        "accountNumber": "60953683",
+        "accountNumber": "763290602",
         "packageCode": "PERLs"
       }
     }
@@ -95,7 +95,7 @@
   {
     "apiCommonName": "Get hbb packages",
     "mifeName": "SS-DIA-HBB-Pack-Change-Get-Packages-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/hbb-package-change/v1/upgrade-downgrade-list/POSTPAID' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789012'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/hbb-package-change/v1/upgrade-downgrade-list/POSTPAID' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789012'",
     "parsed": {
       "method": "GET",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/hbb-package-change/v1/upgrade-downgrade-list/POSTPAID",
@@ -108,7 +108,7 @@
   {
     "apiCommonName": "check eligibility to activate package",
     "mifeName": "SS-DIA-HBB-Pack-Act-Eligibility-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/hbb-package-change/v1/check-the-eligibility-for-package' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789012' \\\r\n--data '{\r\n    \"msisdn\": \"772856965\",\r\n    \"packageCode\": \"SPM_2700\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/hbb-package-change/v1/check-the-eligibility-for-package' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789012' \\\n--data '{\n    \"msisdn\": \"763290602\",\n    \"packageCode\": \"SPM_2700\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/hbb-package-change/v1/check-the-eligibility-for-package",
@@ -117,7 +117,7 @@
         "traceId": "DIA123456789012"
       },
       "data": {
-        "msisdn": "772856965",
+        "msisdn": "763290602",
         "packageCode": "SPM_2700"
       }
     }
@@ -125,7 +125,7 @@
   {
     "apiCommonName": "activate package",
     "mifeName": "SS-DIA-HBB-Pack-Act-Activation-Insert - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/hbb-package-change/v1/activate-package' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789012' \\\r\n--data '{\r\n    \"accountNumber\": \"117875469\",\r\n    \"packageCode\": \"STAFF325GB\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/hbb-package-change/v1/activate-package' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789012' \\\n--data '{\n    \"accountNumber\": \"763290602\",\n    \"packageCode\": \"STAFF325GB\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/hbb-package-change/v1/activate-package",
@@ -134,7 +134,7 @@
         "traceId": "DIA123456789012"
       },
       "data": {
-        "accountNumber": "117875469",
+        "accountNumber": "763290602",
         "packageCode": "STAFF325GB"
       }
     }
@@ -155,7 +155,7 @@
   {
     "apiCommonName": " check eligibility to activate package",
     "mifeName": "SS-DIA-Mbb-Pkg-Change-Act-Eligibility-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/mbb-package-change/v1/eligibility' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789012' \\\r\n--data '{\r\n    \"msisdn\": \"77XXXXXXX\",\r\n    \"packageCode\": \"59\",\r\n    \"packagePrePost\" : \"Prepaid\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/mbb-package-change/v1/eligibility' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789012' \\\n--data '{\n    \"msisdn\": \"763290602\",\n    \"packageCode\": \"59\",\n    \"packagePrePost\" : \"Prepaid\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/mbb-package-change/v1/eligibility",
@@ -164,7 +164,7 @@
         "traceId": "DIA123456789012"
       },
       "data": {
-        "msisdn": "77XXXXXXX",
+        "msisdn": "763290602",
         "packageCode": "59",
         "packagePrePost": "Prepaid"
       }
@@ -173,7 +173,7 @@
   {
     "apiCommonName": "activate package",
     "mifeName": "SS-DIA-Mbb-Pkg-Change-Activation-Insert - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/mbb-package-change/v1/activate' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789012' \\\r\n--data '{\r\n    \"msisdn\": \"769702270\",\r\n    \"packageCode\": \"830\",\r\n    \"packagePrePost\" : \"prepaid\"\r\n}\r\n'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/mbb-package-change/v1/activate' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789012' \\\n--data '{\n    \"msisdn\": \"763290602\",\n    \"packageCode\": \"830\",\n    \"packagePrePost\" : \"prepaid\"\n}\n'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/mbb-package-change/v1/activate",
@@ -182,7 +182,7 @@
         "traceId": "DIA123456789012"
       },
       "data": {
-        "msisdn": "769702270",
+        "msisdn": "763290602",
         "packageCode": "830",
         "packagePrePost": "prepaid"
       }
@@ -191,7 +191,7 @@
   {
     "apiCommonName": "Get summary data usage - HBB",
     "mifeName": "SS-DIA-Data-Usage-Summary-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/data-usage/v1/data-usage-summary' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA865756789012' \\\r\n--data '{\r\n    \"msisdn\": \"769654581\",\r\n    \"sbu\":\"HBB\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/data-usage/v1/data-usage-summary' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA865756789012' \\\n--data '{\n    \"msisdn\": \"763290602\",\n    \"sbu\":\"HBB\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/data-usage/v1/data-usage-summary",
@@ -200,7 +200,7 @@
         "traceId": "DIA865756789012"
       },
       "data": {
-        "msisdn": "769654581",
+        "msisdn": "763290602",
         "sbu": "HBB"
       }
     }
@@ -208,7 +208,7 @@
   {
     "apiCommonName": "Get Detailed data usage - HBB",
     "mifeName": "SS-DIA-Data-Usage-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/data-usage/v1/data-usage-query' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: ONL123412341234' \\\r\n--data '{\r\n    \"msisdn\": \"769654581\",\r\n    \"sbu\":\"HBB\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/data-usage/v1/data-usage-query' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: ONL123412341234' \\\n--data '{\n    \"msisdn\": \"763290602\",\n    \"sbu\":\"HBB\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/data-usage/v1/data-usage-query",
@@ -217,7 +217,7 @@
         "traceId": "ONL123412341234"
       },
       "data": {
-        "msisdn": "769654581",
+        "msisdn": "763290602",
         "sbu": "HBB"
       }
     }
@@ -225,7 +225,7 @@
   {
     "apiCommonName": "Get summary data usage - MBB",
     "mifeName": "SS-DIA-Data-Usage-Summary-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/data-usage/v1/data-usage-summary' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA865756789012' \\\r\n--data '{\r\n    \"msisdn\": \"769654581\",\r\n    \"sbu\":\"GSM\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/data-usage/v1/data-usage-summary' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA865756789012' \\\n--data '{\n    \"msisdn\": \"763290602\",\n    \"sbu\":\"GSM\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/data-usage/v1/data-usage-summary",
@@ -234,7 +234,7 @@
         "traceId": "DIA865756789012"
       },
       "data": {
-        "msisdn": "769654581",
+        "msisdn": "763290602",
         "sbu": "GSM"
       }
     }
@@ -242,7 +242,7 @@
   {
     "apiCommonName": "Get Detailed data usage - MBB",
     "mifeName": "SS-DIA-Data-Usage-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/data-usage/v1/data-usage-query' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: ONL123412341234' \\\r\n--data '{\r\n    \"msisdn\": \"769654581\",\r\n    \"sbu\":\"GSM\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/data-usage/v1/data-usage-query' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: ONL123412341234' \\\n--data '{\n    \"msisdn\": \"763290602\",\n    \"sbu\":\"GSM\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/data-usage/v1/data-usage-query",
@@ -251,7 +251,7 @@
         "traceId": "ONL123412341234"
       },
       "data": {
-        "msisdn": "769654581",
+        "msisdn": "763290602",
         "sbu": "GSM"
       }
     }
@@ -259,7 +259,7 @@
   {
     "apiCommonName": "send balance bill infor endpoint ",
     "mifeName": "SS-DIA-Balance-Check-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/balance-check/v1/check-balance' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789122' \\\r\n--data '{\r\n    \"accountNo\": \"776318136\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/balance-check/v1/check-balance' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789122' \\\n--data '{\n    \"accountNo\": \"763290602\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/balance-check/v1/check-balance",
@@ -268,14 +268,14 @@
         "traceId": "DIA123456789122"
       },
       "data": {
-        "accountNo": "776318136"
+        "accountNo": "763290602"
       }
     }
   },
   {
     "apiCommonName": "Connection-status",
     "mifeName": "SS-DIA-Connection-Status-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/connection-status/v1/check-status' \\\r\n--header 'traceId: DIA123412341234' \\\r\n--header 'Content-Type: application/json' \\\r\n--data '{\r\n    \"accountNo\": \"114072160\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/connection-status/v1/check-status' \\\n--header 'traceId: DIA123412341234' \\\n--header 'Content-Type: application/json' \\\n--data '{\n    \"accountNo\": \"1763290602\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/connection-status/v1/check-status",
@@ -284,14 +284,14 @@
         "Content-Type": "application/json"
       },
       "data": {
-        "accountNo": "114072160"
+        "accountNo": "1763290602"
       }
     }
   },
   {
     "apiCommonName": "reconnection-eligibility-check",
     "mifeName": "SS-DIA-Recon-Eligibility-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/reconnection-eligibility/v1/check' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789107' \\\r\n--data '{\r\n    \"accountNo\": \"776318136\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/reconnection-eligibility/v1/check' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789107' \\\n--data '{\n    \"accountNo\": \"763290602\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/reconnection-eligibility/v1/check",
@@ -300,14 +300,14 @@
         "traceId": "DIA123456789107"
       },
       "data": {
-        "accountNo": "776318136"
+        "accountNo": "763290602"
       }
     }
   },
   {
     "apiCommonName": "temporary reconnection action",
     "mifeName": "SS-DIA-Temporary-Recon-Update - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/temporary-reconnection/v1/process' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789102' \\\r\n--data '{\r\n    \"accountNo\": \"114395719\"\r\n  }'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/temporary-reconnection/v1/process' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789102' \\\n--data '{\n    \"accountNo\": \"763290602\"\n  }'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/temporary-reconnection/v1/process",
@@ -316,14 +316,14 @@
         "traceId": "DIA123456789102"
       },
       "data": {
-        "accountNo": "114395719"
+        "accountNo": "763290602"
       }
     }
   },
   {
     "apiCommonName": "Permenent reconnection action",
     "mifeName": "SS-DIA-Permanent-Reconnection-Update - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/permanent-reconnection/v1/process' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789010' \\\r\n--data '{\r\n    \"accountNo\": \"114395719\"\r\n  }'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/permanent-reconnection/v1/process' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789010' \\\n--data '{\n    \"accountNo\": \"763290602\"\n  }'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/permanent-reconnection/v1/process",
@@ -332,14 +332,14 @@
         "traceId": "DIA123456789010"
       },
       "data": {
-        "accountNo": "114395719"
+        "accountNo": "763290602"
       }
     }
   },
   {
     "apiCommonName": "last 5 payments",
     "mifeName": "SS-DIA-Get-Last-Five-Payment - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/payment-history/v1/get' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789012' \\\r\n--data '{\r\n    \"accountNo\": \"0771234567\"\r\n  }'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/payment-history/v1/get' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789012' \\\n--data '{\n    \"accountNo\": \"763290602\"\n  }'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/payment-history/v1/get",
@@ -348,14 +348,14 @@
         "traceId": "DIA123456789012"
       },
       "data": {
-        "accountNo": "0771234567"
+        "accountNo": "763290602"
       }
     }
   },
   {
     "apiCommonName": "get credit limit",
     "mifeName": "SS-DIA-Credit-Limit-Check-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/credit-limit/v1/check' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789012' \\\r\n--data '{\r\n    \"accountNo\": \"114072160\"\r\n  }'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/credit-limit/v1/check' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789012' \\\n--data '{\n    \"accountNo\": \"763290602\"\n  }'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/credit-limit/v1/check",
@@ -364,7 +364,7 @@
         "traceId": "DIA123456789012"
       },
       "data": {
-        "accountNo": "114072160"
+        "accountNo": "763290602"
       }
     }
   },
@@ -383,7 +383,7 @@
   {
     "apiCommonName": "check eligibility to activate channel",
     "mifeName": "SS-DIA-DTV-Channel-Act-Eligibility-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/dtv-channel-act/v1/check-eligibility' \\\r\n--header 'traceId: ONL123412341234' \\\r\n--header 'Content-Type: application/json' \\\r\n--data '{\r\n    \"accountNo\":\"81647068\",\r\n    \"channelNo\":50\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/dtv-channel-act/v1/check-eligibility' \\\n--header 'traceId: ONL123412341234' \\\n--header 'Content-Type: application/json' \\\n--data '{\n    \"accountNo\":\"763290602\",\n    \"channelNo\":50\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/dtv-channel-act/v1/check-eligibility",
@@ -392,7 +392,7 @@
         "Content-Type": "application/json"
       },
       "data": {
-        "accountNo": "81647068",
+        "accountNo": "763290602",
         "channelNo": 50
       }
     }
@@ -400,7 +400,7 @@
   {
     "apiCommonName": "activate channel ",
     "mifeName": "SS-DIA-Activate-Channel - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/dtv-channel-act/v1/activate' \\\r\n--header 'traceId: ONL123412341234' \\\r\n--header 'Content-Type: application/json' \\\r\n--data '{\r\n    \"accountNo\":\"81647068\",\r\n    \"channelNo\":50,\r\n    \"pin\":\"\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/dtv-channel-act/v1/activate' \\\n--header 'traceId: ONL123412341234' \\\n--header 'Content-Type: application/json' \\\n--data '{\n    \"accountNo\":\"763290602\",\n    \"channelNo\":50,\n    \"pin\":\"\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/dtv-channel-act/v1/activate",
@@ -409,7 +409,7 @@
         "Content-Type": "application/json"
       },
       "data": {
-        "accountNo": "81647068",
+        "accountNo": "763290602",
         "channelNo": 50,
         "pin": ""
       }
@@ -418,7 +418,7 @@
   {
     "apiCommonName": "check eligibility to disconnect channel",
     "mifeName": "SS-DIA-DTV-Channel-Deact-Eligibility-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/dtv-channel-deact/v1/check-eligibility' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: ONL123412341234' \\\r\n--data '{\r\n    \"accountNo\": \"60658671\",\r\n    \"channelNo\": 33\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/dtv-channel-deact/v1/check-eligibility' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: ONL123412341234' \\\n--data '{\n    \"accountNo\": \"763290602\",\n    \"channelNo\": 33\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/dtv-channel-deact/v1/check-eligibility",
@@ -427,7 +427,7 @@
         "traceId": "ONL123412341234"
       },
       "data": {
-        "accountNo": "60658671",
+        "accountNo": "763290602",
         "channelNo": 33
       }
     }
@@ -435,7 +435,7 @@
   {
     "apiCommonName": "disconnect channel",
     "mifeName": "SS-DIA-DTV-Channel-Deactivation-Insert - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/dtv-channel-deact/v1/deactivate' \\\r\n--header 'traceId: ONL123412341234' \\\r\n--header 'Content-Type: application/json' \\\r\n--data '{\r\n    \"accountNo\":\"60658671\",\r\n    \r\n    \"channelNo\":33,\r\n    \"pin\":\"\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/dtv-channel-deact/v1/deactivate' \\\n--header 'traceId: ONL123412341234' \\\n--header 'Content-Type: application/json' \\\n--data '{\n    \"accountNo\":\"763290602\",\n    \n    \"channelNo\":33,\n    \"pin\":\"\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/dtv-channel-deact/v1/deactivate",
@@ -444,7 +444,7 @@
         "Content-Type": "application/json"
       },
       "data": {
-        "accountNo": "60658671",
+        "accountNo": "763290602",
         "channelNo": 33,
         "pin": ""
       }
@@ -469,7 +469,7 @@
   {
     "apiCommonName": "eligibility get mbb data add on ",
     "mifeName": "SS-DIA-Mbb-Data-Add-On-Eligibility-Query  - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/mbb-data-addons/v1/check-eligibility' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789012' \\\r\n--data '{\r\n    \"accountNumber\": \"772856965\",\r\n    \"packageCode\": \"100\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/mbb-data-addons/v1/check-eligibility' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789012' \\\n--data '{\n    \"accountNumber\": \"763290602\",\n    \"packageCode\": \"100\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/mbb-data-addons/v1/check-eligibility",
@@ -478,7 +478,7 @@
         "traceId": "DIA123456789012"
       },
       "data": {
-        "accountNumber": "772856965",
+        "accountNumber": "763290602",
         "packageCode": "100"
       }
     }
@@ -486,7 +486,7 @@
   {
     "apiCommonName": "activate get mbb data add on ",
     "mifeName": "SS-DIA-Mbb-Data-Add-On-Activate-Insert     - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/mbb-data-addons/v1/activate' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789012' \\\r\n--data '{\r\n    \"accountNumber\": \"769654581\",\r\n    \"packageCode\": \"1MORE1D\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/mbb-data-addons/v1/activate' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789012' \\\n--data '{\n    \"accountNumber\": \"763290602\",\n    \"packageCode\": \"1MORE1D\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/mbb-data-addons/v1/activate",
@@ -495,7 +495,7 @@
         "traceId": "DIA123456789012"
       },
       "data": {
-        "accountNumber": "769654581",
+        "accountNumber": "763290602",
         "packageCode": "1MORE1D"
       }
     }
@@ -515,7 +515,7 @@
   {
     "apiCommonName": "eligibility get hbb data add on ",
     "mifeName": "SS-DIA-Hbb-Data-Add-On-Eligibility-Query  - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/hbb-data-add-on/v1/check-eligibility' \\\r\n--header 'traceId: DIA123412341234' \\\r\n--header 'Content-Type: application/json' \\\r\n--data '{\r\n    \"accountNo\":\"114395716\",\r\n    \"packagePrice\":72.0\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/hbb-data-add-on/v1/check-eligibility' \\\n--header 'traceId: DIA123412341234' \\\n--header 'Content-Type: application/json' \\\n--data '{\n    \"accountNo\":\"763290602\",\n    \"packagePrice\":72.0\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/hbb-data-add-on/v1/check-eligibility",
@@ -524,7 +524,7 @@
         "Content-Type": "application/json"
       },
       "data": {
-        "accountNo": "114395716",
+        "accountNo": "763290602",
         "packagePrice": 72
       }
     }
@@ -532,7 +532,7 @@
   {
     "apiCommonName": "activate get hbb data add on ",
     "mifeName": "SS-DIA-Hbb-Data-Add-On-Activate-Insert - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/hbb-data-add-on/v1/activation' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: ONL123412341234' \\\r\n--data '{\r\n    \"accountNo\":\"114072160a\",\r\n    \"packageCode\":\"2MORE_Ds\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/hbb-data-add-on/v1/activation' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: ONL123412341234' \\\n--data '{\n    \"accountNo\":\"763290602\",\n    \"packageCode\":\"2MORE_Ds\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/hbb-data-add-on/v1/activation",
@@ -541,7 +541,7 @@
         "traceId": "ONL123412341234"
       },
       "data": {
-        "accountNo": "114072160a",
+        "accountNo": "763290602",
         "packageCode": "2MORE_Ds"
       }
     }
@@ -549,7 +549,7 @@
   {
     "apiCommonName": "end point to rescan dialog tv ",
     "mifeName": "SS-DIA-DTV-Rescan-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/dtv-rescan/v1/rescan' \\\r\n--header 'Content-Type: application/json' \\\r\n--data '{\r\n    \"accountNumber\": \"60953683\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/dtv-rescan/v1/rescan' \\\n--header 'Content-Type: application/json' \\\n--data '{\n    \"accountNumber\": \"763290602\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/dtv-rescan/v1/rescan",
@@ -557,14 +557,14 @@
         "Content-Type": "application/json"
       },
       "data": {
-        "accountNumber": "60953683"
+        "accountNumber": "763290602"
       }
     }
   },
   {
     "apiCommonName": "end point to reset dialog tv ",
     "mifeName": "SS-DIA-DTV-Reset-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/dtv-rescan/v1/reset' \\\r\n--header 'Content-Type: application/json' \\\r\n--data '{\r\n    \"accountNumber\": \"60953683\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/dtv-rescan/v1/reset' \\\n--header 'Content-Type: application/json' \\\n--data '{\n    \"accountNumber\": \"763290602\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/dtv-rescan/v1/reset",
@@ -572,14 +572,14 @@
         "Content-Type": "application/json"
       },
       "data": {
-        "accountNumber": "60953683"
+        "accountNumber": "763290602"
       }
     }
   },
   {
     "apiCommonName": "Complaint lodge API ",
     "mifeName": "SS-DIA-Complaint-Lodge-Insert - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/complain/v1/add-complain' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: ONL123412341234' \\\r\n--data '{\r\n    \"customerId\": \"67569a21a1606b081da76444\",\r\n    \"description\": \"Test-description\",\r\n    \"lob\": \"MOBILE\",\r\n    \"area\": \"BILLING & CHARGING\",\r\n    \"subArea\": \"TIME BASED PACK\",\r\n    \"subSubArea\": \"CHARGING DISPUTES\",\r\n    \"srType\": \"Complaint\",\r\n    \"accountNumber\": \"772856965\",\r\n    \"altContactNo\": \"772856965\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/complain/v1/add-complain' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: ONL123412341234' \\\n--data '{\n    \"customerId\": \"67569a21a1606b081da76444\",\n    \"description\": \"Test-description\",\n    \"lob\": \"MOBILE\",\n    \"area\": \"BILLING & CHARGING\",\n    \"subArea\": \"TIME BASED PACK\",\n    \"subSubArea\": \"CHARGING DISPUTES\",\n    \"srType\": \"Complaint\",\n    \"accountNumber\": \"763290602\",\n    \"altContactNo\": \"763290602\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/complain/v1/add-complain",
@@ -595,15 +595,15 @@
         "subArea": "TIME BASED PACK",
         "subSubArea": "CHARGING DISPUTES",
         "srType": "Complaint",
-        "accountNumber": "772856965",
-        "altContactNo": "772856965"
+        "accountNumber": "763290602",
+        "altContactNo": "763290602"
       }
     }
   },
   {
     "apiCommonName": "end point to get customer's registered email address",
     "mifeName": "SS-DIA-Get-Ebill-Email-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/ebill/v1/get-email' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: ONL123412341234' \\\r\n--data '{\r\n    \"msisdn\": \"114072160\"\r\n  }'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/ebill/v1/get-email' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: ONL123412341234' \\\n--data '{\n    \"msisdn\": \"763290602\"\n  }'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/ebill/v1/get-email",
@@ -612,14 +612,14 @@
         "traceId": "ONL123412341234"
       },
       "data": {
-        "msisdn": "114072160"
+        "msisdn": "763290602"
       }
     }
   },
   {
     "apiCommonName": "end point to send last ebill to customer",
     "mifeName": "SS-DIA-Send-Ebill-Email-Insert - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/ebill/v1/send-email' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: ONL123412341234' \\\r\n--data-raw '{\r\n    \"msisdn\": \"114072160\",\r\n    \"email\": \"hariharankim@gmail.com\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/ebill/v1/send-email' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: ONL123412341234' \\\n--data-raw '{\n    \"msisdn\": \"763290602\",\n    \"email\": \"hariharankim@gmail.com\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/ebill/v1/send-email",
@@ -628,7 +628,7 @@
         "traceId": "ONL123412341234"
       },
       "data": {
-        "msisdn": "114072160",
+        "msisdn": "763290602",
         "email": "hariharankim@gmail.com"
       }
     }
@@ -661,10 +661,10 @@
   {
     "apiCommonName": "end point to get roaming details",
     "mifeName": "SS-DIA-Roaming-Details-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/roaming/v1/details?msisdn=769654581' \\\r\n--header 'traceId: ONL123412341234'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/roaming/v1/details?msisdn=763290602' \\\n--header 'traceId: ONL123412341234'",
     "parsed": {
       "method": "GET",
-      "url": "https://chatbot.dialog.lk/dia-api-engine/api/roaming/v1/details?msisdn=769654581",
+      "url": "https://chatbot.dialog.lk/dia-api-engine/api/roaming/v1/details?msisdn=763290602",
       "headers": {
         "traceId": "ONL123412341234"
       }
@@ -673,7 +673,7 @@
   {
     "apiCommonName": "Payment reversal eligibility endpoint",
     "mifeName": "SS-DIA-Payment-reversal-Eligibility-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/payment-reversal/v1/check-eligibility' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789012' \\\r\n--data '{\r\n    \"accountNumber\": \"771234567\",\r\n    \"packageValue\": \"100\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/payment-reversal/v1/check-eligibility' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789012' \\\n--data '{\n    \"accountNumber\": \"763290602\",\n    \"packageValue\": \"100\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/payment-reversal/v1/check-eligibility",
@@ -682,7 +682,7 @@
         "traceId": "DIA123456789012"
       },
       "data": {
-        "accountNumber": "771234567",
+        "accountNumber": "763290602",
         "packageValue": "100"
       }
     }
@@ -690,7 +690,7 @@
   {
     "apiCommonName": "Payment reversal action end point",
     "mifeName": "SS-DIA-Payment-reversal-Insert - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/payment-reversal/v1/process-reversal' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: DIA123456789012' \\\r\n--header 'Authorization: Bearer 26049eed-af35-32b4-9e05-3349dd1b869f' \\\r\n--data '{\r\n    \"accountNumber\": \"114358518\",\r\n    \"packageValue\": \"50\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/payment-reversal/v1/process-reversal' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: DIA123456789012' \\\n--header 'Authorization: Bearer 26049eed-af35-32b4-9e05-3349dd1b869f' \\\n--data '{\n    \"accountNumber\": \"763290602\",\n    \"packageValue\": \"50\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/payment-reversal/v1/process-reversal",
@@ -700,7 +700,7 @@
         "Authorization": "Bearer 26049eed-af35-32b4-9e05-3349dd1b869f"
       },
       "data": {
-        "accountNumber": "114358518",
+        "accountNumber": "763290602",
         "packageValue": "50"
       }
     }
@@ -732,7 +732,7 @@
   {
     "apiCommonName": "Lodge SR",
     "mifeName": "SS-DIA-Complaint-Lodge-Insert - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/complain/v1/add-complain' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: ONL123412341234' \\\r\n--data '{\r\n    \"customerId\": \"67569a21a1606b081da76444\",\r\n    \"description\": \"Test-description\",\r\n    \"lob\": \"MOBILE\",\r\n    \"area\": \"BILLING & CHARGING\",\r\n    \"subArea\": \"TIME BASED PACK\",\r\n    \"subSubArea\": \"CHARGING DISPUTES\",\r\n    \"srType\": \"Complaint\",\r\n    \"accountNumber\": \"772856965\",\r\n    \"altContactNo\": \"772856965\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/complain/v1/add-complain' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: ONL123412341234' \\\n--data '{\n    \"customerId\": \"67569a21a1606b081da76444\",\n    \"description\": \"Test-description\",\n    \"lob\": \"MOBILE\",\n    \"area\": \"BILLING & CHARGING\",\n    \"subArea\": \"TIME BASED PACK\",\n    \"subSubArea\": \"CHARGING DISPUTES\",\n    \"srType\": \"Complaint\",\n    \"accountNumber\": \"763290602\",\n    \"altContactNo\": \"763290602\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/complain/v1/add-complain",
@@ -748,15 +748,15 @@
         "subArea": "TIME BASED PACK",
         "subSubArea": "CHARGING DISPUTES",
         "srType": "Complaint",
-        "accountNumber": "772856965",
-        "altContactNo": "772856965"
+        "accountNumber": "763290602",
+        "altContactNo": "763290602"
       }
     }
   },
   {
     "apiCommonName": "Diagnosis endpoint",
     "mifeName": "SS-DIA-Cx-Diagnosis-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/diagnosis/v1/cx-diagnosis' \\\r\n--header 'traceId: TES100000000003' \\\r\n--header 'Content-Type: application/json' \\\r\n--data '{\r\n    \"accountNo\":\"114396495\",\r\n    \"channel\":\"CHATBOT\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/diagnosis/v1/cx-diagnosis' \\\n--header 'traceId: TES100000000003' \\\n--header 'Content-Type: application/json' \\\n--data '{\n    \"accountNo\":\"763290602\",\n    \"channel\":\"CHATBOT\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/diagnosis/v1/cx-diagnosis",
@@ -765,7 +765,7 @@
         "Content-Type": "application/json"
       },
       "data": {
-        "accountNo": "114396495",
+        "accountNo": "763290602",
         "channel": "CHATBOT"
       }
     }
@@ -773,10 +773,10 @@
   {
     "apiCommonName": "get last 5 complaint status",
     "mifeName": "SS-DIA-Get-Complaint-Status-Check - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/complain/v1/retrieve-srtt?msisdn=773273209' \\\r\n--header 'traceId: ONL123412341234'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/complain/v1/retrieve-srtt?msisdn=763290602' \\\n--header 'traceId: ONL123412341234'",
     "parsed": {
       "method": "GET",
-      "url": "https://chatbot.dialog.lk/dia-api-engine/api/complain/v1/retrieve-srtt?msisdn=773273209",
+      "url": "https://chatbot.dialog.lk/dia-api-engine/api/complain/v1/retrieve-srtt?msisdn=763290602",
       "headers": {
         "traceId": "ONL123412341234"
       }
@@ -807,7 +807,7 @@
   {
     "apiCommonName": "NPS score comment submit end point",
     "mifeName": "SS-DIA-NPS-Score-Insert - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/nps/v1/scoreComment' \\\r\n--header 'traceId: DIA123412341234' \\\r\n--header 'Content-Type: application/json' \\\r\n--data '{\r\n    \"userId\":\"1181a0341b07e2aedcbbdc89\",\r\n    \"cxName\":\"Hariharan\",\r\n    \"score\":\"10\",\r\n    \"servedBy\":\"bot\", \r\n    \"surveyId\":\"NPS\",\r\n    \"phoneNumber\":\"94776318136\",\r\n    \"lang\":\"en\",\r\n    \"channel\":\"whatsapp\",\r\n    \"sessionId\":\"2c0e42b8-d9ab-4abd-8000-0a9d8abfb65e\",\r\n    \"agentName\":\"\",\r\n    \"transactionType\":\"mob_balance_check\",\r\n    \"comment\":\"Good\",\r\n    \"subComment\":\"\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/nps/v1/scoreComment' \\\n--header 'traceId: DIA123412341234' \\\n--header 'Content-Type: application/json' \\\n--data '{\n    \"userId\":\"1181a0341b07e2aedcbbdc89\",\n    \"cxName\":\"Hariharan\",\n    \"score\":\"10\",\n    \"servedBy\":\"bot\", \n    \"surveyId\":\"NPS\",\n    \"phoneNumber\":\"763290602\",\n    \"lang\":\"en\",\n    \"channel\":\"whatsapp\",\n    \"sessionId\":\"2c0e42b8-d9ab-4abd-8000-0a9d8abfb65e\",\n    \"agentName\":\"\",\n    \"transactionType\":\"mob_balance_check\",\n    \"comment\":\"Good\",\n    \"subComment\":\"\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/nps/v1/scoreComment",
@@ -821,7 +821,7 @@
         "score": "10",
         "servedBy": "bot",
         "surveyId": "NPS",
-        "phoneNumber": "94776318136",
+        "phoneNumber": "763290602",
         "lang": "en",
         "channel": "whatsapp",
         "sessionId": "2c0e42b8-d9ab-4abd-8000-0a9d8abfb65e",
@@ -835,7 +835,7 @@
   {
     "apiCommonName": "Send SMS endpoint",
     "mifeName": "SS-DIA-Send-SMS-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/send-sms/v1/send-message' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: ONL123412341234' \\\r\n--header 'Authorization: Bearer 3372ae09-a3e9-3377-8664-7d391d860b70' \\\r\n--data '{\r\n  \"msisdn\": \"776318136\",\r\n  \"messageContent\": \"Hello, this is a test SMS\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/send-sms/v1/send-message' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: ONL123412341234' \\\n--header 'Authorization: Bearer 3372ae09-a3e9-3377-8664-7d391d860b70' \\\n--data '{\n  \"msisdn\": \"763290602\",\n  \"messageContent\": \"Hello, this is a test SMS\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/send-sms/v1/send-message",
@@ -845,7 +845,7 @@
         "Authorization": "Bearer 3372ae09-a3e9-3377-8664-7d391d860b70"
       },
       "data": {
-        "msisdn": "776318136",
+        "msisdn": "763290602",
         "messageContent": "Hello, this is a test SMS"
       }
     }
@@ -853,7 +853,7 @@
   {
     "apiCommonName": "Cx-verify-info",
     "mifeName": "SS-DIA-Cx-Verify-Info-Query - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/verification/v1/cx-verify-info' \\\r\n--header 'traceId: ONL123412341234' \\\r\n--header 'Content-Type: application/json' \\\r\n--data '{\r\n    \"accountNumber\":\"776318136\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/verification/v1/cx-verify-info' \\\n--header 'traceId: ONL123412341234' \\\n--header 'Content-Type: application/json' \\\n--data '{\n    \"accountNumber\":\"763290602\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/verification/v1/cx-verify-info",
@@ -862,14 +862,14 @@
         "Content-Type": "application/json"
       },
       "data": {
-        "accountNumber": "776318136"
+        "accountNumber": "763290602"
       }
     }
   },
   {
     "apiCommonName": "Save connection number",
     "mifeName": "SS-DIA-Cx-Connection-Number-Insert - v1.0.0",
-    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/verified-number/v1/save-connection-number' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'traceId: ONL123412341234' \\\r\n--data '{\r\n    \"msisdn\": \"114072160\",\r\n    \"userId\": \"user001\",\r\n    \"lob\": \"HBB\"\r\n}'",
+    "rawCurl": "curl --location 'https://chatbot.dialog.lk/dia-api-engine/api/verified-number/v1/save-connection-number' \\\n--header 'Content-Type: application/json' \\\n--header 'traceId: ONL123412341234' \\\n--data '{\n    \"msisdn\": \"763290602\",\n    \"userId\": \"user001\",\n    \"lob\": \"HBB\"\n}'",
     "parsed": {
       "method": "POST",
       "url": "https://chatbot.dialog.lk/dia-api-engine/api/verified-number/v1/save-connection-number",
@@ -878,7 +878,7 @@
         "traceId": "ONL123412341234"
       },
       "data": {
-        "msisdn": "114072160",
+        "msisdn": "763290602",
         "userId": "user001",
         "lob": "HBB"
       }
