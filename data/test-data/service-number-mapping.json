@@ -1,0 +1,135 @@
+{
+  "apiToServiceMapping": {
+    "gsm-package": {
+      "serviceType": "GSM",
+      "eligibility": {
+        "postpaid": "postpaid.active[0]",
+        "prepaid": "prepaid.active[0]"
+      },
+      "activation": {
+        "postpaid": "postpaid.active[0]",
+        "prepaid": "prepaid.active[0]"
+      },
+      "getPackages": {
+        "postpaid": "postpaid.active[0]",
+        "prepaid": "prepaid.active[0]"
+      }
+    },
+    "dtv-package": {
+      "serviceType": "DTV",
+      "eligibility": {
+        "postpaid": "dtv.postpaid.active[0]",
+        "prepaid": "dtv.prepaid.inactive[0]"
+      },
+      "activation": {
+        "postpaid": "dtv.postpaid.active[0]",
+        "prepaid": "dtv.prepaid.inactive[0]"
+      },
+      "getPackages": {
+        "postpaid": "dtv.postpaid.active[0]",
+        "prepaid": "dtv.prepaid.inactive[0]"
+      }
+    },
+    "hbb-package": {
+      "serviceType": "HBB",
+      "eligibility": {
+        "postpaid": "hbb.postpaid.active[0]",
+        "prepaid": "hbb.prepaid.active[0]"
+      },
+      "activation": {
+        "postpaid": "hbb.postpaid.active[0]",
+        "prepaid": "hbb.prepaid.active[0]"
+      },
+      "getPackages": {
+        "postpaid": "hbb.postpaid.active[0]",
+        "prepaid": "hbb.prepaid.active[0]"
+      }
+    },
+    "mbb-package": {
+      "serviceType": "MBB",
+      "eligibility": {
+        "postpaid": "mbb.postpaid.active[0]",
+        "prepaid": "postpaid.active[0]"
+      },
+      "activation": {
+        "postpaid": "mbb.postpaid.active[0]",
+        "prepaid": "postpaid.active[0]"
+      },
+      "getPackages": {
+        "postpaid": "mbb.postpaid.active[0]",
+        "prepaid": "postpaid.active[0]"
+      }
+    },
+    "dtv-channel": {
+      "serviceType": "DTV",
+      "eligibility": {
+        "postpaid": "dtv.postpaid.active[0]",
+        "prepaid": "dtv.prepaid.inactive[0]"
+      },
+      "activation": {
+        "postpaid": "dtv.postpaid.active[0]",
+        "prepaid": "dtv.prepaid.inactive[0]"
+      },
+      "deactivation": {
+        "postpaid": "dtv.postpaid.active[0]",
+        "prepaid": "dtv.prepaid.inactive[0]"
+      }
+    },
+    "data-usage": {
+      "serviceType": "MULTI",
+      "summary": {
+        "hbb": "hbb.postpaid.active[0]",
+        "gsm": "postpaid.active[0]",
+        "mbb": "mbb.postpaid.active[0]"
+      },
+      "detailed": {
+        "hbb": "hbb.postpaid.active[0]",
+        "gsm": "postpaid.active[0]",
+        "mbb": "mbb.postpaid.active[0]"
+      }
+    },
+    "balance-check": {
+      "serviceType": "GSM",
+      "check": {
+        "postpaid": "postpaid.active[0]",
+        "prepaid": "prepaid.active[0]"
+      }
+    },
+    "connection-status": {
+      "serviceType": "GSM",
+      "check": {
+        "postpaid": "postpaid.active[0]",
+        "prepaid": "prepaid.active[0]"
+      }
+    },
+    "reconnection": {
+      "serviceType": "GSM",
+      "eligibility": {
+        "postpaid": "postpaid.inactive[0]",
+        "prepaid": "prepaid.inactive[0]"
+      },
+      "temporary": {
+        "postpaid": "postpaid.inactive[0]",
+        "prepaid": "prepaid.inactive[0]"
+      },
+      "permanent": {
+        "postpaid": "postpaid.inactive[0]",
+        "prepaid": "prepaid.inactive[0]"
+      }
+    }
+  },
+  "negativeTestMapping": {
+    "invalidNumber": "invalid.numbers[0]",
+    "inactivePostpaid": "postpaid.inactive[0]",
+    "inactivePrepaid": "prepaid.inactive[0]",
+    "inactiveDTV": "dtv.postpaid.inactive[0]",
+    "inactiveHBB": "hbb.postpaid.inactive[0]",
+    "inactiveMBB": "mbb.postpaid.inactive[0]",
+    "blockedNumber": "prepaid.inactive[0]"
+  },
+  "fallbackRules": {
+    "noActiveNumber": "Use first inactive number with warning",
+    "noInactiveNumber": "Use invalid number",
+    "unknownService": "Use GSM postpaid active[0] as default"
+  }
+}

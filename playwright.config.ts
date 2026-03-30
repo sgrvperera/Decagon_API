@@ -1,22 +1,42 @@
 import { PlaywrightTestConfig } from '@playwright/test';
-import * as dotenv from 'dotenv';
-dotenv.config();
+import { config as testConfig } from './config/test-config';
 
 const config: PlaywrightTestConfig = {
   testDir: './tests',
-  timeout: 30_000,
-  expect: { timeout: 5000 },
-  retries: process.env.CI ? 2 : 0,
-  reporter: [['list'], ['html', { open: 'never' }]],
+  timeout: 60_000,
+  expect: { timeout: 10000 },
+  retries: process.env.CI ? 2 : testConfig.retries,
+  workers: process.env.CI ? 2 : 4,
+  reporter: [
+    ['list'],
+    ['html', { open: 'never', outputFolder: 'playwright-report' }],
+    ['json', { outputFile: 'test-results/results.json' }]
+  ],
   projects: [
     {
-      name: 'api',
+      name: 'smoke',
+      testMatch: /.*\.spec\.ts/,
+      grep: /@smoke/,
+    },
+    {
+      name: 'regression',
+      testMatch: /.*\.spec\.ts/,
+      grep: /@regression/,
+    },
+    {
+      name: 'negative',
+      testMatch: /.*\.spec\.ts/,
+      grep: /@negative/,
+    },
+    {
+      name: 'all',
       testMatch: /.*\.spec\.ts/,
     }
   ],
   use: {
-    baseURL: process.env.BASE_URL || '',
-    trace: 'on-first-retry'
+    baseURL: testConfig.baseURL,
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure'
   }
 };
 

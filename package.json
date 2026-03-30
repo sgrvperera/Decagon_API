@@ -3,12 +3,18 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test": "npx playwright test",
-    "test:api": "npx playwright test tests/api --project=api",
+    "test": "npx playwright test tests/e2e/",
+    "test:gsm": "npx playwright test tests/e2e/gsm-packages.spec.ts",
+    "test:hbb": "npx playwright test tests/e2e/hbb-packages.spec.ts",
+    "test:smoke": "TEST_TAG=@smoke npx playwright test tests/e2e/",
+    "test:regression": "TEST_TAG=@regression npx playwright test tests/e2e/",
+    "test:negative": "TEST_TAG=@negative npx playwright test tests/e2e/",
+    "test:mock": "MOCK_API=true npx playwright test tests/e2e/",
     "build": "tsc -p tsconfig.json",
-    "generate:data": "ts-node src/utils/excelParser.ts data/raw/Book\\ 4.xlsx data/generated/api-definitions.json",
+    "generate:data": "ts-node src/utils/excelParser.ts data/raw/Book\\ 5.xlsx data/generated/api-definitions.json",
     "lint": "eslint . --ext .ts",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "report": "npx playwright show-report"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",

@@ -1,0 +1,331 @@
+{
+  "postpaid": {
+    "active": [
+      {
+        "number": "762546554",
+        "status": "active",
+        "serviceType": "GSM",
+        "connectionType": "POSTPAID",
+        "notes": "Primary postpaid test number - Yellow highlighted"
+      },
+      {
+        "number": "762528212",
+        "status": "active",
+        "serviceType": "GSM",
+        "connectionType": "POSTPAID",
+        "notes": "Secondary postpaid test number - Yellow highlighted"
+      },
+      {
+        "number": "763290602",
+        "status": "active",
+        "serviceType": "GSM",
+        "connectionType": "POSTPAID",
+        "notes": "Legacy postpaid number - Green highlighted"
+      },
+      {
+        "number": "760642970",
+        "status": "active",
+        "serviceType": "GSM",
+        "connectionType": "POSTPAID",
+        "notes": "Additional postpaid test number - Green highlighted"
+      }
+    ],
+    "inactive": [
+      {
+        "number": "762532515",
+        "status": "inactive",
+        "serviceType": "GSM",
+        "connectionType": "POSTPAID",
+        "notes": "Inactive - use for negative tests"
+      },
+      {
+        "number": "762532562",
+        "status": "inactive",
+        "serviceType": "GSM",
+        "connectionType": "POSTPAID",
+        "notes": "Inactive - use for negative tests"
+      },
+      {
+        "number": "764884259",
+        "status": "inactive",
+        "serviceType": "GSM",
+        "connectionType": "POSTPAID",
+        "notes": "Inactive - use for negative tests"
+      }
+    ]
+  },
+  "prepaid": {
+    "active": [
+      {
+        "number": "763290491",
+        "status": "reserved",
+        "serviceType": "GSM",
+        "connectionType": "PREPAID",
+        "notes": "Red highlighted - special/reserved number, use with caution"
+      },
+      {
+        "number": "763290574",
+        "status": "reserved",
+        "serviceType": "GSM",
+        "connectionType": "PREPAID",
+        "notes": "Red highlighted - special/reserved number, use with caution"
+      }
+    ],
+    "inactive": [
+      {
+        "number": "763289770",
+        "status": "inactive",
+        "serviceType": "GSM",
+        "connectionType": "PREPAID",
+        "notes": "Inactive prepaid number"
+      },
+      {
+        "number": "760642693",
+        "status": "inactive",
+        "serviceType": "GSM",
+        "connectionType": "PREPAID",
+        "notes": "Inactive prepaid number"
+      },
+      {
+        "number": "760642768",
+        "status": "inactive",
+        "serviceType": "GSM",
+        "connectionType": "PREPAID",
+        "notes": "Inactive prepaid number"
+      },
+      {
+        "number": "760642877",
+        "status": "inactive",
+        "serviceType": "GSM",
+        "connectionType": "PREPAID",
+        "notes": "Inactive prepaid number"
+      }
+    ]
+  },
+  "dtv": {
+    "postpaid": {
+      "active": [
+        {
+          "number": "81378961",
+          "status": "active",
+          "serviceType": "DTV",
+          "connectionType": "POSTPAID",
+          "notes": "Primary DTV postpaid test number"
+        }
+      ],
+      "inactive": [
+        {
+          "number": "65879679",
+          "status": "inactive",
+          "serviceType": "DTV",
+          "connectionType": "POSTPAID",
+          "notes": "Inactive DTV postpaid"
+        },
+        {
+          "number": "65879678",
+          "status": "inactive",
+          "serviceType": "DTV",
+          "connectionType": "POSTPAID",
+          "notes": "Inactive DTV postpaid"
+        },
+        {
+          "number": "65879677",
+          "status": "inactive",
+          "serviceType": "DTV",
+          "connectionType": "POSTPAID",
+          "notes": "Inactive DTV postpaid"
+        },
+        {
+          "number": "65879676",
+          "status": "inactive",
+          "serviceType": "DTV",
+          "connectionType": "POSTPAID",
+          "notes": "Inactive DTV postpaid"
+        },
+        {
+          "number": "65879675",
+          "status": "inactive",
+          "serviceType": "DTV",
+          "connectionType": "POSTPAID",
+          "notes": "Inactive DTV postpaid"
+        }
+      ]
+    },
+    "prepaid": {
+      "active": [],
+      "inactive": [
+        {
+          "number": "81378946",
+          "status": "inactive",
+          "serviceType": "DTV",
+          "connectionType": "PREPAID",
+          "notes": "Inactive DTV prepaid"
+        },
+        {
+          "number": "81378945",
+          "status": "inactive",
+          "serviceType": "DTV",
+          "connectionType": "PREPAID",
+          "notes": "Inactive DTV prepaid"
+        },
+        {
+          "number": "81378963",
+          "status": "inactive",
+          "serviceType": "DTV",
+          "connectionType": "PREPAID",
+          "notes": "Inactive DTV prepaid"
+        },
+        {
+          "number": "81378952",
+          "status": "inactive",
+          "serviceType": "DTV",
+          "connectionType": "PREPAID",
+          "notes": "Inactive DTV prepaid"
+        }
+      ]
+    }
+  },
+  "hbb": {
+    "postpaid": {
+      "active": [
+        {
+          "number": "114395719",
+          "status": "active",
+          "serviceType": "HBB",
+          "connectionType": "POSTPAID",
+          "notes": "Primary HBB postpaid test number"
+        }
+      ],
+      "inactive": [
+        {
+          "number": "114395051",
+          "status": "inactive",
+          "serviceType": "HBB",
+          "connectionType": "POSTPAID",
+          "notes": "Inactive HBB postpaid"
+        },
+        {
+          "number": "114395716",
+          "status": "inactive",
+          "serviceType": "HBB",
+          "connectionType": "POSTPAID",
+          "notes": "Inactive HBB postpaid"
+        },
+        {
+          "number": "114395702",
+          "status": "inactive",
+          "serviceType": "HBB",
+          "connectionType": "POSTPAID",
+          "notes": "Inactive HBB postpaid"
+        },
+        {
+          "number": "114395712",
+          "status": "inactive",
+          "serviceType": "HBB",
+          "connectionType": "POSTPAID",
+          "notes": "Inactive HBB postpaid"
+        }
+      ]
+    },
+    "prepaid": {
+      "active": [
+        {
+          "number": "114396495",
+          "status": "active",
+          "serviceType": "HBB",
+          "connectionType": "PREPAID",
+          "notes": "Primary HBB prepaid test number"
+        }
+      ],
+      "inactive": [
+        {
+          "number": "114396458",
+          "status": "inactive",
+          "serviceType": "HBB",
+          "connectionType": "PREPAID",
+          "notes": "Inactive HBB prepaid"
+        },
+        {
+          "number": "114396485",
+          "status": "inactive",
+          "serviceType": "HBB",
+          "connectionType": "PREPAID",
+          "notes": "Inactive HBB prepaid"
+        },
+        {
+          "number": "114396487",
+          "status": "inactive",
+          "serviceType": "HBB",
+          "connectionType": "PREPAID",
+          "notes": "Inactive HBB prepaid"
+        },
+        {
+          "number": "114396493",
+          "status": "inactive",
+          "serviceType": "HBB",
+          "connectionType": "PREPAID",
+          "notes": "Inactive HBB prepaid"
+        }
+      ]
+    }
+  },
+  "mbb": {
+    "postpaid": {
+      "active": [
+        {
+          "number": "761463243",
+          "status": "active",
+          "serviceType": "MBB",
+          "connectionType": "POSTPAID",
+          "notes": "Primary MBB postpaid test number"
+        }
+      ],
+      "inactive": [
+        {
+          "number": "765178673",
+          "status": "inactive",
+          "serviceType": "MBB",
+          "connectionType": "POSTPAID",
+          "notes": "Inactive MBB postpaid"
+        }
+      ]
+    },
+    "prepaid": {
+      "active": [],
+      "inactive": []
+    }
+  },
+  "invalid": {
+    "numbers": [
+      {
+        "number": "0000000000",
+        "status": "invalid",
+        "serviceType": "ANY",
+        "connectionType": "ANY",
+        "notes": "Generic invalid number for negative tests"
+      },
+      {
+        "number": "9999999999",
+        "status": "invalid",
+        "serviceType": "ANY",
+        "connectionType": "ANY",
+        "notes": "Generic invalid number for negative tests"
+      },
+      {
+        "number": "1111111111",
+        "status": "invalid",
+        "serviceType": "ANY",
+        "connectionType": "ANY",
+        "notes": "Generic invalid number for negative tests"
+      }
+    ]
+  },
+  "special": {
+    "nic": {
+      "number": "192261810270",
+      "type": "NIC",
+      "purpose": "Package rental change to 0",
+      "notes": "Use for specific NIC-based test scenarios"
+    }
+  }
+}

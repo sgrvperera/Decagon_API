@@ -1,0 +1,40 @@
+{
+  "gsm": {
+    "postpaid": {
+      "SPM_2700": "Super Premium 2700",
+      "SPM_3000": "Super Premium 3000"
+    },
+    "prepaid": {
+      "59": "Prepaid Package 59",
+      "830": "Prepaid Package 830"
+    }
+  },
+  "hbb": {
+    "postpaid": {
+      "STAFF325GB": "Staff 325GB Package",
+      "SPM_2700": "HBB Premium Package"
+    }
+  },
+  "dtv": {
+    "postpaid": {
+      "AARAMBAM_NEW": "Aarambam New Package",
+      "PERLs": "Perls Package"
+    }
+  },
+  "mbb": {
+    "addons": {
+      "1MORE1D": "1GB More 1 Day",
+      "100": "MBB Addon 100"
+    }
+  },
+  "hbb_addons": {
+    "2MORE_Ds": "2GB More Days"
+  },
+  "dtv_channels": {
+    "50": "Channel 50",
+    "33": "Channel 33"
+  },
+  "invalid": {
+    "code": "INVALID_PKG_CODE"
+  }
+}

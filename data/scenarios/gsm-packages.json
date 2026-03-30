@@ -1,0 +1,200 @@
+{
+  "domain": "gsm-packages",
+  "mifeApis": [
+    "SS-DIA-Get-Gsm-Packages-Query - v1.0.0",
+    "SS-DIA-Gsm-Package-Change-Eligibility-Query - v1.0.0",
+    "SS-DIA-Gsm-Package-Change-Activate-Insert - v1.0.0"
+  ],
+  "scenarios": [
+    {
+      "id": "gsm-get-packages-postpaid-smoke",
+      "name": "Get GSM Packages - Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-Get-Gsm-Packages-Query - v1.0.0",
+      "tags": ["@smoke", "@regression", "@postpaid", "@gsm"],
+      "method": "GET",
+      "endpoint": "/dia-api-engine/api/gsm-package/v1/packages",
+      "queryParams": {
+        "connectionType": "POSTPAID"
+      },
+      "headers": {
+        "traceId": "AUTO_TEST_{{timestamp}}"
+      },
+      "numberResolution": {
+        "apiDomain": "gsm-packages",
+        "operation": "getPackages",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 5000,
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "gsm-get-packages-prepaid",
+      "name": "Get GSM Packages - Prepaid",
+      "mifeApi": "SS-DIA-Get-Gsm-Packages-Query - v1.0.0",
+      "tags": ["@regression", "@prepaid", "@gsm"],
+      "method": "GET",
+      "endpoint": "/dia-api-engine/api/gsm-package/v1/packages",
+      "queryParams": {
+        "connectionType": "PREPAID"
+      },
+      "headers": {
+        "traceId": "AUTO_TEST_{{timestamp}}"
+      },
+      "numberResolution": {
+        "apiDomain": "gsm-packages",
+        "operation": "getPackages",
+        "connectionType": "PREPAID",
+        "serviceType": "GSM"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "gsm-check-eligibility-postpaid-valid",
+      "name": "Check GSM Package Eligibility - Valid Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-Gsm-Package-Change-Eligibility-Query - v1.0.0",
+      "tags": ["@smoke", "@regression", "@postpaid", "@gsm"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/gsm-package/v1/check-the-eligibility-for-package",
+      "headers": {
+        "traceId": "AUTO_TEST_{{timestamp}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "SPM_2700"
+      },
+      "numberResolution": {
+        "apiDomain": "gsm-packages",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "gsm-check-eligibility-prepaid-valid",
+      "name": "Check GSM Package Eligibility - Valid Prepaid",
+      "mifeApi": "SS-DIA-Gsm-Package-Change-Eligibility-Query - v1.0.0",
+      "tags": ["@regression", "@prepaid", "@gsm"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/gsm-package/v1/check-the-eligibility-for-package",
+      "headers": {
+        "traceId": "AUTO_TEST_{{timestamp}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "59"
+      },
+      "numberResolution": {
+        "apiDomain": "gsm-packages",
+        "operation": "eligibility",
+        "connectionType": "PREPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "gsm-check-eligibility-invalid-account",
+      "name": "Check GSM Package Eligibility - Invalid Account (Negative)",
+      "mifeApi": "SS-DIA-Gsm-Package-Change-Eligibility-Query - v1.0.0",
+      "tags": ["@negative", "@gsm"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/gsm-package/v1/check-the-eligibility-for-package",
+      "headers": {
+        "traceId": "AUTO_TEST_{{timestamp}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "SPM_2700"
+      },
+      "numberResolution": {
+        "apiDomain": "gsm-packages",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "negative"
+      },
+      "expectedStatus": [400, 404, 500],
+      "assertions": {
+        "status": [400, 404, 500]
+      }
+    },
+    {
+      "id": "gsm-activate-package-postpaid",
+      "name": "Activate GSM Package - Postpaid",
+      "mifeApi": "SS-DIA-Gsm-Package-Change-Activate-Insert - v1.0.0",
+      "tags": ["@regression", "@postpaid", "@gsm"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/gsm-package/v1/activate",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "AUTO_TEST_{{timestamp}}"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "SPM_2700"
+      },
+      "numberResolution": {
+        "apiDomain": "gsm-packages",
+        "operation": "activation",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [200, 201],
+      "assertions": {
+        "status": [200, 201],
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "gsm-activate-package-prepaid",
+      "name": "Activate GSM Package - Prepaid",
+      "mifeApi": "SS-DIA-Gsm-Package-Change-Activate-Insert - v1.0.0",
+      "tags": ["@regression", "@prepaid", "@gsm"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/gsm-package/v1/activate",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "AUTO_TEST_{{timestamp}}"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "830"
+      },
+      "numberResolution": {
+        "apiDomain": "gsm-packages",
+        "operation": "activation",
+        "connectionType": "PREPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [200, 201],
+      "assertions": {
+        "status": [200, 201],
+        "bodyNotEmpty": true
+      }
+    }
+  ]
+}

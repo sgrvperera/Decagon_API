@@ -1,0 +1,39 @@
+{
+  "postpaid": {
+    "gsm": {
+      "accountNumber": "763290602",
+      "msisdn": "763290602",
+      "connectionType": "POSTPAID",
+      "sbu": "GSM"
+    },
+    "hbb": {
+      "accountNumber": "763290602",
+      "msisdn": "763290602",
+      "connectionType": "POSTPAID",
+      "sbu": "HBB"
+    },
+    "dtv": {
+      "accountNumber": "763290602",
+      "msisdn": "763290602",
+      "connectionType": "POSTPAID"
+    }
+  },
+  "prepaid": {
+    "gsm": {
+      "accountNumber": "769654581",
+      "msisdn": "769654581",
+      "connectionType": "PREPAID",
+      "sbu": "GSM"
+    },
+    "mbb": {
+      "accountNumber": "763290602",
+      "msisdn": "763290602",
+      "connectionType": "PREPAID",
+      "packagePrePost": "Prepaid"
+    }
+  },
+  "invalid": {
+    "accountNumber": "0000000000",
+    "msisdn": "0000000000"
+  }
+}
