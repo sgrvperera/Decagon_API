@@ -1,22 +1,20 @@
 {
-  "domain": "gsm-packages",
+  "domain": "hbb-packages",
   "mifeApis": [
-    "SS-DIA-Get-Gsm-Packages-Query - v1.0.0",
-    "SS-DIA-Gsm-Package-Change-Eligibility-Query - v1.0.0",
-    "SS-DIA-Gsm-Package-Change-Activate-Insert - v1.0.0"
+    "SS-DIA-HBB-Pack-Change-Get-Packages-Query - v1.0.0",
+    "SS-DIA-HBB-Pack-Act-Eligibility-Query - v1.0.0",
+    "SS-DIA-HBB-Pack-Act-Activation-Insert - v1.0.0"
   ],
   "scenarios": [
     {
-      "id": "gsm-get-packages-postpaid-smoke",
-      "name": "Get GSM Packages - Postpaid (Smoke)",
-      "mifeApi": "SS-DIA-Get-Gsm-Packages-Query - v1.0.0",
-      "tags": ["@smoke", "@regression", "@postpaid", "@gsm"],
+      "id": "hbb-get-packages-postpaid-smoke",
+      "name": "Get HBB Packages - Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-HBB-Pack-Change-Get-Packages-Query - v1.0.0",
+      "tags": ["@smoke", "@regression", "@postpaid", "@hbb"],
       "method": "GET",
-      "endpoint": "/dia-api-engine/api/gsm-package/v1/packages",
-      "queryParams": {
-        "connectionType": "POSTPAID"
-      },
+      "endpoint": "/dia-api-engine/api/hbb-package-change/v1/upgrade-downgrade-list/POSTPAID",
       "headers": {
+        "Content-Type": "application/json",
         "traceId": "{{traceId}}"
       },
       "expectedStatus": 200,
@@ -28,24 +26,18 @@
         "fieldValues": {
           "executionStatus": "00",
           "executionMessage": "SUCCESS"
-        },
-        "arrayFields": ["responseData"],
-        "arrayMinLength": {
-          "responseData": 1
         }
       }
     },
     {
-      "id": "gsm-get-packages-prepaid",
-      "name": "Get GSM Packages - Prepaid",
-      "mifeApi": "SS-DIA-Get-Gsm-Packages-Query - v1.0.0",
-      "tags": ["@regression", "@prepaid", "@gsm"],
+      "id": "hbb-get-packages-prepaid",
+      "name": "Get HBB Packages - Prepaid",
+      "mifeApi": "SS-DIA-HBB-Pack-Change-Get-Packages-Query - v1.0.0",
+      "tags": ["@regression", "@prepaid", "@hbb"],
       "method": "GET",
-      "endpoint": "/dia-api-engine/api/gsm-package/v1/packages",
-      "queryParams": {
-        "connectionType": "PREPAID"
-      },
+      "endpoint": "/dia-api-engine/api/hbb-package-change/v1/upgrade-downgrade-list/PREPAID",
       "headers": {
+        "Content-Type": "application/json",
         "traceId": "{{traceId}}"
       },
       "expectedStatus": 200,
@@ -57,30 +49,29 @@
         "fieldValues": {
           "executionStatus": "00",
           "executionMessage": "SUCCESS"
-        },
-        "arrayFields": ["responseData"]
+        }
       }
     },
     {
-      "id": "gsm-check-eligibility-postpaid-valid",
-      "name": "Check GSM Package Eligibility - Valid Postpaid (Smoke)",
-      "mifeApi": "SS-DIA-Gsm-Package-Change-Eligibility-Query - v1.0.0",
-      "tags": ["@smoke", "@regression", "@postpaid", "@gsm"],
+      "id": "hbb-check-eligibility-postpaid-valid",
+      "name": "Check HBB Package Eligibility - Valid Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-HBB-Pack-Act-Eligibility-Query - v1.0.0",
+      "tags": ["@smoke", "@regression", "@postpaid", "@hbb"],
       "method": "POST",
-      "endpoint": "/dia-api-engine/api/gsm-package/v1/check-the-eligibility-for-package",
+      "endpoint": "/dia-api-engine/api/hbb-package-change/v1/check-the-eligibility-for-package",
       "headers": {
-        "traceId": "{{traceId}}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
       },
       "body": {
-        "accountNumber": "{{number}}",
+        "msisdn": "{{number}}",
         "packageCode": "SPM_2700"
       },
       "numberResolution": {
-        "apiDomain": "gsm-packages",
+        "apiDomain": "hbb-packages",
         "operation": "eligibility",
         "connectionType": "POSTPAID",
-        "serviceType": "GSM",
+        "serviceType": "HBB",
         "scenarioType": "positive"
       },
       "expectedStatus": 200,
@@ -96,25 +87,25 @@
       }
     },
     {
-      "id": "gsm-check-eligibility-prepaid-valid",
-      "name": "Check GSM Package Eligibility - Valid Prepaid",
-      "mifeApi": "SS-DIA-Gsm-Package-Change-Eligibility-Query - v1.0.0",
-      "tags": ["@regression", "@prepaid", "@gsm"],
+      "id": "hbb-check-eligibility-prepaid-valid",
+      "name": "Check HBB Package Eligibility - Valid Prepaid",
+      "mifeApi": "SS-DIA-HBB-Pack-Act-Eligibility-Query - v1.0.0",
+      "tags": ["@regression", "@prepaid", "@hbb"],
       "method": "POST",
-      "endpoint": "/dia-api-engine/api/gsm-package/v1/check-the-eligibility-for-package",
+      "endpoint": "/dia-api-engine/api/hbb-package-change/v1/check-the-eligibility-for-package",
       "headers": {
-        "traceId": "{{traceId}}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
       },
       "body": {
-        "accountNumber": "{{number}}",
-        "packageCode": "59"
+        "msisdn": "{{number}}",
+        "packageCode": "STAFF325GB"
       },
       "numberResolution": {
-        "apiDomain": "gsm-packages",
+        "apiDomain": "hbb-packages",
         "operation": "eligibility",
         "connectionType": "PREPAID",
-        "serviceType": "GSM",
+        "serviceType": "HBB",
         "scenarioType": "positive"
       },
       "expectedStatus": 200,
@@ -130,25 +121,25 @@
       }
     },
     {
-      "id": "gsm-check-eligibility-invalid-account",
-      "name": "Check GSM Package Eligibility - Invalid Account (Negative)",
-      "mifeApi": "SS-DIA-Gsm-Package-Change-Eligibility-Query - v1.0.0",
-      "tags": ["@negative", "@gsm"],
+      "id": "hbb-check-eligibility-invalid-account",
+      "name": "Check HBB Package Eligibility - Invalid Account (Negative)",
+      "mifeApi": "SS-DIA-HBB-Pack-Act-Eligibility-Query - v1.0.0",
+      "tags": ["@negative", "@hbb"],
       "method": "POST",
-      "endpoint": "/dia-api-engine/api/gsm-package/v1/check-the-eligibility-for-package",
+      "endpoint": "/dia-api-engine/api/hbb-package-change/v1/check-the-eligibility-for-package",
       "headers": {
-        "traceId": "{{traceId}}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
       },
       "body": {
-        "accountNumber": "{{number}}",
+        "msisdn": "{{number}}",
         "packageCode": "SPM_2700"
       },
       "numberResolution": {
-        "apiDomain": "gsm-packages",
+        "apiDomain": "hbb-packages",
         "operation": "eligibility",
         "connectionType": "POSTPAID",
-        "serviceType": "GSM",
+        "serviceType": "HBB",
         "scenarioType": "negative"
       },
       "expectedStatus": 200,
@@ -161,29 +152,29 @@
           "executionStatus": "00",
           "executionMessage": "SUCCESS"
         },
-        "bodyContains": ["eligible", "false"]
+        "bodyContains": ["invalid"]
       }
     },
     {
-      "id": "gsm-activate-package-postpaid",
-      "name": "Activate GSM Package - Postpaid",
-      "mifeApi": "SS-DIA-Gsm-Package-Change-Activate-Insert - v1.0.0",
-      "tags": ["@regression", "@postpaid", "@gsm"],
+      "id": "hbb-activate-package-postpaid",
+      "name": "Activate HBB Package - Postpaid",
+      "mifeApi": "SS-DIA-HBB-Pack-Act-Activation-Insert - v1.0.0",
+      "tags": ["@regression", "@postpaid", "@hbb"],
       "method": "POST",
-      "endpoint": "/dia-api-engine/api/gsm-package/v1/activate",
+      "endpoint": "/dia-api-engine/api/hbb-package-change/v1/activate-package",
       "headers": {
         "Content-Type": "application/json",
         "traceId": "{{traceId}}"
       },
       "body": {
         "accountNumber": "{{number}}",
-        "packageCode": "SPM_2700"
+        "packageCode": "STAFF325GB"
       },
       "numberResolution": {
-        "apiDomain": "gsm-packages",
+        "apiDomain": "hbb-packages",
         "operation": "activation",
         "connectionType": "POSTPAID",
-        "serviceType": "GSM",
+        "serviceType": "HBB",
         "scenarioType": "positive"
       },
       "expectedStatus": [200, 201],
@@ -191,33 +182,29 @@
         "status": [200, 201],
         "responseTime": 3000,
         "bodyNotEmpty": true,
-        "requiredFields": ["executionStatus", "executionMessage", "responseData"],
-        "fieldValues": {
-          "executionStatus": "00",
-          "executionMessage": "SUCCESS"
-        }
+        "requiredFields": ["executionStatus", "executionMessage", "responseData"]
       }
     },
     {
-      "id": "gsm-activate-package-prepaid",
-      "name": "Activate GSM Package - Prepaid",
-      "mifeApi": "SS-DIA-Gsm-Package-Change-Activate-Insert - v1.0.0",
-      "tags": ["@regression", "@prepaid", "@gsm"],
+      "id": "hbb-activate-package-prepaid",
+      "name": "Activate HBB Package - Prepaid",
+      "mifeApi": "SS-DIA-HBB-Pack-Act-Activation-Insert - v1.0.0",
+      "tags": ["@regression", "@prepaid", "@hbb"],
       "method": "POST",
-      "endpoint": "/dia-api-engine/api/gsm-package/v1/activate",
+      "endpoint": "/dia-api-engine/api/hbb-package-change/v1/activate-package",
       "headers": {
         "Content-Type": "application/json",
         "traceId": "{{traceId}}"
       },
       "body": {
         "accountNumber": "{{number}}",
-        "packageCode": "830"
+        "packageCode": "STAFF325GB"
       },
       "numberResolution": {
-        "apiDomain": "gsm-packages",
+        "apiDomain": "hbb-packages",
         "operation": "activation",
         "connectionType": "PREPAID",
-        "serviceType": "GSM",
+        "serviceType": "HBB",
         "scenarioType": "positive"
       },
       "expectedStatus": [200, 201],

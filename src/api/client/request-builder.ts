@@ -1,12 +1,21 @@
 import { config } from '../../../config/test-config';
 import { AuthHandler } from '../auth/auth-handler';
 
+export interface CaptureContext {
+  testName: string;
+  scenarioId?: string;
+  scenarioName?: string;
+  domain?: string;
+  mifeApi?: string;
+}
+
 export interface RequestOptions {
   headers?: Record<string, string>;
   queryParams?: Record<string, any>;
   body?: any;
   timeout?: number;
   auth?: AuthHandler;
+  captureContext?: CaptureContext;
 }
 
 export class RequestBuilder {

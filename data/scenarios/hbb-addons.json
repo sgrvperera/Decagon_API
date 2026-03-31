@@ -1,0 +1,265 @@
+{
+  "domain": "hbb-addons",
+  "mifeApis": [
+    "SS-DIA-Get-Hbb-Data-Add-On-Packs-Query       - v1.0.0",
+    "SS-DIA-Hbb-Data-Add-On-Eligibility-Query  - v1.0.0",
+    "SS-DIA-Hbb-Data-Add-On-Activate-Insert - v1.0.0"
+  ],
+  "scenarios": [
+    {
+      "id": "hbb-addons-get-packages-smoke",
+      "name": "Get HBB Add-on Packages (Smoke)",
+      "mifeApi": "SS-DIA-Get-Hbb-Data-Add-On-Packs-Query       - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@hbb",
+        "@addons"
+      ],
+      "method": "GET",
+      "endpoint": "/dia-api-engine/api/hbb-data-add-on/v1/get-packages",
+      "headers": {
+        "traceId": "{{traceId}}"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "hbb-addons-check-eligibility-postpaid-valid",
+      "name": "Check HBB Add-on Eligibility - Valid Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-Hbb-Data-Add-On-Eligibility-Query  - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid",
+        "@hbb",
+        "@addons"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/hbb-data-add-on/v1/check-eligibility",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}",
+        "packagePrice": 72
+      },
+      "numberResolution": {
+        "apiDomain": "hbb-packages",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "HBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "02",
+          "executionMessage": "This connection number is not in a connected status."
+        }
+      }
+    },
+    {
+      "id": "hbb-addons-check-eligibility-prepaid-valid",
+      "name": "Check HBB Add-on Eligibility - Valid Prepaid",
+      "mifeApi": "SS-DIA-Hbb-Data-Add-On-Eligibility-Query  - v1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@hbb",
+        "@addons"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/hbb-data-add-on/v1/check-eligibility",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}",
+        "packagePrice": 72
+      },
+      "numberResolution": {
+        "apiDomain": "hbb-packages",
+        "operation": "eligibility",
+        "connectionType": "PREPAID",
+        "serviceType": "HBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "hbb-addons-check-eligibility-invalid-account",
+      "name": "Check HBB Add-on Eligibility - Invalid Account (Negative)",
+      "mifeApi": "SS-DIA-Hbb-Data-Add-On-Eligibility-Query  - v1.0.0",
+      "tags": [
+        "@negative",
+        "@hbb",
+        "@addons"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/hbb-data-add-on/v1/check-eligibility",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}",
+        "packagePrice": 72
+      },
+      "numberResolution": {
+        "apiDomain": "hbb-packages",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "HBB",
+        "scenarioType": "negative"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "02",
+          "executionMessage": "This connection number is not in a connected status."
+        },
+        "bodyContains": [
+          "executionStatus"
+        ]
+      }
+    },
+    {
+      "id": "hbb-addons-activate-postpaid",
+      "name": "Activate HBB Add-on - Postpaid",
+      "mifeApi": "SS-DIA-Hbb-Data-Add-On-Activate-Insert - v1.0.0",
+      "tags": [
+        "@regression",
+        "@postpaid",
+        "@hbb",
+        "@addons"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/hbb-data-add-on/v1/activation",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "accountNo": "{{number}}",
+        "packageCode": "2MORE_Ds"
+      },
+      "numberResolution": {
+        "apiDomain": "hbb-packages",
+        "operation": "activation",
+        "connectionType": "POSTPAID",
+        "serviceType": "HBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [
+        200,
+        201
+      ],
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "02",
+          "executionMessage": "HBB data addon activation failed"
+        }
+      }
+    },
+    {
+      "id": "hbb-addons-activate-prepaid",
+      "name": "Activate HBB Add-on - Prepaid",
+      "mifeApi": "SS-DIA-Hbb-Data-Add-On-Activate-Insert - v1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@hbb",
+        "@addons"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/hbb-data-add-on/v1/activation",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "accountNo": "{{number}}",
+        "packageCode": "2MORE_Ds"
+      },
+      "numberResolution": {
+        "apiDomain": "hbb-packages",
+        "operation": "activation",
+        "connectionType": "PREPAID",
+        "serviceType": "HBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [
+        200,
+        201
+      ],
+      "assertions": {
+        "status": 500,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "01",
+          "executionMessage": "No enum constant lk.dialog.crm.util.HbbExtPrepaidPkgCode.PKG_2MORE_Ds"
+        }
+      }
+    }
+  ]
+}

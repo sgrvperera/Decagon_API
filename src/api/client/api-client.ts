@@ -1,6 +1,7 @@
 import { APIRequestContext, APIResponse, request } from '@playwright/test';
 import { config } from '../../../config/test-config';
 import { RequestOptions, requestBuilder } from './request-builder';
+import { responseCapture } from '../../helpers/response-capture';
 
 export class ApiClient {
   private ctx?: APIRequestContext;
@@ -31,12 +32,30 @@ export class ApiClient {
 
     const url = requestBuilder.buildUrl(path, options.queryParams);
     const headers = requestBuilder.buildHeaders(options);
+    const startTime = Date.now();
 
     const response = await this.executeWithRetry(async () => 
       this.ctx!.get(url, { headers, timeout: options.timeout || config.timeout })
     );
 
     this.logResponse('GET', url, response);
+    
+    // Capture response if enabled
+    if (responseCapture.isEnabled() && options.captureContext) {
+      await responseCapture.capture(
+        options.captureContext.testName,
+        'GET',
+        url,
+        response,
+        {
+          headers,
+          queryParams: options.queryParams,
+          ...options.captureContext,
+          startTime
+        }
+      );
+    }
+    
     return response;
   }
 
@@ -45,6 +64,7 @@ export class ApiClient {
 
     const url = requestBuilder.buildUrl(path, options.queryParams);
     const headers = requestBuilder.buildHeaders(options);
+    const startTime = Date.now();
 
     const response = await this.executeWithRetry(async () =>
       this.ctx!.post(url, { 
@@ -55,6 +75,24 @@ export class ApiClient {
     );
 
     this.logResponse('POST', url, response);
+    
+    // Capture response if enabled
+    if (responseCapture.isEnabled() && options.captureContext) {
+      await responseCapture.capture(
+        options.captureContext.testName,
+        'POST',
+        url,
+        response,
+        {
+          headers,
+          body: options.body,
+          queryParams: options.queryParams,
+          ...options.captureContext,
+          startTime
+        }
+      );
+    }
+    
     return response;
   }
 
@@ -63,6 +101,7 @@ export class ApiClient {
 
     const url = requestBuilder.buildUrl(path, options.queryParams);
     const headers = requestBuilder.buildHeaders(options);
+    const startTime = Date.now();
 
     const response = await this.executeWithRetry(async () =>
       this.ctx!.put(url, { 
@@ -73,6 +112,24 @@ export class ApiClient {
     );
 
     this.logResponse('PUT', url, response);
+    
+    // Capture response if enabled
+    if (responseCapture.isEnabled() && options.captureContext) {
+      await responseCapture.capture(
+        options.captureContext.testName,
+        'PUT',
+        url,
+        response,
+        {
+          headers,
+          body: options.body,
+          queryParams: options.queryParams,
+          ...options.captureContext,
+          startTime
+        }
+      );
+    }
+    
     return response;
   }
 
@@ -81,12 +138,30 @@ export class ApiClient {
 
     const url = requestBuilder.buildUrl(path, options.queryParams);
     const headers = requestBuilder.buildHeaders(options);
+    const startTime = Date.now();
 
     const response = await this.executeWithRetry(async () =>
       this.ctx!.delete(url, { headers, timeout: options.timeout || config.timeout })
     );
 
     this.logResponse('DELETE', url, response);
+    
+    // Capture response if enabled
+    if (responseCapture.isEnabled() && options.captureContext) {
+      await responseCapture.capture(
+        options.captureContext.testName,
+        'DELETE',
+        url,
+        response,
+        {
+          headers,
+          queryParams: options.queryParams,
+          ...options.captureContext,
+          startTime
+        }
+      );
+    }
+    
     return response;
   }
 

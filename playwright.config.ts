@@ -37,7 +37,18 @@ const config: PlaywrightTestConfig = {
     baseURL: testConfig.baseURL,
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure'
-  }
+  },
+  // Pass environment variables to workers
+  use: {
+    baseURL: testConfig.baseURL,
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
+    // Environment variables available in test context
+    extraHTTPHeaders: {}
+  },
+  // Ensure environment variables are passed to worker processes
+  globalSetup: undefined,
+  globalTeardown: undefined
 };
 
 export default config;
