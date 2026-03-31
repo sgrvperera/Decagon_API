@@ -1,5 +1,4 @@
 import { config } from '../../../config/test-config';
-import { AuthHandler } from '../auth/auth-handler';
 
 export interface CaptureContext {
   testName: string;
@@ -14,7 +13,6 @@ export interface RequestOptions {
   queryParams?: Record<string, any>;
   body?: any;
   timeout?: number;
-  auth?: AuthHandler;
   captureContext?: CaptureContext;
 }
 
@@ -26,10 +24,6 @@ export class RequestBuilder {
 
   buildHeaders(options: RequestOptions = {}): Record<string, string> {
     const headers = { ...this.defaultHeaders };
-
-    if (options.auth) {
-      Object.assign(headers, options.auth.getAuthHeaders());
-    }
 
     if (options.headers) {
       Object.assign(headers, options.headers);

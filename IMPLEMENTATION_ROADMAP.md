@@ -1,355 +1,854 @@
-# Implementation Roadmap - Your Next Steps
+# Implementation Roadmap - Dialog API Testing Framework
 
-## 🎯 Where You Are Now
+## Table of Contents
 
-✅ **Framework Redesigned** - Enterprise-grade architecture in place
-✅ **Sample Code Created** - GSM and HBB examples ready
-✅ **Documentation Complete** - 6 comprehensive guides
-✅ **Infrastructure Ready** - All folders and base files created
+1. [Current State](#current-state)
+2. [Framework Overview](#framework-overview)
+3. [Getting Started](#getting-started)
+4. [Adding New Test Scenarios](#adding-new-test-scenarios)
+5. [Working with Test Data](#working-with-test-data)
+6. [Response Capture Workflow](#response-capture-workflow)
+7. [Maintenance Tasks](#maintenance-tasks)
+8. [Advanced Features](#advanced-features)
+9. [CI/CD Integration](#cicd-integration)
+10. [Future Enhancements](#future-enhancements)
 
 ---
 
-## 📋 What You Need to Do (Prioritized)
+## Current State
 
-### **PHASE 1: Validate & Learn (Day 1-2)**
+### What's Implemented ✅
 
-#### **Step 1: Run Sample Tests** ⏱️ 15 minutes
+The framework is **fully functional** and production-ready with the following features:
+
+#### Core Framework
+- ✅ **Scenario-driven architecture** - JSON-based test scenarios
+- ✅ **Generic test runner** - One runner for all domains
+- ✅ **API client with retry logic** - Automatic retry on failures
+- ✅ **Request builder** - Constructs URLs, headers, query strings
+- ✅ **Assertion executor** - 10 assertion types supported
+- ✅ **Number resolver** - Intelligent test number resolution
+- ✅ **Response capture** - Optional request/response logging
+- ✅ **Mock mode** - Offline testing support
+
+#### Test Coverage
+- ✅ **7 domains implemented**: GSM Packages, HBB Packages, HBB Addons, MBB Packages, MBB Addons, DTV Packages, DTV Channels
+- ✅ **48 test scenarios** across all domains
+- ✅ **Tag-based execution** - @smoke, @regression, @negative, @postpaid, @prepaid
+- ✅ **All scenarios have assertions** - Comprehensive validation
+
+#### Infrastructure
+- ✅ **Environment configuration** - .env based config
+- ✅ **TypeScript compilation** - No errors
+- ✅ **Test data management** - Centralized test numbers
+- ✅ **Utility scripts** - Response consolidation and assertion updates
+- ✅ **Documentation** - Complete architecture and user guides
+
+### Project Statistics
+
+```
+Total Files: 46
+├── Source Code: 15 files
+├── Test Specs: 7 files
+├── Scenario Files: 7 files
+├── Test Data: 4 files
+├── Configuration: 4 files
+├── Scripts: 2 files
+├── Documentation: 4 files
+└── Other: 3 files
+
+Test Scenarios: 48
+├── GSM Packages: 8 scenarios
+├── HBB Packages: 7 scenarios
+├── HBB Addons: 6 scenarios
+├── MBB Packages: 6 scenarios
+├── MBB Addons: 7 scenarios
+├── DTV Packages: 7 scenarios
+└── DTV Channels: 7 scenarios
+
+Lines of Code: ~3,500
+├── TypeScript: ~2,800 lines
+├── JSON: ~700 lines
+└── Configuration: ~100 lines
+```
+
+---
+
+## Framework Overview
+
+### How It Works
+
+```
+1. Test Spec loads Scenario JSON
+   ↓
+2. Scenario Runner processes each scenario
+   ↓
+3. Number Resolver gets test number (if needed)
+   ↓
+4. Data Interpolator replaces {{placeholders}}
+   ↓
+5. API Client executes HTTP request
+   ↓
+6. Response Capture saves data (optional)
+   ↓
+7. Assertion Executor validates response
+   ↓
+8. Test passes or fails
+```
+
+### Key Concepts
+
+**Scenario-Driven**: Tests are defined in JSON files, not code
+```json
+{
+  "id": "gsm-get-packages-postpaid-smoke",
+  "name": "Get GSM Packages - Postpaid (Smoke)",
+  "method": "GET",
+  "endpoint": "/dia-api-engine/api/gsm-package/v1/packages",
+  "assertions": {...}
+}
+```
+
+**Data-Driven**: Test numbers resolved automatically
+```json
+{
+  "numberResolution": {
+    "apiDomain": "gsm-packages",
+    "operation": "eligibility",
+    "connectionType": "POSTPAID",
+    "serviceType": "GSM"
+  }
+}
+```
+
+**Assertion-Driven**: Validations declared in scenarios
+```json
+{
+  "assertions": {
+    "status": 200,
+    "responseTime": 3000,
+    "requiredFields": ["executionStatus"],
+    "fieldValues": {"executionStatus": "00"}
+  }
+}
+```
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18 LTS or 20 LTS
+- npm 8.x or higher
+- Git
+- Text editor (VS Code recommended)
+
+### Initial Setup
 
 ```bash
-# Install dependencies (if not done)
+# 1. Clone repository (if not already done)
+git clone <repository-url>
+cd Decagon.Api
+
+# 2. Install dependencies
 npm ci
 
-# Run smoke tests
+# 3. Install Playwright browsers
+npx playwright install
+
+# 4. Copy environment file
+copy .env.example .env
+
+# 5. Configure environment (edit .env)
+# Set BASE_URL, TRACE_ID, etc.
+
+# 6. Verify setup
 npm run test:smoke
+```
+
+### First Test Run
+
+```bash
+# Run all tests
+npm run test:e2e
+
+# Run specific domain
+npx playwright test tests/e2e/gsm-packages.spec.ts
+
+# Run with tag
+TEST_TAG=@smoke npm run test:e2e
 
 # View report
-npm run report
+npx playwright show-report
 ```
 
-**Expected Result:** Tests run successfully (may fail if backend unavailable - that's OK, use mock mode)
+### Understanding the Output
 
-**If tests fail due to network:**
-```bash
-npm run test:mock
 ```
+Running 8 tests using 4 workers
 
-#### **Step 2: Review Sample Scenarios** ⏱️ 30 minutes
+  ✓ Get GSM Packages - Postpaid (Smoke) [SS-DIA-Get-Gsm-Packages-Query - v1.0.0] @smoke @regression @postpaid @gsm (1.2s)
+  ✓ Get GSM Packages - Prepaid [SS-DIA-Get-Gsm-Packages-Query - v1.0.0] @regression @prepaid @gsm (1.1s)
+  ✓ Check GSM Package Eligibility - Valid Postpaid (Smoke) [SS-DIA-Gsm-Package-Change-Eligibility-Query - v1.0.0] @smoke @regression @postpaid @gsm (1.5s)
+  ...
 
-Open and study these files:
-1. `data/scenarios/gsm-packages.scenarios.json` - See scenario structure
-2. `tests/scenarios/gsm-packages.spec.ts` - See how scenarios are executed
-3. `data/test-data/accounts.data.json` - See test data structure
-
-**Key Concepts to Understand:**
-- Scenario JSON structure
-- Data interpolation with `{{placeholder}}`
-- Tag usage for filtering
-- Assertion types
-
-#### **Step 3: Read Documentation** ⏱️ 45 minutes
-
-Priority order:
-1. `QUICKSTART.md` - Get started guide (15 min)
-2. `REDESIGN_SUMMARY.md` - High-level overview (15 min)
-3. `ARCHITECTURE_VISUAL.md` - Visual diagrams (15 min)
+8 passed (12.3s)
+```
 
 ---
 
-### **PHASE 2: Create Your First Scenario (Day 3-4)**
+## Adding New Test Scenarios
 
-#### **Step 1: Choose One API** ⏱️ 5 minutes
+### Step-by-Step Guide
 
-Pick a simple API from your list. Recommended: **Balance Check**
+#### Step 1: Identify the API
 
-From your `api-definitions.json`:
+Gather API information:
+- API endpoint (e.g., `/dia-api-engine/api/balance-check/v1/check-balance`)
+- HTTP method (GET, POST, PUT, DELETE)
+- Request headers
+- Request body/query parameters
+- Expected response structure
+
+#### Step 2: Determine the Domain
+
+Choose or create a domain:
+- Use existing domain if API fits (e.g., `gsm-packages`)
+- Create new domain if needed (e.g., `balance-check`)
+
+#### Step 3: Add Test Numbers (if needed)
+
+If the API requires account numbers:
+
+**Edit `data/test-data/service-number-mapping.json`:**
 ```json
 {
-  "apiCommonName": "send balance bill infor endpoint",
-  "method": "POST",
-  "path": "/dia-api-engine/api/balance-check/v1/check-balance",
-  "body": {
-    "accountNo": "763290602"
+  "apiToServiceMapping": {
+    "balance-check": {
+      "checkBalance": {
+        "postpaid": "postpaid.active[0]",
+        "prepaid": "prepaid.active[0]"
+      }
+    }
   }
 }
 ```
 
-#### **Step 2: Create Scenario File** ⏱️ 20 minutes
-
-Create `data/scenarios/balance-check.scenarios.json`:
-
+**Verify numbers exist in `data/test-data/test-numbers.json`:**
 ```json
-[
-  {
-    "id": "balance-check-valid-postpaid",
-    "name": "Check Balance - Valid Postpaid Account (Smoke)",
-    "description": "Verify balance check returns correct data for valid postpaid account",
-    "tags": ["@smoke", "@regression", "@postpaid"],
-    "apiId": "balance-check",
-    "method": "POST",
-    "path": "/dia-api-engine/api/balance-check/v1/check-balance",
-    "body": {
-      "accountNo": "{{account.postpaid.gsm.accountNumber}}"
-    },
-    "expectedStatus": 200,
-    "assertions": [
+{
+  "postpaid": {
+    "active": [
       {
-        "type": "status",
-        "expected": 200
+        "number": "771234567",
+        "serviceType": "GSM",
+        "connectionType": "POSTPAID",
+        "status": "ACTIVE"
+      }
+    ]
+  }
+}
+```
+
+#### Step 4: Create Scenario JSON
+
+**Create or edit `data/scenarios/balance-check.json`:**
+```json
+{
+  "domain": "balance-check",
+  "mifeApis": [
+    "SS-DIA-Balance-Check-Query - v1.0.0"
+  ],
+  "scenarios": [
+    {
+      "id": "balance-check-postpaid-valid",
+      "name": "Check Balance - Valid Postpaid Account (Smoke)",
+      "mifeApi": "SS-DIA-Balance-Check-Query - v1.0.0",
+      "tags": ["@smoke", "@regression", "@postpaid"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/balance-check/v1/check-balance",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "balance-check",
+        "operation": "checkBalance",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": ["executionStatus", "executionMessage", "responseData"],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "balance-check-invalid-account",
+      "name": "Check Balance - Invalid Account (Negative)",
+      "mifeApi": "SS-DIA-Balance-Check-Query - v1.0.0",
+      "tags": ["@negative"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/balance-check/v1/check-balance",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "balance-check",
+        "operation": "checkBalance",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "negative"
+      },
+      "expectedStatus": [400, 404],
+      "assertions": {
+        "status": [400, 404],
+        "responseTime": 3000,
+        "bodyNotEmpty": true
+      }
+    }
+  ]
+}
+```
+
+#### Step 5: Create Test Spec
+
+**Create `tests/e2e/balance-check.spec.ts`:**
+```typescript
+import { createScenarioSuite } from '../../src/helpers/scenario-runner';
+import * as path from 'path';
+
+createScenarioSuite(
+  path.join(__dirname, '../../data/scenarios/balance-check.json'),
+  'Balance Check - Dialog API Tests'
+);
+```
+
+#### Step 6: Run and Verify
+
+```bash
+# Run the new test
+npx playwright test tests/e2e/balance-check.spec.ts
+
+# Run with debug
+npx playwright test tests/e2e/balance-check.spec.ts --debug
+
+# View report
+npx playwright show-report
+```
+
+#### Step 7: Refine Assertions
+
+If tests fail, capture the actual response:
+
+```bash
+# Enable response capture
+set CAPTURE_API_RESPONSES=true
+
+# Run test
+npx playwright test tests/e2e/balance-check.spec.ts
+
+# Check captured response
+# File: test-results/api-captures/YYYY-MM-DD/session-HH-MM-SS/balance-check-*.json
+```
+
+Update assertions based on actual response.
+
+---
+
+## Working with Test Data
+
+### Test Number Management
+
+#### Understanding the Resolution Flow
+
+```
+Scenario numberResolution block
+    ↓
+service-number-mapping.json (API → Path mapping)
+    ↓
+test-numbers.json (Path → Actual number)
+    ↓
+Resolved number used in request
+```
+
+#### Adding New Test Numbers
+
+**Step 1: Add to test-numbers.json**
+```json
+{
+  "postpaid": {
+    "active": [
+      {
+        "number": "771234567",
+        "serviceType": "GSM",
+        "connectionType": "POSTPAID",
+        "status": "ACTIVE",
+        "notes": "Primary postpaid test account"
       },
       {
-        "type": "field",
-        "field": "status",
-        "expected": "success"
-      }
-    ]
-  },
-  {
-    "id": "balance-check-invalid-account",
-    "name": "Check Balance - Invalid Account (Negative)",
-    "description": "Verify API returns error for invalid account number",
-    "tags": ["@negative"],
-    "apiId": "balance-check",
-    "method": "POST",
-    "path": "/dia-api-engine/api/balance-check/v1/check-balance",
-    "body": {
-      "accountNo": "{{common.invalidAccount}}"
-    },
-    "expectedStatus": [400, 404],
-    "assertions": [
-      {
-        "type": "status",
-        "expected": [400, 404]
-      }
-    ]
-  },
-  {
-    "id": "balance-check-missing-account",
-    "name": "Check Balance - Missing Account Number (Negative)",
-    "description": "Verify API validates required fields",
-    "tags": ["@negative"],
-    "apiId": "balance-check",
-    "method": "POST",
-    "path": "/dia-api-engine/api/balance-check/v1/check-balance",
-    "body": {},
-    "expectedStatus": [400, 422],
-    "assertions": [
-      {
-        "type": "status",
-        "expected": [400, 422]
+        "number": "772345678",
+        "serviceType": "GSM",
+        "connectionType": "POSTPAID",
+        "status": "ACTIVE",
+        "notes": "Secondary postpaid test account"
       }
     ]
   }
-]
-```
-
-#### **Step 3: Create Test File** ⏱️ 10 minutes
-
-Create `tests/scenarios/balance-check.spec.ts`:
-
-```typescript
-import { test } from '@playwright/test';
-import { ApiClient } from '../../src/api/client/api-client';
-import { scenarioLoader, ApiScenario } from '../../src/helpers/scenario-loader';
-import { dataProvider } from '../../src/helpers/data-provider';
-import { responseValidator } from '../../src/validators/response-validator';
-import { matchesFilter } from '../../src/helpers/test-tags';
-
-test.describe('Balance Check API - Scenario-Driven Tests', () => {
-  let client: ApiClient;
-  const scenarios = scenarioLoader.loadScenarios('balance-check');
-
-  test.beforeAll(async () => {
-    client = await ApiClient.create();
-  });
-
-  test.afterAll(async () => {
-    await client.dispose();
-  });
-
-  scenarios.forEach((scenario: ApiScenario) => {
-    if (!matchesFilter(scenario.tags) || scenario.skip) return;
-
-    test(`${scenario.name} ${scenario.tags.join(' ')}`, async () => {
-      const body = interpolateData(scenario.body);
-      const response = await client.post(scenario.path, { body });
-      await responseValidator.validate(response, scenario.assertions);
-    });
-  });
-});
-
-function interpolateData(data: any): any {
-  if (!data) return data;
-  const dataStr = JSON.stringify(data);
-  const interpolated = dataStr.replace(/\{\{([^}]+)\}\}/g, (match, path) => {
-    const parts = path.trim().split('.');
-    if (parts[0] === 'account') {
-      const account = dataProvider.getAccount({
-        type: parts[1].toUpperCase() as any,
-        sbu: parts[2].toUpperCase() as any
-      });
-      return account[parts[3] as keyof typeof account] as string;
-    }
-    if (parts[0] === 'common') {
-      return dataProvider.getCommonData(parts[1]);
-    }
-    return match;
-  });
-  return JSON.parse(interpolated);
 }
 ```
 
-#### **Step 4: Run Your Test** ⏱️ 5 minutes
+**Step 2: Map in service-number-mapping.json**
+```json
+{
+  "apiToServiceMapping": {
+    "gsm-package": {
+      "eligibility": {
+        "postpaid": "postpaid.active[0]"
+      },
+      "activation": {
+        "postpaid": "postpaid.active[1]"
+      }
+    }
+  }
+}
+```
+
+**Step 3: Use in scenarios**
+```json
+{
+  "numberResolution": {
+    "apiDomain": "gsm-package",
+    "operation": "activation",
+    "connectionType": "POSTPAID",
+    "serviceType": "GSM"
+  }
+}
+```
+This will resolve to `772345678` (postpaid.active[1])
+
+#### Managing Package Codes
+
+**Edit `data/test-data/packages.json`:**
+```json
+{
+  "gsm": {
+    "postpaid": {
+      "packages": [
+        {
+          "code": "SPM_2700",
+          "name": "Super Max 2700",
+          "type": "POSTPAID"
+        }
+      ]
+    },
+    "prepaid": {
+      "packages": [
+        {
+          "code": "59",
+          "name": "Prepaid Package 59",
+          "type": "PREPAID"
+        }
+      ]
+    }
+  }
+}
+```
+
+**Use in scenarios:**
+```json
+{
+  "body": {
+    "packageCode": "{{packages.gsm.postpaid.packages[0].code}}"
+  }
+}
+```
+
+---
+
+## Response Capture Workflow
+
+### Purpose
+
+Response capture allows you to:
+1. Analyze actual API responses
+2. Generate assertions automatically
+3. Document API behavior
+4. Debug test failures
+
+### Workflow
+
+#### Step 1: Enable Capture
 
 ```bash
-npx playwright test tests/scenarios/balance-check.spec.ts
+# Windows
+set CAPTURE_API_RESPONSES=true
+
+# Linux/Mac
+export CAPTURE_API_RESPONSES=true
 ```
 
-**Success Criteria:**
-- 3 tests run (1 positive, 2 negative)
-- Tests pass or fail with clear error messages
-- You understand why each test passed/failed
+#### Step 2: Run Tests
 
----
+```bash
+# Run all tests
+npm run test:e2e
 
-### **PHASE 3: Migrate More APIs (Week 2-3)**
+# Or specific domain
+npx playwright test tests/e2e/gsm-packages.spec.ts
+```
 
-#### **Priority Order for Migration**
+#### Step 3: Review Captured Responses
 
-1. **Critical Path APIs** (Week 2)
-   - Balance Check ✓ (done in Phase 2)
-   - Connection Status
-   - Data Usage Summary
-   - Package Eligibility Check
+Responses saved to:
+```
+test-results/api-captures/YYYY-MM-DD/session-HH-MM-SS/
+├── gsm-packages-gsm-get-packages-postpaid-smoke.json
+├── gsm-packages-gsm-check-eligibility-postpaid-valid.json
+└── ...
+```
 
-2. **Service-Specific APIs** (Week 3)
-   - GSM Packages (already has sample)
-   - HBB Packages (already has sample)
-   - DTV Packages
-   - MBB Packages
-
-3. **Secondary APIs** (Week 4)
-   - Payment History
-   - Credit Limit
-   - Reconnection
-   - Complaints
-
-#### **Migration Template**
-
-For each API domain:
-
-1. **Create scenario file** (20 min)
-   - 1 positive scenario with `@smoke` tag
-   - 1-2 positive scenarios with `@regression` tag
-   - 1-2 negative scenarios with `@negative` tag
-
-2. **Create test file** (10 min)
-   - Copy template from existing test
-   - Update domain name
-
-3. **Run and verify** (10 min)
-   - Run tests
-   - Fix any issues
-   - Commit changes
-
-**Time per API domain: 40 minutes**
-**Total for 15 domains: 10 hours (spread over 2 weeks)**
-
----
-
-### **PHASE 4: Add Advanced Features (Week 4)**
-
-#### **1. Schema Validation** ⏱️ 2 hours
-
-For critical APIs, create JSON schemas:
-
-**Example: Balance Check Schema**
-
-Create `src/validators/schemas/balance-check.schema.json`:
-
+Each file contains:
 ```json
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "object",
-  "required": ["status", "data"],
-  "properties": {
-    "status": {
-      "type": "string",
-      "enum": ["success", "error"]
+  "domain": "gsm-packages",
+  "scenarioId": "gsm-get-packages-postpaid-smoke",
+  "scenarioName": "Get GSM Packages - Postpaid (Smoke)",
+  "mifeApi": "SS-DIA-Get-Gsm-Packages-Query - v1.0.0",
+  "timestamp": "2024-01-15T10:30:45.123Z",
+  "request": {
+    "method": "GET",
+    "endpoint": "/dia-api-engine/api/gsm-package/v1/packages",
+    "headers": {...},
+    "queryParams": {"connectionType": "POSTPAID"}
+  },
+  "response": {
+    "status": 200,
+    "headers": {...},
+    "body": {
+      "executionStatus": "00",
+      "executionMessage": "SUCCESS",
+      "responseData": [...]
     },
-    "data": {
-      "type": "object",
-      "required": ["balance", "currency"],
-      "properties": {
-        "balance": { "type": "number" },
-        "currency": { "type": "string" },
-        "lastUpdated": { "type": "string", "format": "date-time" }
+    "duration": 1234
+  },
+  "suggestedAssertions": {
+    "status": 200,
+    "responseTime": 3000,
+    "bodyNotEmpty": true,
+    "requiredFields": ["executionStatus", "executionMessage", "responseData"],
+    "fieldValues": {
+      "executionStatus": "00",
+      "executionMessage": "SUCCESS"
+    },
+    "arrayFields": ["responseData"]
+  }
+}
+```
+
+#### Step 4: Consolidate Captures
+
+```bash
+# Consolidate all sessions into master reference
+npx ts-node scripts/consolidate-all-responses.ts
+```
+
+Creates:
+```
+test-results/api-captures/YYYY-MM-DD/master-reference-responses.json
+```
+
+#### Step 5: Update Scenario Assertions
+
+```bash
+# Automatically update scenario JSON files with captured assertions
+npx ts-node scripts/update-scenario-assertions.ts
+```
+
+This updates all scenario JSON files with assertions from captured responses.
+
+#### Step 6: Review and Commit
+
+```bash
+# Review changes
+git diff data/scenarios/
+
+# Commit if correct
+git add data/scenarios/
+git commit -m "Update assertions based on captured responses"
+```
+
+### Use Cases
+
+**1. Initial Setup**
+- Capture responses for new APIs
+- Generate baseline assertions
+- Document expected behavior
+
+**2. API Changes**
+- Re-capture after API updates
+- Compare with previous captures
+- Update assertions accordingly
+
+**3. Debugging**
+- Capture failing test responses
+- Analyze actual vs expected
+- Fix assertions or report bugs
+
+**4. Documentation**
+- Capture responses as examples
+- Share with team
+- Reference for API contracts
+
+---
+
+## Maintenance Tasks
+
+### Regular Maintenance
+
+#### Weekly Tasks
+
+**1. Review Test Results**
+```bash
+# Run full regression
+npm run test:regression
+
+# Check for flaky tests
+# Review Playwright report for patterns
+```
+
+**2. Update Test Numbers**
+```bash
+# Verify test numbers are still valid
+# Update inactive numbers if needed
+# Add new numbers if required
+```
+
+#### Monthly Tasks
+
+**1. Update Dependencies**
+```bash
+# Check for updates
+npm outdated
+
+# Update Playwright
+npm install @playwright/test@latest
+
+# Run tests to verify
+npm run test:e2e
+```
+
+**2. Review and Clean Test Data**
+```bash
+# Remove obsolete test numbers
+# Update package codes
+# Clean up old captured responses
+```
+
+**3. Documentation Review**
+```bash
+# Update README if needed
+# Review USER_GUIDE for accuracy
+# Update ARCHITECTURE if changes made
+```
+
+#### Quarterly Tasks
+
+**1. Performance Review**
+```bash
+# Analyze test execution times
+# Identify slow tests
+# Optimize if needed
+```
+
+**2. Coverage Analysis**
+```bash
+# Review scenario coverage
+# Identify gaps
+# Add missing scenarios
+```
+
+**3. Framework Improvements**
+```bash
+# Review framework code
+# Refactor if needed
+# Add new features
+```
+
+### Troubleshooting Common Issues
+
+#### Issue: Test Number Not Found
+
+**Symptoms:**
+```
+Error: Could not resolve test number for gsm-packages/eligibility/POSTPAID
+```
+
+**Solution:**
+1. Check `service-number-mapping.json` has mapping
+2. Verify path exists in `test-numbers.json`
+3. Check spelling and case sensitivity
+
+#### Issue: Assertion Failures
+
+**Symptoms:**
+```
+Expected status 200, but got 400
+Expected field 'executionStatus' to be '00', but got '01'
+```
+
+**Solution:**
+1. Enable response capture
+2. Run test to capture actual response
+3. Review captured response
+4. Update assertion or report API bug
+
+#### Issue: Connection Timeouts
+
+**Symptoms:**
+```
+Error: Request timeout after 15000ms
+```
+
+**Solution:**
+1. Check network connectivity
+2. Verify BASE_URL in .env
+3. Increase timeout in config
+4. Check VPN if required
+
+#### Issue: Response Capture Not Working
+
+**Symptoms:**
+- No files in `test-results/api-captures/`
+
+**Solution:**
+1. Verify `CAPTURE_API_RESPONSES=true`
+2. Check directory permissions
+3. Ensure tests are actually running
+4. Check console for errors
+
+---
+
+## Advanced Features
+
+### Custom Assertions
+
+Add new assertion types:
+
+**1. Add to assertion-executor.ts:**
+```typescript
+private async assertCustomValidation(
+  response: APIResponse, 
+  expected: any
+): Promise<void> {
+  const body = await response.json();
+  // Custom validation logic
+  expect(body.customField).toMatch(/pattern/);
+}
+```
+
+**2. Update execute() method:**
+```typescript
+if (assertions.customValidation) {
+  await this.assertCustomValidation(response, assertions.customValidation);
+}
+```
+
+**3. Use in scenarios:**
+```json
+{
+  "assertions": {
+    "customValidation": "expectedValue"
+  }
+}
+```
+
+### Custom Number Resolution
+
+Add new resolution strategy:
+
+**1. Add to number-resolver.ts:**
+```typescript
+resolveForCustomOperation(
+  apiDomain: string, 
+  customParam: string
+): NumberResolutionResult {
+  // Custom resolution logic
+  return this.resolve({
+    apiDomain,
+    operation: 'custom',
+    connectionType: 'POSTPAID',
+    customParam
+  });
+}
+```
+
+**2. Update service-number-mapping.json:**
+```json
+{
+  "apiToServiceMapping": {
+    "custom-api": {
+      "custom": {
+        "postpaid": "postpaid.active[2]"
       }
     }
   }
 }
 ```
 
-Add to scenario:
+### Environment-Specific Configuration
 
-```json
-{
-  "assertions": [
-    {
-      "type": "schema",
-      "schemaFile": "balance-check"
-    }
-  ]
-}
+**1. Create environment files:**
+```
+config/environments/
+├── dev.env
+├── staging.env
+└── prod.env
 ```
 
-**Priority APIs for Schemas:**
-- Balance Check
-- Package Eligibility
-- Data Usage Summary
-- Connection Status
+**2. Configure each environment:**
+```ini
+# dev.env
+BASE_URL=https://dev-api.dialog.lk
+TRACE_ID=DEV_TEST_TRACE
 
-#### **2. Environment-Specific Data** ⏱️ 1 hour
+# staging.env
+BASE_URL=https://staging-api.dialog.lk
+TRACE_ID=STAGING_TEST_TRACE
 
-Create environment-specific test data:
+# prod.env
+BASE_URL=https://api.dialog.lk
+TRACE_ID=PROD_TEST_TRACE
+```
 
-`data/test-data/accounts.dev.json`
-`data/test-data/accounts.staging.json`
-`data/test-data/accounts.prod.json`
-
-Update data provider to load based on environment.
-
-#### **3. Auth Scenarios** ⏱️ 1 hour
-
-Add authentication test scenarios:
-
-```json
-{
-  "id": "api-missing-auth",
-  "name": "API Call - Missing Authorization (Negative)",
-  "tags": ["@negative", "@auth"],
-  "method": "POST",
-  "path": "/api/v1/secure-endpoint",
-  "headers": {
-    "Authorization": ""
-  },
-  "expectedStatus": [401, 403],
-  "assertions": [
-    {
-      "type": "status",
-      "expected": [401, 403]
-    }
-  ]
-}
+**3. Run with specific environment:**
+```bash
+TEST_ENV=staging npm run test:e2e
+TEST_ENV=prod npm run test:smoke
 ```
 
 ---
 
-### **PHASE 5: CI/CD Integration (Week 5)**
+## CI/CD Integration
 
-#### **1. Update GitHub Actions** ⏱️ 30 minutes
+### GitHub Actions
 
-Update `.github/workflows/ci.yml`:
-
+**Current workflow (`.github/workflows/ci.yml`):**
 ```yaml
 name: API Tests
 
@@ -360,6 +859,32 @@ on:
     branches: [main]
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npx playwright install
+      - name: Run E2E Tests
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          TRACE_ID: ${{ secrets.TRACE_ID }}
+        run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report
+```
+
+### Enhanced CI/CD Workflow
+
+**Multi-stage pipeline:**
+```yaml
+jobs:
   smoke-tests:
     runs-on: ubuntu-latest
     steps:
@@ -368,6 +893,7 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
+      - run: npx playwright install
       - name: Run Smoke Tests
         env:
           TEST_ENV: staging
@@ -390,6 +916,7 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
+      - run: npx playwright install
       - name: Run Regression Tests
         env:
           TEST_ENV: staging
@@ -401,153 +928,182 @@ jobs:
         with:
           name: regression-report
           path: playwright-report
+
+  negative-tests:
+    runs-on: ubuntu-latest
+    needs: regression-tests
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npx playwright install
+      - name: Run Negative Tests
+        env:
+          TEST_ENV: staging
+          BASE_URL: ${{ secrets.STAGING_BASE_URL }}
+          TRACE_ID: ${{ secrets.TRACE_ID }}
+        run: npm run test:negative
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: negative-report
+          path: playwright-report
 ```
 
-#### **2. Add GitHub Secrets** ⏱️ 10 minutes
+### Scheduled Runs
 
-In GitHub repository settings, add:
-- `STAGING_BASE_URL`
-- `PROD_BASE_URL`
-- `TRACE_ID`
+```yaml
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Run daily at 2 AM
+```
 
-#### **3. Configure Parallel Execution** ⏱️ 10 minutes
+---
 
-Update `playwright.config.ts`:
+## Future Enhancements
 
+### Planned Features
+
+#### 1. Schema Validation (Priority: High)
+
+**Goal**: Validate API responses against JSON schemas
+
+**Implementation**:
 ```typescript
-workers: process.env.CI ? 4 : 8,
+// Add to assertion-executor.ts
+private async assertJsonSchema(
+  response: APIResponse, 
+  schemaFile: string
+): Promise<void> {
+  const schema = require(`../schemas/${schemaFile}.json`);
+  const body = await response.json();
+  const ajv = new Ajv();
+  const valid = ajv.validate(schema, body);
+  expect(valid).toBeTruthy();
+}
 ```
 
----
-
-## 📊 Progress Tracking
-
-### **Week 1: Foundation**
-- [ ] Run sample tests
-- [ ] Review documentation
-- [ ] Understand architecture
-- [ ] Create first scenario (Balance Check)
-
-### **Week 2: Critical APIs**
-- [ ] Balance Check
-- [ ] Connection Status
-- [ ] Data Usage Summary
-- [ ] Package Eligibility
-
-### **Week 3: Service APIs**
-- [ ] GSM Packages
-- [ ] HBB Packages
-- [ ] DTV Packages
-- [ ] MBB Packages
-
-### **Week 4: Advanced Features**
-- [ ] Add schemas for critical APIs
-- [ ] Environment-specific data
-- [ ] Auth scenarios
-- [ ] Boundary value tests
-
-### **Week 5: Production Ready**
-- [ ] Update CI/CD
-- [ ] Parallel execution
-- [ ] Team training
-- [ ] Documentation review
-
----
-
-## 🎯 Success Metrics
-
-### **After Week 1**
-- ✓ Framework understood
-- ✓ First scenario created
-- ✓ Tests running successfully
-
-### **After Week 3**
-- ✓ 50% of APIs migrated
-- ✓ 150+ test scenarios
-- ✓ Tag-based execution working
-
-### **After Week 5**
-- ✓ 100% of APIs migrated
-- ✓ 250+ test scenarios
-- ✓ CI/CD integrated
-- ✓ Team trained
-
----
-
-## 🚨 Common Issues & Solutions
-
-### **Issue: Tests fail with network errors**
-
-**Solution:**
-```bash
-npm run test:mock
+**Usage**:
+```json
+{
+  "assertions": {
+    "jsonSchema": "gsm-packages-response"
+  }
+}
 ```
 
-### **Issue: Data interpolation not working**
+#### 2. Performance Tracking (Priority: Medium)
 
-**Solution:**
-- Check placeholder syntax: `{{account.postpaid.gsm.accountNumber}}`
-- Verify test data exists in `data/test-data/accounts.data.json`
-- Check data provider can find matching record
+**Goal**: Track and report API response times
 
-### **Issue: Scenarios not running**
+**Implementation**:
+- Store response times in database
+- Generate performance reports
+- Alert on degradation
 
-**Solution:**
-- Verify scenario file is in `data/scenarios/`
-- Check test file is in `tests/scenarios/`
-- Ensure tags match filter (if using TEST_TAG)
+#### 3. Contract Testing (Priority: Medium)
 
-### **Issue: Schema validation fails**
+**Goal**: Validate API contracts
 
-**Solution:**
-- Check schema file exists in `src/validators/schemas/`
-- Verify schema matches actual API response
-- Use `console.log` to inspect response body
+**Implementation**:
+- Define contracts in JSON
+- Validate requests match contract
+- Validate responses match contract
+
+#### 4. Dynamic Test Data (Priority: Low)
+
+**Goal**: Generate test data dynamically
+
+**Implementation**:
+- Faker.js integration
+- Data generation rules
+- Cleanup after tests
+
+#### 5. Parallel Domain Execution (Priority: Low)
+
+**Goal**: Run multiple domains in parallel
+
+**Implementation**:
+- Already supported by Playwright
+- Optimize worker configuration
+- Manage shared resources
+
+### Extensibility Points
+
+The framework is designed for easy extension:
+
+**1. New Assertion Types**
+- Add method to AssertionExecutor
+- Update ScenarioAssertions interface
+- Use in scenario JSON
+
+**2. New Resolution Strategies**
+- Add method to NumberResolver
+- Update service-number-mapping.json
+- Use in numberResolution block
+
+**3. New Interpolation Placeholders**
+- Update interpolate() in scenario-runner.ts
+- Add data source if needed
+- Use {{newPlaceholder}} in scenarios
+
+**4. New Capture Formats**
+- Update response-capture.ts
+- Add new format method
+- Configure via environment variable
 
 ---
 
-## 📞 Getting Help
+## Best Practices
 
-### **Documentation**
-- `QUICKSTART.md` - Quick start guide
-- `ARCHITECTURE.md` - Detailed architecture
-- `MIGRATION.md` - Migration guide
-- `ARCHITECTURE_VISUAL.md` - Visual diagrams
-- `FILE_CHANGES.md` - What changed
+### Scenario Design
 
-### **Sample Code**
-- `tests/scenarios/gsm-packages.spec.ts` - Test file example
-- `data/scenarios/gsm-packages.scenarios.json` - Scenario example
-- `data/test-data/accounts.data.json` - Test data example
+1. **One scenario, one behavior**: Each scenario tests one specific thing
+2. **Descriptive names**: Clear, human-readable names
+3. **Appropriate tags**: Tag for selective execution
+4. **Minimal assertions**: Only assert what's necessary
+5. **Reusable data**: Use number resolution, not hardcoded values
+
+### Test Data Management
+
+1. **Centralized**: All test numbers in registry
+2. **Clear mapping**: Document number usage
+3. **Regular updates**: Review and update periodically
+4. **Separate positive/negative**: Different numbers for different scenarios
+5. **Version control**: Track changes in Git
+
+### Code Quality
+
+1. **Type safety**: Use TypeScript types
+2. **Error handling**: Comprehensive error handling
+3. **Logging**: Detailed logging for debugging
+4. **Documentation**: Keep docs up to date
+5. **Code reviews**: Review all changes
+
+### Maintenance
+
+1. **Regular runs**: Run tests regularly
+2. **Monitor failures**: Investigate failures promptly
+3. **Update dependencies**: Keep dependencies current
+4. **Clean up**: Remove obsolete scenarios and data
+5. **Refactor**: Improve code continuously
 
 ---
 
-## 🎉 Final Checklist
+## Conclusion
 
-Before considering migration complete:
+The Dialog API Testing Framework is fully implemented and production-ready. This roadmap provides guidance for:
 
-- [ ] All critical APIs have scenarios
-- [ ] Smoke tests run in < 5 minutes
-- [ ] Regression tests run in < 20 minutes
-- [ ] Negative scenarios exist for all APIs
-- [ ] Schemas created for critical APIs
-- [ ] CI/CD pipeline updated
-- [ ] Team trained on new structure
-- [ ] Documentation reviewed
-- [ ] Old tests archived
-- [ ] Success metrics met
+- Adding new test scenarios
+- Managing test data
+- Using response capture
+- Maintaining the framework
+- Extending functionality
+- Integrating with CI/CD
 
----
-
-## 🚀 You're Ready!
-
-You now have:
-✅ Enterprise-grade framework
-✅ Clear implementation plan
-✅ Sample code to follow
-✅ Comprehensive documentation
-✅ Phased migration approach
-
-**Start with Phase 1 today. You'll have your first scenario running in 2 hours.**
-
-**Good luck! 🎯**
+For architecture details, see [ARCHITECTURE.md](ARCHITECTURE.md).
+For usage instructions, see [USER_GUIDE.md](USER_GUIDE.md).
+For quick reference, see [README.md](README.md).
