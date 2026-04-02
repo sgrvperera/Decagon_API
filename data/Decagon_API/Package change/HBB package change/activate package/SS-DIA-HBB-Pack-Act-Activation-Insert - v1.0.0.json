@@ -1,0 +1,101 @@
+{
+  "metadata": {
+    "mainWorkflow": "Package change",
+    "subWorkflow": "HBB package change",
+    "apiCommonName": "activate package",
+    "mifeApi": "SS-DIA-HBB-Pack-Act-Activation-Insert - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.167Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-HBB-Pack-Act-Activation-Insert - v1.0.0",
+  "scenarios": [
+    {
+      "id": "hbb-activate-package-postpaid",
+      "name": "Activate HBB Package - Postpaid",
+      "mifeApi": "SS-DIA-HBB-Pack-Act-Activation-Insert - v1.0.0",
+      "tags": [
+        "@regression",
+        "@postpaid",
+        "@hbb"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/hbb-package-change/v1/activate-package",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "STAFF325GB"
+      },
+      "numberResolution": {
+        "apiDomain": "hbb-packages",
+        "operation": "activation",
+        "connectionType": "POSTPAID",
+        "serviceType": "HBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [
+        200,
+        201
+      ],
+      "assertions": {
+        "status": [
+          200,
+          201
+        ],
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ]
+      }
+    },
+    {
+      "id": "hbb-activate-package-prepaid",
+      "name": "Activate HBB Package - Prepaid",
+      "mifeApi": "SS-DIA-HBB-Pack-Act-Activation-Insert - v1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@hbb"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/hbb-package-change/v1/activate-package",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "STAFF325GB"
+      },
+      "numberResolution": {
+        "apiDomain": "hbb-packages",
+        "operation": "activation",
+        "connectionType": "PREPAID",
+        "serviceType": "HBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [
+        200,
+        201
+      ],
+      "assertions": {
+        "status": [
+          200,
+          201
+        ],
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ]
+      }
+    }
+  ]
+}

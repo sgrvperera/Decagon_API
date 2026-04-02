@@ -1,0 +1,148 @@
+{
+  "metadata": {
+    "mainWorkflow": "Data Usage",
+    "subWorkflow": "Mobile data usage",
+    "apiCommonName": "Get summary data usage - MBB",
+    "mifeApi": "SS-DIA-Data-Usage-Summary-Query - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.114Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-Data-Usage-Summary-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "data-usage-summary-gsm-postpaid-smoke",
+      "name": "Get Data Usage Summary - GSM Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-Data-Usage-Summary-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid",
+        "@gsm"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/data-usage/v1/summary",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "sbu": "GSM"
+      },
+      "numberResolution": {
+        "apiDomain": "data-usage",
+        "operation": "summary",
+        "sbu": "gsm",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [200, 500],
+      "assertions": {
+        "status": [200, 500],
+        "responseTime": 5000,
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "data-usage-summary-hbb-postpaid",
+      "name": "Get Data Usage Summary - HBB Postpaid",
+      "mifeApi": "SS-DIA-Data-Usage-Summary-Query - v1.0.0",
+      "tags": [
+        "@regression",
+        "@postpaid",
+        "@hbb"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/data-usage/v1/summary",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "sbu": "HBB"
+      },
+      "numberResolution": {
+        "apiDomain": "data-usage",
+        "operation": "summary",
+        "sbu": "hbb",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [200, 500],
+      "assertions": {
+        "status": [200, 500],
+        "responseTime": 5000,
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "data-usage-summary-mbb-postpaid",
+      "name": "Get Data Usage Summary - MBB Postpaid",
+      "mifeApi": "SS-DIA-Data-Usage-Summary-Query - v1.0.0",
+      "tags": [
+        "@regression",
+        "@postpaid",
+        "@mbb"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/data-usage/v1/summary",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "sbu": "MBB"
+      },
+      "numberResolution": {
+        "apiDomain": "data-usage",
+        "operation": "summary",
+        "sbu": "mbb",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [200, 500],
+      "assertions": {
+        "status": [200, 500],
+        "responseTime": 5000,
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "data-usage-summary-invalid-account",
+      "name": "Get Data Usage Summary - Invalid Account (Negative)",
+      "mifeApi": "SS-DIA-Data-Usage-Summary-Query - v1.0.0",
+      "tags": [
+        "@negative"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/data-usage/v1/summary",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "sbu": "GSM"
+      },
+      "numberResolution": {
+        "apiDomain": "data-usage",
+        "operation": "summary",
+        "sbu": "gsm",
+        "scenarioType": "negative"
+      },
+      "expectedStatus": [
+        400,
+        404,
+        500
+      ],
+      "assertions": {
+        "status": [
+          400,
+          404,
+          500
+        ],
+        "responseTime": 3000,
+        "bodyNotEmpty": true
+      }
+    }
+  ]
+}

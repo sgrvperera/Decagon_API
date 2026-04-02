@@ -1,0 +1,47 @@
+{
+  "metadata": {
+    "mainWorkflow": "Package change",
+    "subWorkflow": "MBB package change",
+    "apiCommonName": "Get mobile packages",
+    "mifeApi": "SS-DIA-Mbb-Pkg-Change-Get-Pkg-Query - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.183Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-Mbb-Pkg-Change-Get-Pkg-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "mbb-get-packages-smoke",
+      "name": "Get MBB Packages (Smoke)",
+      "mifeApi": "SS-DIA-Mbb-Pkg-Change-Get-Pkg-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@mbb"
+      ],
+      "method": "GET",
+      "endpoint": "/dia-api-engine/api/mbb-package-change/v1/get-info",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        },
+        "arrayFields": [
+          "responseData"
+        ]
+      }
+    }
+  ]
+}

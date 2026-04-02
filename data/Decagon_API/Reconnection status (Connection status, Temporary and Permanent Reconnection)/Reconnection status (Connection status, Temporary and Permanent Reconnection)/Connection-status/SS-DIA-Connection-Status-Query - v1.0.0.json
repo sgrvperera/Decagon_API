@@ -1,0 +1,145 @@
+{
+  "metadata": {
+    "mainWorkflow": "Reconnection status (Connection status, Temporary and Permanent Reconnection)",
+    "subWorkflow": "Reconnection status (Connection status, Temporary and Permanent Reconnection)",
+    "apiCommonName": "Connection-status",
+    "mifeApi": "SS-DIA-Connection-Status-Query - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.110Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-Connection-Status-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "connection-status-postpaid-smoke",
+      "name": "Check Connection Status - Postpaid Account (Smoke)",
+      "mifeApi": "SS-DIA-Connection-Status-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid",
+        "@gsm"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/connection-status/v1/check",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "connection-status",
+        "operation": "check",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [200, 500],
+      "assertions": {
+        "status": [200, 500],
+        "responseTime": 5000,
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "connection-status-prepaid",
+      "name": "Check Connection Status - Prepaid Account",
+      "mifeApi": "SS-DIA-Connection-Status-Query - v1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@gsm"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/connection-status/v1/check",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "connection-status",
+        "operation": "check",
+        "connectionType": "PREPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [200, 500],
+      "assertions": {
+        "status": [200, 500],
+        "responseTime": 5000,
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "connection-status-invalid-account",
+      "name": "Check Connection Status - Invalid Account (Negative)",
+      "mifeApi": "SS-DIA-Connection-Status-Query - v1.0.0",
+      "tags": [
+        "@negative"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/connection-status/v1/check",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "connection-status",
+        "operation": "check",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "negative"
+      },
+      "expectedStatus": [
+        400,
+        404,
+        500
+      ],
+      "assertions": {
+        "status": [
+          400,
+          404,
+          500
+        ],
+        "responseTime": 5000,
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "connection-status-missing-account",
+      "name": "Check Connection Status - Missing Account Number (Negative)",
+      "mifeApi": "SS-DIA-Connection-Status-Query - v1.0.0",
+      "tags": [
+        "@negative"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/connection-status/v1/check",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {},
+      "expectedStatus": [
+        400,
+        422,
+        500
+      ],
+      "assertions": {
+        "status": [
+          400,
+          422,
+          500
+        ],
+        "responseTime": 3000,
+        "bodyNotEmpty": true
+      }
+    }
+  ]
+}

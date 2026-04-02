@@ -1,0 +1,142 @@
+{
+  "metadata": {
+    "mainWorkflow": "Package change",
+    "subWorkflow": "HBB package change",
+    "apiCommonName": "check eligibility to activate package",
+    "mifeApi": "SS-DIA-HBB-Pack-Act-Eligibility-Query - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.163Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-HBB-Pack-Act-Eligibility-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "hbb-check-eligibility-postpaid-valid",
+      "name": "Check HBB Package Eligibility - Valid Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-HBB-Pack-Act-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid",
+        "@hbb"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/hbb-package-change/v1/check-the-eligibility-for-package",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "msisdn": "{{number}}",
+        "packageCode": "SPM_2700"
+      },
+      "numberResolution": {
+        "apiDomain": "hbb-packages",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "HBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "hbb-check-eligibility-prepaid-valid",
+      "name": "Check HBB Package Eligibility - Valid Prepaid",
+      "mifeApi": "SS-DIA-HBB-Pack-Act-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@hbb"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/hbb-package-change/v1/check-the-eligibility-for-package",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "msisdn": "{{number}}",
+        "packageCode": "STAFF325GB"
+      },
+      "numberResolution": {
+        "apiDomain": "hbb-packages",
+        "operation": "eligibility",
+        "connectionType": "PREPAID",
+        "serviceType": "HBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "hbb-check-eligibility-invalid-account",
+      "name": "Check HBB Package Eligibility - Invalid Account (Negative)",
+      "mifeApi": "SS-DIA-HBB-Pack-Act-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@negative",
+        "@hbb"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/hbb-package-change/v1/check-the-eligibility-for-package",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "msisdn": "{{number}}",
+        "packageCode": "SPM_2700"
+      },
+      "numberResolution": {
+        "apiDomain": "hbb-packages",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "HBB",
+        "scenarioType": "negative"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        },
+        "bodyContains": [
+          "invalid"
+        ]
+      }
+    }
+  ]
+}

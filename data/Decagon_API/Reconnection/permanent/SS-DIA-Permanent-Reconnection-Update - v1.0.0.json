@@ -1,0 +1,85 @@
+{
+  "metadata": {
+    "mainWorkflow": "Reconnection",
+    "subWorkflow": "permanent",
+    "apiCommonName": "permanent reconnection action",
+    "mifeApi": "SS-DIA-Permanent-Reconnection-Update - v1.0.0",
+    "generatedAt": "2026-04-02T08:00:00.000Z",
+    "source": "book5-migration"
+  },
+  "mifeApi": "SS-DIA-Permanent-Reconnection-Update - v1.0.0",
+  "scenarios": [
+    {
+      "id": "permanent-reconnection-postpaid-smoke",
+      "name": "Permanent Reconnection - Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-Permanent-Reconnection-Update - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/permanent-reconnection/v1/process",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "permanent-reconnection",
+        "operation": "process",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "01",
+          "executionMessage": "Reconnection failed"
+        }
+      }
+    },
+    {
+      "id": "permanent-reconnection-hbb",
+      "name": "Permanent Reconnection - HBB Account",
+      "mifeApi": "SS-DIA-Permanent-Reconnection-Update - v1.0.0",
+      "tags": [
+        "@regression",
+        "@hbb"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/permanent-reconnection/v1/process",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "permanent-reconnection",
+        "operation": "process",
+        "connectionType": "POSTPAID",
+        "serviceType": "HBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 5000,
+        "bodyNotEmpty": true
+      }
+    }
+  ]
+}

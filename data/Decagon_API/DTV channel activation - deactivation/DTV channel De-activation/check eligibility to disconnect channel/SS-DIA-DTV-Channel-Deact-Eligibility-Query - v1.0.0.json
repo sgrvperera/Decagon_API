@@ -1,0 +1,101 @@
+{
+  "metadata": {
+    "mainWorkflow": "DTV channel activation / deactivation",
+    "subWorkflow": "DTV channel De-activation",
+    "apiCommonName": "check eligibility to disconnect channel",
+    "mifeApi": "SS-DIA-DTV-Channel-Deact-Eligibility-Query - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.127Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-DTV-Channel-Deact-Eligibility-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "dtv-channels-check-deactivation-eligibility-valid",
+      "name": "Check DTV Channel Deactivation Eligibility - Valid",
+      "mifeApi": "SS-DIA-DTV-Channel-Deact-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@regression",
+        "@dtv",
+        "@channels"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/dtv-channel-deact/v1/check-eligibility",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "accountNo": "{{number}}",
+        "channelNo": 33
+      },
+      "numberResolution": {
+        "apiDomain": "dtv-channel",
+        "operation": "deactivation",
+        "connectionType": "POSTPAID",
+        "serviceType": "DTV",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "dtv-channels-check-deactivation-eligibility-invalid",
+      "name": "Check DTV Channel Deactivation Eligibility - Invalid Account (Negative)",
+      "mifeApi": "SS-DIA-DTV-Channel-Deact-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@negative",
+        "@dtv",
+        "@channels"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/dtv-channel-deact/v1/check-eligibility",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "accountNo": "{{number}}",
+        "channelNo": 33
+      },
+      "numberResolution": {
+        "apiDomain": "dtv-channel",
+        "operation": "deactivation",
+        "connectionType": "POSTPAID",
+        "serviceType": "DTV",
+        "scenarioType": "negative"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        },
+        "bodyContains": [
+          "eligible",
+          "false"
+        ]
+      }
+    }
+  ]
+}

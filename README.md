@@ -18,7 +18,7 @@ npm ci
 npx playwright install
 
 # Copy environment configuration
-copy .env.example .env
+copy config\environments\dev.env.example config\environments\dev.env
 
 # Run smoke tests
 npm run test:smoke
@@ -37,28 +37,37 @@ This is a **scenario-driven, data-driven API testing framework** that provides c
 
 - ✅ **Scenario-Driven Architecture** - Test scenarios defined in JSON, separated from execution code
 - ✅ **Intelligent Test Data Management** - Automatic test number resolution based on API context
-- ✅ **Comprehensive Assertions** - 10 assertion types with declarative configuration
+- ✅ **Comprehensive Assertions** - 10+ assertion types including JSON Schema validation
 - ✅ **Tag-Based Execution** - Run smoke, regression, or negative tests selectively
-- ✅ **Response Capture** - Capture and analyze API responses for debugging and assertion generation
+- ✅ **Response Capture** - Capture and analyze API responses for debugging
+- ✅ **Automated Assertion Generation** - Derive assertions from captured responses
 - ✅ **Retry Logic** - Automatic retry on transient failures
-- ✅ **Mock Mode** - Offline testing without real API calls
 - ✅ **CI/CD Ready** - GitHub Actions integration with parallel execution
-- ✅ **Type-Safe** - Full TypeScript implementation with comprehensive type definitions
+- ✅ **Type-Safe** - Full TypeScript implementation
 - ✅ **Extensible** - Easy to add new domains, scenarios, and assertion types
 
 ### Test Coverage
 
-| Domain | Test File | Scenarios | Status |
-|--------|-----------|-----------|--------|
-| **GSM Packages** | `gsm-packages.spec.ts` | 8 | ✅ Complete |
-| **HBB Packages** | `hbb-packages.spec.ts` | 7 | ✅ Complete |
-| **HBB Addons** | `hbb-addons.spec.ts` | 6 | ✅ Complete |
-| **MBB Packages** | `mbb-packages.spec.ts` | 6 | ✅ Complete |
-| **MBB Addons** | `mbb-addons.spec.ts` | 7 | ✅ Complete |
-| **DTV Packages** | `dtv-packages.spec.ts` | 7 | ✅ Complete |
-| **DTV Channels** | `dtv-channels.spec.ts` | 7 | ✅ Complete |
+| Domain | Scenarios | Status |
+|--------|-----------|--------|
+| **Complaint Handling** | 3 | ✅ Complete |
+| **Ebill Management** | 3 | ✅ Complete |
+| **Roaming Services** | 4 | ✅ Complete |
+| **Customer Diagnosis** | 2 | ✅ Complete |
+| **NPS Survey** | 2 | ✅ Complete |
+| **Customer Verification** | 4 | ✅ Complete |
+| **Payment Reversal** | 2 | ✅ Complete |
+| **Reconnection Services** | 3 | ✅ Complete |
+| **Balance & Bill Check** | 1 | ✅ Complete |
+| **Data Usage** | 2 | ✅ Complete |
+| **Data Addons (HBB/MBB)** | 6 | ✅ Complete |
+| **Package Change (GSM/HBB/MBB/DTV)** | 12 | ✅ Complete |
+| **DTV Channels** | 5 | ✅ Complete |
+| **DTV Rescan & Reset** | 2 | ✅ Complete |
+| **Payment History & Credit Limit** | 2 | ✅ Complete |
+| **Connection Status** | 1 | ✅ Complete |
 
-**Total: 48 test scenarios across 7 domains**
+**Total: 54+ test scenarios across 16 domains**
 
 ---
 
@@ -84,7 +93,7 @@ This is a **scenario-driven, data-driven API testing framework** that provides c
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
 │                      Validation Layer                        │
-│  Assertion Executor → Response Validator → Test Reporter    │
+│  Assertion Executor → JSON Schema Validator → Reporter      │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -94,51 +103,76 @@ This is a **scenario-driven, data-driven API testing framework** that provides c
 Decagon.Api/
 ├── config/
 │   ├── environments/              # Environment-specific configs
-│   └── test-config.ts             # Central configuration
+│   │   └── dev.env               # Development environment
+│   └── test-config.ts            # Central configuration
 ├── data/
-│   ├── scenarios/                 # Test scenario definitions (JSON)
-│   │   ├── gsm-packages.json
-│   │   ├── hbb-packages.json
-│   │   ├── hbb-addons.json
-│   │   ├── mbb-packages.json
-│   │   ├── mbb-addons.json
-│   │   ├── dtv-packages.json
-│   │   └── dtv-channels.json
-│   └── test-data/                 # Test numbers and data
-│       ├── service-number-mapping.json  # API → Number mapping
-│       ├── test-numbers.json            # Test number registry
-│       ├── accounts.json                # Legacy account data
-│       └── packages.json                # Package codes
+│   ├── Decagon_API/              # Test scenario definitions (JSON)
+│   │   ├── Complaint/
+│   │   ├── Ebill/
+│   │   ├── Roaming/
+│   │   ├── Diagnosis/
+│   │   ├── NPS/
+│   │   ├── Verification/
+│   │   ├── Payment-Reversal/
+│   │   ├── Reconnection/
+│   │   ├── Balance and Bill Check/
+│   │   ├── Data Usage/
+│   │   ├── Data Addon/
+│   │   ├── Package change/
+│   │   ├── DTV channel activation - deactivation/
+│   │   ├── DTV Rescan and Reset/
+│   │   ├── Payment Status and Credit Limit Checks/
+│   │   └── Reconnection status/
+│   └── test-data/                # Test numbers and data
+│       ├── service-number-mapping.json
+│       ├── test-numbers.json
+│       ├── accounts.json
+│       └── packages.json
 ├── src/
-│   ├── api/client/                # API client with retry & capture
+│   ├── api/client/               # API client with retry & capture
 │   │   ├── api-client.ts
 │   │   └── request-builder.ts
-│   ├── helpers/                   # Core framework components
-│   │   ├── scenario-runner.ts     # Generic test runner
-│   │   ├── assertion-executor.ts  # Assertion engine
-│   │   ├── number-resolver.ts     # Test number resolution
-│   │   ├── response-capture.ts    # Response capture
-│   │   └── response-consolidator.ts
-│   └── types/                     # TypeScript type definitions
+│   ├── helpers/                  # Core framework components
+│   │   ├── scenario-runner.ts    # Generic test runner
+│   │   ├── assertion-executor.ts # Assertion engine with JSON Schema
+│   │   ├── number-resolver.ts    # Test number resolution
+│   │   └── response-capture.ts   # Response capture
+│   └── types/                    # TypeScript type definitions
 │       └── test-data.types.ts
-├── tests/e2e/                     # Test spec files
+├── tests/e2e/                    # Test spec files
+│   ├── complaint.spec.ts
+│   ├── ebill.spec.ts
+│   ├── roaming.spec.ts
+│   ├── diagnosis.spec.ts
+│   ├── nps.spec.ts
+│   ├── verification.spec.ts
+│   ├── payment-reversal.spec.ts
+│   ├── reconnection-eligibility.spec.ts
+│   ├── temporary-reconnection.spec.ts
+│   ├── permanent-reconnection.spec.ts
+│   ├── balance-check.spec.ts
+│   ├── data-usage.spec.ts
+│   ├── credit-limit.spec.ts
+│   ├── payment-history.spec.ts
+│   ├── connection-status.spec.ts
 │   ├── gsm-packages.spec.ts
 │   ├── hbb-packages.spec.ts
 │   ├── hbb-addons.spec.ts
 │   ├── mbb-packages.spec.ts
 │   ├── mbb-addons.spec.ts
 │   ├── dtv-packages.spec.ts
-│   └── dtv-channels.spec.ts
-├── scripts/                       # Utility scripts
-│   ├── consolidate-all-responses.ts
-│   └── update-scenario-assertions.ts
-├── test-results/                  # Test execution results
-│   └── api-captures/              # Captured responses
-├── playwright-report/             # HTML test reports
-├── .env                          # Environment variables
-├── playwright.config.ts          # Playwright configuration
-├── tsconfig.json                 # TypeScript configuration
-└── package.json                  # Project dependencies
+│   ├── dtv-channels.spec.ts
+│   ├── dtv-rescan.spec.ts
+│   └── dtv-reset.spec.ts
+├── scripts/                      # Utility scripts
+│   └── derive-assertions.ts      # Auto-generate assertions
+├── test-results/                 # Test execution results
+│   └── api-captures/             # Captured responses (when enabled)
+├── playwright-report/            # HTML test reports
+├── .env                         # Root environment variables
+├── playwright.config.ts         # Playwright configuration
+├── tsconfig.json                # TypeScript configuration
+└── package.json                 # Project dependencies
 ```
 
 ---
@@ -154,41 +188,18 @@ npm run test:e2e
 # Run specific domain
 npm run test:gsm                   # GSM packages only
 npm run test:hbb                   # HBB packages only
-npx playwright test tests/e2e/dtv-packages.spec.ts
+npx playwright test tests/e2e/complaint.spec.ts
 
 # Run by tag
 npm run test:smoke                 # Smoke tests only
 npm run test:regression            # Regression tests
-npm run test:negative              # Negative tests
 TEST_TAG=@postpaid npm run test:e2e
 
 # Run specific test by name
-npx playwright test -g "Get GSM Packages - Postpaid"
-
-# Run in mock mode (no real API calls)
-npm run test:mock
-```
-
-### Advanced Options
-
-```bash
-# Run in headed mode (see browser)
-npx playwright test --headed
-
-# Run in debug mode
-npx playwright test --debug
+npx playwright test -g "Check NPS Eligibility"
 
 # Run with specific workers
 npx playwright test --workers=4
-
-# Run with trace
-npx playwright test --trace on
-
-# View HTML report
-npx playwright show-report
-
-# View specific trace
-npx playwright show-trace test-results/<test-name>/trace.zip
 ```
 
 ### Test Tags
@@ -197,7 +208,6 @@ npx playwright show-trace test-results/<test-name>/trace.zip
 |-----|---------|---------|
 | `@smoke` | Critical smoke tests | `npm run test:smoke` |
 | `@regression` | Full regression suite | `npm run test:regression` |
-| `@negative` | Negative test scenarios | `npm run test:negative` |
 | `@postpaid` | Postpaid-specific tests | `TEST_TAG=@postpaid npm run test:e2e` |
 | `@prepaid` | Prepaid-specific tests | `TEST_TAG=@prepaid npm run test:e2e` |
 | `@gsm` | GSM service tests | `TEST_TAG=@gsm npm run test:e2e` |
@@ -211,14 +221,14 @@ npx playwright show-trace test-results/<test-name>/trace.zip
 
 ### Environment Variables
 
-Create `.env` file from `.env.example`:
+Edit `config/environments/dev.env`:
 
 ```ini
 # API Base URL
 BASE_URL=https://chatbot.dialog.lk
 
 # Default Trace ID
-TRACE_ID=AUTO_TEST_TRACE
+TRACE_ID=DEV_TRACE_0001
 
 # API Timeout (milliseconds)
 API_TIMEOUT=15000
@@ -226,75 +236,9 @@ API_TIMEOUT=15000
 # Retry count on failure
 RETRIES=1
 
-# Enable response capture
+# Enable response capture (for debugging/assertion generation)
 CAPTURE_API_RESPONSES=false
-
-# Enable mock mode (no real API calls)
-MOCK_MODE=false
-
-# Test environment
-TEST_ENV=dev
 ```
-
-### Test Data Configuration
-
-Test numbers are managed in `data/test-data/`:
-
-- **`service-number-mapping.json`** - Maps API operations to test number paths
-- **`test-numbers.json`** - Contains actual test numbers with metadata
-- **`accounts.json`** - Legacy account data (fallback)
-- **`packages.json`** - Package codes for test scenarios
-
----
-
-## 📊 Test Scenarios
-
-### Scenario Structure
-
-Test scenarios are defined in JSON files under `data/scenarios/`:
-
-```json
-{
-  "domain": "gsm-packages",
-  "mifeApis": ["SS-DIA-Get-Gsm-Packages-Query - v1.0.0"],
-  "scenarios": [
-    {
-      "id": "gsm-get-packages-postpaid-smoke",
-      "name": "Get GSM Packages - Postpaid (Smoke)",
-      "mifeApi": "SS-DIA-Get-Gsm-Packages-Query - v1.0.0",
-      "tags": ["@smoke", "@regression", "@postpaid", "@gsm"],
-      "method": "GET",
-      "endpoint": "/dia-api-engine/api/gsm-package/v1/packages",
-      "queryParams": {
-        "connectionType": "POSTPAID"
-      },
-      "headers": {
-        "traceId": "{{traceId}}"
-      },
-      "expectedStatus": 200,
-      "assertions": {
-        "status": 200,
-        "responseTime": 3000,
-        "bodyNotEmpty": true,
-        "requiredFields": ["executionStatus", "executionMessage"],
-        "fieldValues": {
-          "executionStatus": "00",
-          "executionMessage": "SUCCESS"
-        },
-        "arrayFields": ["responseData"]
-      }
-    }
-  ]
-}
-```
-
-### Supported Placeholders
-
-| Placeholder | Description | Example |
-|-------------|-------------|---------|
-| `{{number}}` | Resolved test number | `"771234567"` |
-| `{{traceId}}` | Generated trace ID | `"DIA1234567890123"` |
-| `{{packages.gsm.postpaid.packages[0].code}}` | Package code | `"SPM_2700"` |
 
 ---
 
@@ -302,7 +246,7 @@ Test scenarios are defined in JSON files under `data/scenarios/`:
 
 ### Supported Assertion Types
 
-The framework supports 10 assertion types:
+The framework supports 10+ assertion types with JSON Schema validation:
 
 | Type | Description | Example |
 |------|-------------|---------|
@@ -315,9 +259,9 @@ The framework supports 10 assertion types:
 | **bodyContains** | Body contains strings | `["success", "eligible"]` |
 | **arrayFields** | Fields are arrays | `["responseData"]` |
 | **arrayMinLength** | Array min length | `{"responseData": 1}` |
-| **jsonSchema** | JSON schema validation | `{schema object}` |
+| **jsonSchema** | JSON schema validation | `{type: "object", properties: {...}}` |
 
-### Example Assertions
+### Example Assertions with JSON Schema
 
 ```json
 {
@@ -330,9 +274,21 @@ The framework supports 10 assertion types:
       "executionStatus": "00",
       "executionMessage": "SUCCESS"
     },
-    "arrayFields": ["responseData"],
-    "arrayMinLength": {
-      "responseData": 1
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "executionStatus": { "type": "string" },
+        "executionMessage": { "type": "string" },
+        "responseData": {
+          "type": "object",
+          "properties": {
+            "eligible": { "type": "boolean" },
+            "npsType": { "type": "string" }
+          },
+          "required": ["eligible", "npsType"]
+        }
+      },
+      "required": ["executionStatus", "executionMessage", "responseData"]
     }
   }
 }
@@ -340,56 +296,85 @@ The framework supports 10 assertion types:
 
 ---
 
-## 🔍 Response Capture
+## 🔍 Response Capture & Assertion Generation
 
-### Purpose
-
-Capture API requests and responses for:
-- Debugging test failures
-- Generating assertions automatically
-- Documenting API behavior
-- Analyzing response patterns
-
-### Usage
+### Capture API Responses
 
 ```bash
-# Enable response capture
-set CAPTURE_API_RESPONSES=true
+# 1. Enable response capture
+# Edit config/environments/dev.env: CAPTURE_API_RESPONSES=true
 
-# Run tests
-npm run test:e2e
+# 2. Run tests
+npm run test:smoke
 
-# Responses saved to: test-results/api-captures/YYYY-MM-DD/session-HH-MM-SS/
-
-# Consolidate all sessions
-npx ts-node scripts/consolidate-all-responses.ts
-
-# Update scenario assertions from captured responses
-npx ts-node scripts/update-scenario-assertions.ts
+# 3. Responses saved to: test-results/api-captures/consolidated-reference.json
 ```
 
-### Captured Response Format
+### Auto-Generate Assertions
+
+```bash
+# Generate assertions from captured responses
+npx ts-node scripts/derive-assertions.ts
+
+# This will:
+# - Read captured responses
+# - Derive appropriate assertions (including JSON Schema)
+# - Update scenario JSON files automatically
+```
+
+### Disable Capture for Normal Runs
+
+```bash
+# Edit config/environments/dev.env: CAPTURE_API_RESPONSES=false
+npm run test:e2e
+```
+
+---
+
+## 📊 Test Scenarios
+
+### Scenario Structure
+
+Test scenarios are defined in JSON files under `data/Decagon_API/`:
 
 ```json
 {
-  "domain": "gsm-packages",
-  "scenarioId": "gsm-get-packages-postpaid-smoke",
-  "scenarioName": "Get GSM Packages - Postpaid (Smoke)",
-  "mifeApi": "SS-DIA-Get-Gsm-Packages-Query - v1.0.0",
-  "timestamp": "2024-01-15T10:30:45.123Z",
-  "request": {
-    "method": "GET",
-    "endpoint": "/dia-api-engine/api/gsm-package/v1/packages",
-    "headers": {...},
-    "queryParams": {...}
+  "metadata": {
+    "mainWorkflow": "NPS",
+    "subWorkflow": "NPS",
+    "apiCommonName": "NPS Survey",
+    "mifeApi": "SS-DIA-NPS-Eligibility-Query - v1.0.0"
   },
-  "response": {
-    "status": 200,
-    "headers": {...},
-    "body": {...},
-    "duration": 1234
-  },
-  "suggestedAssertions": {...}
+  "mifeApi": "SS-DIA-NPS-Eligibility-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "nps-eligibility-smoke",
+      "name": "Check NPS Eligibility (Smoke)",
+      "mifeApi": "SS-DIA-NPS-Eligibility-Query - v1.0.0",
+      "tags": ["@smoke", "@regression"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/nps/v1/eligibility",
+      "headers": {
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "userId": "1181a0341b07e2aedcbbdc89",
+        "servedBy": "bot"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": ["executionStatus", "executionMessage"],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        },
+        "jsonSchema": { ... }
+      }
+    }
+  ]
 }
 ```
 
@@ -417,55 +402,11 @@ Resolved number replaces {{number}} in scenario
     "accountNumber": "{{number}}"
   },
   "numberResolution": {
-    "apiDomain": "gsm-packages",
-    "operation": "eligibility",
+    "apiDomain": "complaint",
+    "operation": "lodge",
     "connectionType": "POSTPAID",
     "serviceType": "GSM",
     "scenarioType": "positive"
-  }
-}
-```
-
-### Adding New Test Numbers
-
-**1. Add to `test-numbers.json`:**
-```json
-{
-  "postpaid": {
-    "active": [
-      {
-        "number": "771234567",
-        "serviceType": "GSM",
-        "connectionType": "POSTPAID",
-        "status": "ACTIVE",
-        "notes": "Primary postpaid test account"
-      }
-    ]
-  }
-}
-```
-
-**2. Map in `service-number-mapping.json`:**
-```json
-{
-  "apiToServiceMapping": {
-    "gsm-package": {
-      "eligibility": {
-        "postpaid": "postpaid.active[0]"
-      }
-    }
-  }
-}
-```
-
-**3. Use in scenario:**
-```json
-{
-  "numberResolution": {
-    "apiDomain": "gsm-package",
-    "operation": "eligibility",
-    "connectionType": "POSTPAID",
-    "serviceType": "GSM"
   }
 }
 ```
@@ -493,29 +434,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with:
-          node-version: 18
       - run: npm ci
       - run: npx playwright install
-      - name: Run E2E Tests
-        env:
-          BASE_URL: ${{ secrets.BASE_URL }}
-          TRACE_ID: ${{ secrets.TRACE_ID }}
-        run: npm run test:e2e
+      - run: npm run test:smoke
       - uses: actions/upload-artifact@v4
-        if: always()
         with:
           name: playwright-report
           path: playwright-report
 ```
-
-### Features
-
-- ✅ Runs on every push and pull request
-- ✅ Parallel test execution
-- ✅ Automatic retry on failure
-- ✅ HTML report artifacts
-- ✅ Environment-specific configuration
 
 ---
 
@@ -523,53 +449,30 @@ jobs:
 
 ### Adding New Test Scenarios
 
-**1. Create/update scenario JSON in `data/scenarios/`:**
+**1. Create/update scenario JSON in `data/Decagon_API/`:**
 ```json
 {
-  "domain": "new-domain",
+  "metadata": { ... },
+  "mifeApi": "SS-DIA-New-API - v1.0.0",
   "scenarios": [...]
 }
 ```
 
-**2. Add test numbers to `data/test-data/service-number-mapping.json`:**
-```json
-{
-  "apiToServiceMapping": {
-    "new-domain": {
-      "operation": {
-        "postpaid": "postpaid.active[0]"
-      }
-    }
-  }
-}
-```
-
-**3. Create test spec in `tests/e2e/new-domain.spec.ts`:**
+**2. Create test spec in `tests/e2e/new-domain.spec.ts`:**
 ```typescript
 import { createScenarioSuite } from '../../src/helpers/scenario-runner';
 import * as path from 'path';
 
 createScenarioSuite(
-  path.join(__dirname, '../../data/scenarios/new-domain.json'),
+  path.join(__dirname, '../../data/Decagon_API/NewDomain/SS-DIA-New-API - v1.0.0.json'),
   'New Domain - Dialog API Tests'
 );
 ```
 
-**4. Run tests:**
+**3. Run tests:**
 ```bash
 npx playwright test tests/e2e/new-domain.spec.ts
 ```
-
-### Key Framework Components
-
-| Component | Purpose | Location |
-|-----------|---------|----------|
-| **Scenario Runner** | Generic test execution engine | `src/helpers/scenario-runner.ts` |
-| **API Client** | HTTP client with retry logic | `src/api/client/api-client.ts` |
-| **Request Builder** | Constructs HTTP requests | `src/api/client/request-builder.ts` |
-| **Number Resolver** | Resolves test numbers | `src/helpers/number-resolver.ts` |
-| **Assertion Executor** | Executes assertions | `src/helpers/assertion-executor.ts` |
-| **Response Capture** | Captures API responses | `src/helpers/response-capture.ts` |
 
 ---
 
@@ -586,7 +489,7 @@ npx playwright test tests/e2e/new-domain.spec.ts
 
 - **[USER_GUIDE.md](USER_GUIDE.md)** - Complete usage guide with examples
 - **[ARCHITECTURE.md](ARCHITECTURE.md)** - Framework architecture and design patterns
-- **[IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md)** - Development roadmap and implementation guide
+- **[IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md)** - Development roadmap
 
 ---
 
@@ -610,58 +513,47 @@ npx playwright test tests/e2e/new-domain.spec.ts
 - Verify path exists in `test-numbers.json`
 
 **Issue: Assertion failures**
-- Enable response capture: `set CAPTURE_API_RESPONSES=true`
+- Enable response capture: `CAPTURE_API_RESPONSES=true`
 - Run test and review captured response
 - Update assertion or report API bug
 
-**Issue: Connection timeouts**
-- Check `BASE_URL` in `.env`
-- Verify network connectivity
-- Increase timeout: `API_TIMEOUT=30000`
+**Issue: JSON Schema validation fails**
+- Check captured response structure
+- Verify schema matches actual API response
+- Regenerate schema using derive-assertions script
 
-**Issue: Response capture not working**
-- Verify `CAPTURE_API_RESPONSES=true`
-- Check directory permissions
-- Ensure tests are running
-
-For more troubleshooting, see [USER_GUIDE.md](USER_GUIDE.md#troubleshooting).
+For more troubleshooting, see [USER_GUIDE.md](USER_GUIDE.md).
 
 ---
 
 ## 📊 Project Statistics
 
 ```
-Total Files: 46
-Total Scenarios: 48
-Total Domains: 7
-Lines of Code: ~3,500
+Total Scenarios: 54+
+Total Domains: 16
+Total Test Files: 24
+Lines of Code: ~4,000
 Test Coverage: 100% of defined APIs
+Assertion Types: 10+
 ```
 
 ---
 
-## 🎯 Features
+## 🎯 Key Features
 
 ### Current Features ✅
 
 - ✅ Scenario-driven architecture
 - ✅ Intelligent test number resolution
-- ✅ 10 assertion types
+- ✅ 10+ assertion types with JSON Schema validation
 - ✅ Tag-based execution
 - ✅ Response capture and analysis
+- ✅ Automated assertion generation
 - ✅ Retry logic
-- ✅ Mock mode
 - ✅ CI/CD integration
 - ✅ Parallel execution
 - ✅ HTML reports with traces
-
-### Planned Features 🚧
-
-- 🚧 JSON schema validation
-- 🚧 Performance tracking
-- 🚧 Contract testing
-- 🚧 Dynamic test data generation
-- 🚧 Real-time dashboard
+- ✅ TypeScript type safety
 
 ---
 
@@ -683,19 +575,6 @@ For issues or questions:
 
 ---
 
-## 🏆 Best Practices
-
-1. **Run smoke tests before commits**: `npm run test:smoke`
-2. **Use appropriate tags**: Tag scenarios for selective execution
-3. **Keep scenarios focused**: One scenario, one behavior
-4. **Update test data regularly**: Review and update test numbers
-5. **Capture responses for debugging**: Enable capture when investigating failures
-6. **Review assertions periodically**: Ensure they match current API behavior
-7. **Use mock mode for offline work**: `npm run test:mock`
-8. **Check CI/CD results**: Monitor GitHub Actions runs
-
----
-
 **Built with** [Playwright](https://playwright.dev/) | **Language** TypeScript | **Test Runner** Playwright Test
 
-**Version**: 1.0.0 | **Status**: Production Ready ✅
+**Version**: 2.0.0 | **Status**: Production Ready ✅

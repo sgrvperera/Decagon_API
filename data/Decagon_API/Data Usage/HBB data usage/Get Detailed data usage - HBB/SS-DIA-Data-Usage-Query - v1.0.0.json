@@ -1,0 +1,102 @@
+{
+  "metadata": {
+    "mainWorkflow": "Data Usage",
+    "subWorkflow": "HBB data usage",
+    "apiCommonName": "Get Detailed data usage - HBB",
+    "mifeApi": "SS-DIA-Data-Usage-Query - v1.0.0",
+    "generatedAt": "2025-01-15T00:00:00.000Z",
+    "source": "manual-migration"
+  },
+  "mifeApi": "SS-DIA-Data-Usage-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "data-usage-detailed-gsm-postpaid-smoke",
+      "name": "Get Data Usage Detailed - GSM Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-Data-Usage-Detailed-Query - v1.0.0",
+      "tags": ["@smoke", "@regression", "@postpaid", "@gsm"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/data-usage/v1/detailed",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "sbu": "GSM"
+      },
+      "numberResolution": {
+        "apiDomain": "data-usage",
+        "operation": "detailed",
+        "sbu": "gsm",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [200, 500],
+      "assertions": {
+        "status": [200, 500],
+        "responseTime": 5000,
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "data-usage-detailed-hbb-postpaid",
+      "name": "Get Data Usage Detailed - HBB Postpaid",
+      "mifeApi": "SS-DIA-Data-Usage-Detailed-Query - v1.0.0",
+      "tags": ["@regression", "@postpaid", "@hbb"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/data-usage/v1/detailed",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "sbu": "HBB"
+      },
+      "numberResolution": {
+        "apiDomain": "data-usage",
+        "operation": "detailed",
+        "sbu": "hbb",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [200, 500],
+      "assertions": {
+        "status": [200, 500],
+        "responseTime": 5000,
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "data-usage-detailed-mbb-postpaid",
+      "name": "Get Data Usage Detailed - MBB Postpaid",
+      "mifeApi": "SS-DIA-Data-Usage-Detailed-Query - v1.0.0",
+      "tags": ["@regression", "@postpaid", "@mbb"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/data-usage/v1/detailed",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "sbu": "MBB"
+      },
+      "numberResolution": {
+        "apiDomain": "data-usage",
+        "operation": "detailed",
+        "sbu": "mbb",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [200, 500],
+      "assertions": {
+        "status": [200, 500],
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": ["executionStatus", "executionMessage", "responseData"],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    }
+  ]
+}

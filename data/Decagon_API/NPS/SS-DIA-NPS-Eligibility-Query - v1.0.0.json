@@ -1,0 +1,118 @@
+{
+  "metadata": {
+    "mainWorkflow": "NPS",
+    "subWorkflow": "NPS",
+    "apiCommonName": "NPS Survey",
+    "mifeApi": "SS-DIA-NPS-Eligibility-Query - v1.0.0",
+    "generatedAt": "2026-04-02T08:00:00.000Z",
+    "source": "book5-migration"
+  },
+  "mifeApi": "SS-DIA-NPS-Eligibility-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "nps-eligibility-smoke",
+      "name": "Check NPS Eligibility (Smoke)",
+      "mifeApi": "SS-DIA-NPS-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/nps/v1/eligibility",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "userId": "1181a0341b07e2aedcbbdc89",
+        "servedBy": "bot",
+        "triggerNpsDb": true,
+        "npsMarker": 50,
+        "cesMarker": 25,
+        "csatMarker": 25,
+        "transactionType": "mob_balance_check"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        },
+        "jsonSchema": {
+          "type": "object",
+          "properties": {
+            "executionStatus": {
+              "type": "string"
+            },
+            "executionMessage": {
+              "type": "string"
+            },
+            "responseData": {
+              "type": "object",
+              "properties": {
+                "eligible": {
+                  "type": "boolean"
+                },
+                "npsType": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "eligible",
+                "npsType"
+              ]
+            }
+          },
+          "required": [
+            "executionStatus",
+            "executionMessage",
+            "responseData"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nps-score-submit",
+      "name": "Submit NPS Score and Comment",
+      "mifeApi": "SS-DIA-NPS-Score-Insert - v1.0.0",
+      "tags": [
+        "@regression"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/nps/v1/scoreComment",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "userId": "1181a0341b07e2aedcbbdc89",
+        "cxName": "Test User",
+        "score": "10",
+        "servedBy": "bot",
+        "surveyId": "NPS",
+        "phoneNumber": "94776318136",
+        "lang": "en",
+        "channel": "whatsapp",
+        "sessionId": "2c0e42b8-d9ab-4abd-8000-0a9d8abfb65e",
+        "agentName": "",
+        "transactionType": "mob_balance_check",
+        "comment": "Good service",
+        "subComment": ""
+      },
+      "expectedStatus": [200, 400],
+      "assertions": {
+        "status": [200, 400],
+        "responseTime": 3000,
+        "bodyNotEmpty": true
+      }
+    }
+  ]
+}

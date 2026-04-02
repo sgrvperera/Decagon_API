@@ -1,0 +1,142 @@
+{
+  "metadata": {
+    "mainWorkflow": "Data Addon",
+    "subWorkflow": "mbb data addon",
+    "apiCommonName": "eligibility get mbb data add on",
+    "mifeApi": "SS-DIA-Mbb-Data-Add-On-Eligibility-Query  - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.175Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-Mbb-Data-Add-On-Eligibility-Query  - v1.0.0",
+  "scenarios": [
+    {
+      "id": "mbb-addons-check-eligibility-postpaid-valid",
+      "name": "Check MBB Add-on Eligibility - Valid Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-Mbb-Data-Add-On-Eligibility-Query  - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid",
+        "@mbb",
+        "@addons"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/mbb-data-addons/v1/check-eligibility",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "100"
+      },
+      "numberResolution": {
+        "apiDomain": "mbb-packages",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "MBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "mbb-addons-check-eligibility-prepaid-valid",
+      "name": "Check MBB Add-on Eligibility - Valid Prepaid",
+      "mifeApi": "SS-DIA-Mbb-Data-Add-On-Eligibility-Query  - v1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@mbb",
+        "@addons"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/mbb-data-addons/v1/check-eligibility",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "100"
+      },
+      "numberResolution": {
+        "apiDomain": "mbb-packages",
+        "operation": "eligibility",
+        "connectionType": "PREPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "mbb-addons-check-eligibility-invalid-account",
+      "name": "Check MBB Add-on Eligibility - Invalid Account (Negative)",
+      "mifeApi": "SS-DIA-Mbb-Data-Add-On-Eligibility-Query  - v1.0.0",
+      "tags": [
+        "@negative",
+        "@mbb",
+        "@addons"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/mbb-data-addons/v1/check-eligibility",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "100"
+      },
+      "numberResolution": {
+        "apiDomain": "mbb-packages",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "MBB",
+        "scenarioType": "negative"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    }
+  ]
+}

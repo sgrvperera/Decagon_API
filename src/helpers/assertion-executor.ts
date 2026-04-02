@@ -1,4 +1,6 @@
 import { APIResponse, expect } from '@playwright/test';
+import Ajv from 'ajv';
+import addFormats from 'ajv-formats';
 
 /**
  * Generic Assertion Executor
@@ -21,6 +23,13 @@ export interface ScenarioAssertions {
 }
 
 export class AssertionExecutor {
+  private ajv: Ajv;
+
+  constructor() {
+    this.ajv = new Ajv({ allErrors: true, verbose: true });
+    addFormats(this.ajv);
+  }
+
   /**
    * Execute all assertions defined in scenario
    */
@@ -183,13 +192,21 @@ export class AssertionExecutor {
   }
 
   /**
-   * Assert JSON schema (basic implementation)
+   * Assert JSON schema using AJV validator
    */
   private async assertJsonSchema(response: APIResponse, schema: any): Promise<void> {
     const body = await response.json();
-    // Basic schema validation - can be extended with ajv or similar
-    // For now, just check that body is an object
-    expect(typeof body, 'Response body is not a valid JSON object').toBe('object');
+    
+    const validate = this.ajv.compile(schema);
+    const valid = validate(body);
+    
+    if (!valid) {
+      const errors = validate.errors?.map(err => 
+        `${err.instancePath || 'root'} ${err.message}`
+      ).join(', ');
+      
+      expect(valid, `JSON Schema validation failed: ${errors}`).toBeTruthy();
+    }
   }
 
   /**

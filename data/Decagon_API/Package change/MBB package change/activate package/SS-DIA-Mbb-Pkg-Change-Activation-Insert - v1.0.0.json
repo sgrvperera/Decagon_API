@@ -1,0 +1,105 @@
+{
+  "metadata": {
+    "mainWorkflow": "Package change",
+    "subWorkflow": "MBB package change",
+    "apiCommonName": "activate package",
+    "mifeApi": "SS-DIA-Mbb-Pkg-Change-Activation-Insert - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.188Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-Mbb-Pkg-Change-Activation-Insert - v1.0.0",
+  "scenarios": [
+    {
+      "id": "mbb-activate-package-postpaid",
+      "name": "Activate MBB Package - Postpaid",
+      "mifeApi": "SS-DIA-Mbb-Pkg-Change-Activation-Insert - v1.0.0",
+      "tags": [
+        "@regression",
+        "@postpaid",
+        "@mbb"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/mbb-package-change/v1/activate",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "msisdn": "{{number}}",
+        "packageCode": "830",
+        "packagePrePost": "postpaid"
+      },
+      "numberResolution": {
+        "apiDomain": "mbb-packages",
+        "operation": "activation",
+        "connectionType": "POSTPAID",
+        "serviceType": "MBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [
+        200,
+        201
+      ],
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "mbb-activate-package-prepaid",
+      "name": "Activate MBB Package - Prepaid",
+      "mifeApi": "SS-DIA-Mbb-Pkg-Change-Activation-Insert - v1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@mbb"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/mbb-package-change/v1/activate",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "msisdn": "{{number}}",
+        "packageCode": "830",
+        "packagePrePost": "prepaid"
+      },
+      "numberResolution": {
+        "apiDomain": "mbb-packages",
+        "operation": "activation",
+        "connectionType": "PREPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [
+        200,
+        201
+      ],
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    }
+  ]
+}

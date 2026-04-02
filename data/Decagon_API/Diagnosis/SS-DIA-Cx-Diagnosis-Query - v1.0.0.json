@@ -1,0 +1,91 @@
+{
+  "metadata": {
+    "mainWorkflow": "Diagnosis",
+    "subWorkflow": "Diagnosis",
+    "apiCommonName": "Diagnosis endpoint",
+    "mifeApi": "SS-DIA-Cx-Diagnosis-Query - v1.0.0",
+    "generatedAt": "2026-04-02T08:00:00.000Z",
+    "source": "book5-migration"
+  },
+  "mifeApi": "SS-DIA-Cx-Diagnosis-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "diagnosis-hbb-smoke",
+      "name": "Customer Diagnosis - HBB (Smoke)",
+      "mifeApi": "SS-DIA-Cx-Diagnosis-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@hbb"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/diagnosis/v1/cx-diagnosis",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}",
+        "channel": "CHATBOT"
+      },
+      "numberResolution": {
+        "apiDomain": "diagnosis",
+        "operation": "check",
+        "connectionType": "POSTPAID",
+        "serviceType": "HBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "diagnosis-gsm",
+      "name": "Customer Diagnosis - GSM",
+      "mifeApi": "SS-DIA-Cx-Diagnosis-Query - v1.0.0",
+      "tags": [
+        "@regression",
+        "@gsm"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/diagnosis/v1/cx-diagnosis",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}",
+        "channel": "CHATBOT"
+      },
+      "numberResolution": {
+        "apiDomain": "diagnosis",
+        "operation": "check",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 5000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage"
+        ]
+      }
+    }
+  ]
+}

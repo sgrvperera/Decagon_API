@@ -190,8 +190,70 @@ class ResponseCapture {
       });
 
       fs.writeFileSync(summaryPath, JSON.stringify(summary, null, 2), 'utf8');
+      
+      // Also update consolidated reference file
+      this.updateConsolidatedReference(captured);
     } catch (error) {
       console.error(`[ResponseCapture] Error updating summary: ${error}`);
+    }
+  }
+
+  private updateConsolidatedReference(captured: CapturedApiCall) {
+    try {
+      const referencePath = path.join(this.captureDir, 'consolidated-reference.json');
+      
+      let reference: any = {
+        generatedAt: new Date().toISOString(),
+        totalCaptures: 0,
+        captures: []
+      };
+      
+      if (fs.existsSync(referencePath)) {
+        reference = JSON.parse(fs.readFileSync(referencePath, 'utf8'));
+      }
+
+      // Create structured reference entry
+      const referenceEntry = {
+        domain: captured.domain,
+        scenarioId: captured.scenarioId,
+        scenarioName: captured.scenarioName,
+        mifeApi: captured.mifeApi,
+        request: {
+          method: captured.request.method,
+          endpoint: captured.request.endpoint,
+          headers: captured.request.headers,
+          queryParams: captured.request.queryParams,
+          body: captured.request.body
+        },
+        response: {
+          status: captured.response.status,
+          statusText: captured.response.statusText,
+          headers: captured.response.headers,
+          body: captured.response.body
+        },
+        timestamp: captured.timestamp,
+        duration: captured.duration
+      };
+
+      // Check if scenario already exists, update or add
+      const existingIndex = reference.captures.findIndex(
+        (c: any) => c.scenarioId === captured.scenarioId
+      );
+
+      if (existingIndex >= 0) {
+        reference.captures[existingIndex] = referenceEntry;
+      } else {
+        reference.captures.push(referenceEntry);
+      }
+
+      reference.totalCaptures = reference.captures.length;
+      reference.generatedAt = new Date().toISOString();
+
+      fs.writeFileSync(referencePath, JSON.stringify(reference, null, 2), 'utf8');
+      
+      console.log(`[ResponseCapture] Updated consolidated reference: ${referencePath}`);
+    } catch (error) {
+      console.error(`[ResponseCapture] Error updating consolidated reference: ${error}`);
     }
   }
 

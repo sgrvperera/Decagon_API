@@ -1,0 +1,96 @@
+{
+  "metadata": {
+    "mainWorkflow": "Complaint Handling",
+    "subWorkflow": "Complaint Handling",
+    "apiCommonName": "Complaint lodge API",
+    "mifeApi": "SS-DIA-Complaint-Lodge-Insert - v1.0.0",
+    "generatedAt": "2026-04-02T08:00:00.000Z",
+    "source": "book5-migration"
+  },
+  "mifeApi": "SS-DIA-Complaint-Lodge-Insert - v1.0.0",
+  "scenarios": [
+    {
+      "id": "complaint-lodge-mobile-smoke",
+      "name": "Lodge Complaint - Mobile (Smoke)",
+      "mifeApi": "SS-DIA-Complaint-Lodge-Insert - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@gsm"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/complain/v1/add-complain",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "customerId": "67569a21a1606b081da76444",
+        "description": "Test complaint description",
+        "lob": "MOBILE",
+        "area": "BILLING & CHARGING",
+        "subArea": "TIME BASED PACK",
+        "subSubArea": "CHARGING DISPUTES",
+        "srType": "Complaint",
+        "accountNumber": "{{number}}",
+        "altContactNo": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "complaint",
+        "operation": "lodge",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "02",
+          "executionMessage": "Conflict SR"
+        }
+      }
+    },
+    {
+      "id": "complaint-status-check",
+      "name": "Get Last 5 Complaint Status",
+      "mifeApi": "SS-DIA-Get-Complaint-Status-Check - v1.0.0",
+      "tags": [
+        "@regression",
+        "@gsm"
+      ],
+      "method": "GET",
+      "endpoint": "/dia-api-engine/api/complain/v1/retrieve-srtt",
+      "queryParams": {
+        "msisdn": "{{number}}"
+      },
+      "headers": {
+        "traceId": "{{traceId}}"
+      },
+      "numberResolution": {
+        "apiDomain": "complaint",
+        "operation": "status",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage"
+        ]
+      }
+    }
+  ]
+}

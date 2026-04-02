@@ -1,0 +1,103 @@
+{
+  "metadata": {
+    "mainWorkflow": "Package change",
+    "subWorkflow": "DTV package change",
+    "apiCommonName": "activate package",
+    "mifeApi": "SS-DIA-DTV-Pack-Act-Activation-Insert - V1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.139Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-DTV-Pack-Act-Activation-Insert - V1.0.0",
+  "scenarios": [
+    {
+      "id": "dtv-activate-package-postpaid",
+      "name": "Activate DTV Package - Postpaid",
+      "mifeApi": "SS-DIA-DTV-Pack-Act-Activation-Insert - V1.0.0",
+      "tags": [
+        "@regression",
+        "@postpaid",
+        "@dtv"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/dtv-package/v1/activate",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "PERLs"
+      },
+      "numberResolution": {
+        "apiDomain": "dtv-packages",
+        "operation": "activation",
+        "connectionType": "POSTPAID",
+        "serviceType": "DTV",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [
+        200,
+        201
+      ],
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "dtv-activate-package-prepaid",
+      "name": "Activate DTV Package - Prepaid",
+      "mifeApi": "SS-DIA-DTV-Pack-Act-Activation-Insert - V1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@dtv"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/dtv-package/v1/activate",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "PERLs"
+      },
+      "numberResolution": {
+        "apiDomain": "dtv-packages",
+        "operation": "activation",
+        "connectionType": "PREPAID",
+        "serviceType": "DTV",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [
+        200,
+        201
+      ],
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    }
+  ]
+}

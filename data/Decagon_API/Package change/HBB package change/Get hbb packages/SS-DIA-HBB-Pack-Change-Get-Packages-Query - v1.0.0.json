@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "mainWorkflow": "Package change",
+    "subWorkflow": "HBB package change",
+    "apiCommonName": "Get hbb packages",
+    "mifeApi": "SS-DIA-HBB-Pack-Change-Get-Packages-Query - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.159Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-HBB-Pack-Change-Get-Packages-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "hbb-get-packages-postpaid-smoke",
+      "name": "Get HBB Packages - Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-HBB-Pack-Change-Get-Packages-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid",
+        "@hbb"
+      ],
+      "method": "GET",
+      "endpoint": "/dia-api-engine/api/hbb-package-change/v1/upgrade-downgrade-list/POSTPAID",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "hbb-get-packages-prepaid",
+      "name": "Get HBB Packages - Prepaid",
+      "mifeApi": "SS-DIA-HBB-Pack-Change-Get-Packages-Query - v1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@hbb"
+      ],
+      "method": "GET",
+      "endpoint": "/dia-api-engine/api/hbb-package-change/v1/upgrade-downgrade-list/PREPAID",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "metadata": {
+    "mainWorkflow": "Roaming",
+    "subWorkflow": "Roaming",
+    "apiCommonName": "Roaming Services",
+    "mifeApi": "SS-DIA-Activate-Roaming - v1.0.0",
+    "generatedAt": "2026-04-02T08:00:00.000Z",
+    "source": "book5-migration"
+  },
+  "mifeApi": "SS-DIA-Activate-Roaming - v1.0.0",
+  "scenarios": [
+    {
+      "id": "roaming-activate-smoke",
+      "name": "Activate Roaming - GSM (Smoke)",
+      "mifeApi": "SS-DIA-Activate-Roaming - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@gsm"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/roaming/v1/activate-roaming",
+      "queryParams": {
+        "msisdn": "{{number}}"
+      },
+      "headers": {
+        "traceId": "{{traceId}}"
+      },
+      "numberResolution": {
+        "apiDomain": "roaming",
+        "operation": "activate",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "roaming-activate-data",
+      "name": "Activate Data Roaming - GSM",
+      "mifeApi": "SS-DIA-Activate-Data-Roaming - v1.0.0",
+      "tags": [
+        "@regression",
+        "@gsm"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/roaming/v1/activate-roaming-data",
+      "queryParams": {
+        "msisdn": "{{number}}"
+      },
+      "headers": {
+        "traceid": "{{traceId}}"
+      },
+      "numberResolution": {
+        "apiDomain": "roaming",
+        "operation": "activate-data",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage"
+        ]
+      }
+    },
+    {
+      "id": "roaming-get-packages",
+      "name": "Get Roaming Packages",
+      "mifeApi": "SS-DIA-Get-Roaming-Package-Query - v1.0.0",
+      "tags": [
+        "@regression",
+        "@gsm"
+      ],
+      "method": "GET",
+      "endpoint": "/dia-api-engine/api/roaming/v1/packages",
+      "queryParams": {
+        "countryName": "India",
+        "msisdn": "{{number}}"
+      },
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "numberResolution": {
+        "apiDomain": "roaming",
+        "operation": "packages",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage"
+        ]
+      }
+    },
+    {
+      "id": "roaming-get-details",
+      "name": "Get Roaming Details",
+      "mifeApi": "SS-DIA-Roaming-Details-Query - v1.0.0",
+      "tags": [
+        "@regression",
+        "@gsm"
+      ],
+      "method": "GET",
+      "endpoint": "/dia-api-engine/api/roaming/v1/details",
+      "queryParams": {
+        "msisdn": "{{number}}"
+      },
+      "headers": {
+        "traceId": "{{traceId}}"
+      },
+      "numberResolution": {
+        "apiDomain": "roaming",
+        "operation": "details",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage"
+        ]
+      }
+    }
+  ]
+}

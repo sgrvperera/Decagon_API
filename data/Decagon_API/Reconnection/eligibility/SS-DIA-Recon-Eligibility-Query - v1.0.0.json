@@ -1,0 +1,93 @@
+{
+  "metadata": {
+    "mainWorkflow": "Reconnection",
+    "subWorkflow": "eligibility",
+    "apiCommonName": "reconnection-eligibility-check",
+    "mifeApi": "SS-DIA-Recon-Eligibility-Query - v1.0.0",
+    "generatedAt": "2026-04-02T08:00:00.000Z",
+    "source": "book5-migration"
+  },
+  "mifeApi": "SS-DIA-Recon-Eligibility-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "reconnection-eligibility-postpaid-smoke",
+      "name": "Check Reconnection Eligibility - Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-Recon-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/reconnection-eligibility/v1/check",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "reconnection-eligibility",
+        "operation": "check",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3057,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "reconnection-eligibility-hbb",
+      "name": "Check Reconnection Eligibility - HBB Account",
+      "mifeApi": "SS-DIA-Recon-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@regression",
+        "@hbb"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/reconnection-eligibility/v1/check",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "reconnection-eligibility",
+        "operation": "check",
+        "connectionType": "POSTPAID",
+        "serviceType": "HBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    }
+  ]
+}

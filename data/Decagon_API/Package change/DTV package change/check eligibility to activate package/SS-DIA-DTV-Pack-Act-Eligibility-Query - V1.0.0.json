@@ -1,0 +1,139 @@
+{
+  "metadata": {
+    "mainWorkflow": "Package change",
+    "subWorkflow": "DTV package change",
+    "apiCommonName": "check eligibility to activate package",
+    "mifeApi": "SS-DIA-DTV-Pack-Act-Eligibility-Query - V1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.136Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-DTV-Pack-Act-Eligibility-Query - V1.0.0",
+  "scenarios": [
+    {
+      "id": "dtv-check-eligibility-postpaid-valid",
+      "name": "Check DTV Package Eligibility - Valid Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-DTV-Pack-Act-Eligibility-Query - V1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid",
+        "@dtv"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/dtv-package/v1/eligibility",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "msisdn": "{{number}}",
+        "packageCode": "AARAMBAM_NEW"
+      },
+      "numberResolution": {
+        "apiDomain": "dtv-packages",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "DTV",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "dtv-check-eligibility-prepaid-valid",
+      "name": "Check DTV Package Eligibility - Valid Prepaid",
+      "mifeApi": "SS-DIA-DTV-Pack-Act-Eligibility-Query - V1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@dtv"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/dtv-package/v1/eligibility",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "msisdn": "{{number}}",
+        "packageCode": "PERLs"
+      },
+      "numberResolution": {
+        "apiDomain": "dtv-packages",
+        "operation": "eligibility",
+        "connectionType": "PREPAID",
+        "serviceType": "DTV",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "dtv-check-eligibility-invalid-account",
+      "name": "Check DTV Package Eligibility - Invalid Account (Negative)",
+      "mifeApi": "SS-DIA-DTV-Pack-Act-Eligibility-Query - V1.0.0",
+      "tags": [
+        "@negative",
+        "@dtv"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/dtv-package/v1/eligibility",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "msisdn": "{{number}}",
+        "packageCode": "AARAMBAM_NEW"
+      },
+      "numberResolution": {
+        "apiDomain": "dtv-packages",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "DTV",
+        "scenarioType": "negative"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "metadata": {
+    "mainWorkflow": "Package change",
+    "subWorkflow": "mob package change",
+    "apiCommonName": "check eligibility to activate package",
+    "mifeApi": "SS-DIA-Gsm-Package-Change-Eligibility-Query - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.144Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-Gsm-Package-Change-Eligibility-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "gsm-check-eligibility-postpaid-valid",
+      "name": "Check GSM Package Eligibility - Valid Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-Gsm-Package-Change-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid",
+        "@gsm"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/gsm-package/v1/check-the-eligibility-for-package",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "SPM_2700"
+      },
+      "numberResolution": {
+        "apiDomain": "gsm-packages",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "gsm-check-eligibility-prepaid-valid",
+      "name": "Check GSM Package Eligibility - Valid Prepaid",
+      "mifeApi": "SS-DIA-Gsm-Package-Change-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@gsm"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/gsm-package/v1/check-the-eligibility-for-package",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "59"
+      },
+      "numberResolution": {
+        "apiDomain": "gsm-packages",
+        "operation": "eligibility",
+        "connectionType": "PREPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "gsm-check-eligibility-invalid-account",
+      "name": "Check GSM Package Eligibility - Invalid Account (Negative)",
+      "mifeApi": "SS-DIA-Gsm-Package-Change-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@negative",
+        "@gsm"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/gsm-package/v1/check-the-eligibility-for-package",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "SPM_2700"
+      },
+      "numberResolution": {
+        "apiDomain": "gsm-packages",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "negative"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        },
+        "bodyContains": [
+          "eligible",
+          "false"
+        ]
+      }
+    }
+  ]
+}

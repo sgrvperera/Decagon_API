@@ -1,0 +1,62 @@
+{
+  "metadata": {
+    "mainWorkflow": "DTV Rescan and Reset",
+    "subWorkflow": "rescan dtv",
+    "apiCommonName": "end point to rescan dialog tv",
+    "mifeApi": "SS-DIA-DTV-Rescan-Query - v1.0.0",
+    "generatedAt": "2026-04-02T08:00:00.000Z",
+    "source": "book5-migration"
+  },
+  "mifeApi": "SS-DIA-DTV-Rescan-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "dtv-rescan-smoke",
+      "name": "DTV Rescan - Postpaid Account (Smoke)",
+      "mifeApi": "SS-DIA-DTV-Rescan-Query - v1.0.0",
+      "tags": ["@smoke", "@regression", "@dtv"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/dtv-rescan/v1/rescan",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "dtv-rescan",
+        "operation": "rescan",
+        "connectionType": "POSTPAID",
+        "serviceType": "DTV",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [200, 500],
+      "assertions": {
+        "status": [200, 500],
+        "responseTime": 5000,
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "dtv-rescan-invalid-account",
+      "name": "DTV Rescan - Invalid Account (Negative)",
+      "mifeApi": "SS-DIA-DTV-Rescan-Query - v1.0.0",
+      "tags": ["@negative", "@dtv"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/dtv-rescan/v1/rescan",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "9999999999"
+      },
+      "expectedStatus": [200, 400, 404],
+      "assertions": {
+        "status": [200, 400, 404],
+        "responseTime": 3000,
+        "bodyNotEmpty": true
+      }
+    }
+  ]
+}

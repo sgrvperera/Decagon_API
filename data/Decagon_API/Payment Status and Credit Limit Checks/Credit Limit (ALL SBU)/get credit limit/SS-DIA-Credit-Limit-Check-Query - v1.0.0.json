@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "mainWorkflow": "Payment Status and Credit Limit Checks",
+    "subWorkflow": "Credit Limit (ALL SBU)",
+    "apiCommonName": "get credit limit",
+    "mifeApi": "SS-DIA-Credit-Limit-Check-Query - v1.0.0",
+    "generatedAt": "2026-04-02T08:00:00.000Z",
+    "source": "book5-migration"
+  },
+  "mifeApi": "SS-DIA-Credit-Limit-Check-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "credit-limit-postpaid-smoke",
+      "name": "Get Credit Limit - Postpaid Account (Smoke)",
+      "mifeApi": "SS-DIA-Credit-Limit-Check-Query - v1.0.0",
+      "tags": ["@smoke", "@regression", "@postpaid"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/credit-limit/v1/check",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "credit-limit",
+        "operation": "check",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": ["executionStatus", "executionMessage"],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "credit-limit-hbb",
+      "name": "Get Credit Limit - HBB Account",
+      "mifeApi": "SS-DIA-Credit-Limit-Check-Query - v1.0.0",
+      "tags": ["@regression", "@hbb"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/credit-limit/v1/check",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "credit-limit",
+        "operation": "check",
+        "connectionType": "POSTPAID",
+        "serviceType": "HBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": ["executionStatus", "executionMessage"],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    }
+  ]
+}

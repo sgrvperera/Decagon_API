@@ -1,0 +1,47 @@
+{
+  "metadata": {
+    "mainWorkflow": "DTV channel activation / deactivation",
+    "subWorkflow": "DTV channel activation",
+    "apiCommonName": "get DTV channel list",
+    "mifeApi": "SS-DIA-DTV-Get-Channel-List-Query - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.118Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-DTV-Get-Channel-List-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "dtv-channels-get-list-smoke",
+      "name": "Get DTV Channel List (Smoke)",
+      "mifeApi": "SS-DIA-DTV-Get-Channel-List-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@dtv",
+        "@channels"
+      ],
+      "method": "GET",
+      "endpoint": "/dia-api-engine/api/dtv-channel-act/v1/get-packages",
+      "headers": {
+        "traceId": "{{traceId}}"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        },
+        "arrayFields": [
+          "responseData"
+        ]
+      }
+    }
+  ]
+}

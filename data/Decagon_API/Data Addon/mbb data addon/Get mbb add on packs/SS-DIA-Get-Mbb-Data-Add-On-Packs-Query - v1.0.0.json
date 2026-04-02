@@ -1,0 +1,84 @@
+{
+  "metadata": {
+    "mainWorkflow": "Data Addon",
+    "subWorkflow": "mbb data addon",
+    "apiCommonName": "Get mbb add on packs",
+    "mifeApi": "SS-DIA-Get-Mbb-Data-Add-On-Packs-Query  - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.173Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-Get-Mbb-Data-Add-On-Packs-Query  - v1.0.0",
+  "scenarios": [
+    {
+      "id": "mbb-addons-get-prepaid-smoke",
+      "name": "Get MBB Add-on Packages - Prepaid (Smoke)",
+      "mifeApi": "SS-DIA-Get-Mbb-Data-Add-On-Packs-Query  - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@prepaid",
+        "@mbb",
+        "@addons"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/mbb-data-addons/v1/get",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "prepostCode": "PREPAID"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "mbb-addons-get-postpaid",
+      "name": "Get MBB Add-on Packages - Postpaid",
+      "mifeApi": "SS-DIA-Get-Mbb-Data-Add-On-Packs-Query  - v1.0.0",
+      "tags": [
+        "@regression",
+        "@postpaid",
+        "@mbb",
+        "@addons"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/mbb-data-addons/v1/get",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "prepostCode": "POSTPAID"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    }
+  ]
+}

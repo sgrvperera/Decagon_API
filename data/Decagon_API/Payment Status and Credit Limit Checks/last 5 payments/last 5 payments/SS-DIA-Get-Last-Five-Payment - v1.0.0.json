@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "mainWorkflow": "Payment Status and Credit Limit Checks",
+    "subWorkflow": "last 5 payments",
+    "apiCommonName": "last 5 payments",
+    "mifeApi": "SS-DIA-Get-Last-Five-Payment - v1.0.0",
+    "generatedAt": "2026-04-02T08:00:00.000Z",
+    "source": "book5-migration"
+  },
+  "mifeApi": "SS-DIA-Get-Last-Five-Payment - v1.0.0",
+  "scenarios": [
+    {
+      "id": "payment-history-postpaid-smoke",
+      "name": "Get Last 5 Payments - Postpaid Account (Smoke)",
+      "mifeApi": "SS-DIA-Get-Last-Five-Payment - v1.0.0",
+      "tags": ["@smoke", "@regression", "@postpaid"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/payment-history/v1/get",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "payment-history",
+        "operation": "get",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": ["executionStatus", "executionMessage"],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "payment-history-invalid-account",
+      "name": "Get Last 5 Payments - Invalid Account (Negative)",
+      "mifeApi": "SS-DIA-Get-Last-Five-Payment - v1.0.0",
+      "tags": ["@negative"],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/payment-history/v1/get",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "9999999999"
+      },
+      "expectedStatus": [400, 404, 500],
+      "assertions": {
+        "status": [400, 404, 500],
+        "responseTime": 3000,
+        "bodyNotEmpty": true
+      }
+    }
+  ]
+}

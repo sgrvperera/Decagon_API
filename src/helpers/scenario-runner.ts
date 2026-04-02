@@ -7,20 +7,67 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 /**
- * Generic Scenario Runner
- * This function creates a test suite for any domain by reading scenarios from JSON
- * Assertions are defined in the scenario JSON, not hardcoded in the spec
+ * Generic Scenario Runner with Recursive File Discovery
+ * Supports both flat and hierarchical scenario structures
+ */
+
+// Helper to find all scenario JSON files recursively
+function findScenarioFiles(dir: string): string[] {
+  const files: string[] = [];
+  
+  if (!fs.existsSync(dir)) {
+    return files;
+  }
+  
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    
+    if (entry.isDirectory()) {
+      files.push(...findScenarioFiles(fullPath));
+    } else if (entry.isFile() && entry.name.endsWith('.json') && entry.name !== 'book5_structured.json') {
+      files.push(fullPath);
+    }
+  }
+  
+  return files;
+}
+
+// Helper to load scenario file
+function loadScenarioFile(filePath: string): any {
+  const content = fs.readFileSync(filePath, 'utf8');
+  const data = JSON.parse(content);
+  
+  // Support both old format (domain + scenarios) and new format (metadata + mifeApi + scenarios)
+  if (data.scenarios) {
+    return {
+      domain: data.domain || data.metadata?.mainWorkflow || 'unknown',
+      mifeApi: data.mifeApi || data.mifeApis?.[0] || 'unknown',
+      scenarios: data.scenarios,
+      metadata: data.metadata
+    };
+  }
+  
+  return null;
+}
+
+/**
+ * Create test suite from a single scenario file
  */
 export function createScenarioSuite(scenarioFilePath: string, suiteName?: string) {
-  // Load test data
   const packages = JSON.parse(fs.readFileSync(path.join(__dirname, '../../data/test-data/packages.json'), 'utf8'));
-
-  // Load scenarios
-  const scenarioFile = JSON.parse(fs.readFileSync(scenarioFilePath, 'utf8'));
+  
+  const scenarioFile = loadScenarioFile(scenarioFilePath);
+  if (!scenarioFile) {
+    console.warn(`[Scenario Runner] Invalid scenario file: ${scenarioFilePath}`);
+    return;
+  }
+  
   const scenarios = scenarioFile.scenarios;
   const domain = scenarioFile.domain;
-
-  // Helper to replace placeholders
+  const mifeApi = scenarioFile.mifeApi;
+  
   function interpolate(obj: any, resolvedNumber?: string): any {
     if (!obj) return obj;
     const str = JSON.stringify(obj);
@@ -39,28 +86,26 @@ export function createScenarioSuite(scenarioFilePath: string, suiteName?: string
       });
     return JSON.parse(replaced);
   }
-
-  test.describe(suiteName || `${domain} - Dialog API Tests`, () => {
+  
+  test.describe(suiteName || `${domain} - ${mifeApi}`, () => {
     let client: ApiClient;
-
+    
     test.beforeAll(async () => {
       client = await ApiClient.create();
     });
-
+    
     test.afterAll(async () => {
       await client.dispose();
     });
-
+    
     for (const scenario of scenarios) {
-      // Filter by tag if TEST_TAG is set
       if (process.env.TEST_TAG && !scenario.tags.includes(process.env.TEST_TAG)) {
         continue;
       }
-
+      
       test(`${scenario.name} [${scenario.mifeApi}] ${scenario.tags.join(' ')}`, async ({ }, testInfo) => {
         const startTime = Date.now();
-
-        // Resolve test number if scenario requires it
+        
         let resolvedNumber: string | undefined;
         if (scenario.numberResolution) {
           const resolution = numberResolver.resolve({
@@ -73,19 +118,18 @@ export function createScenarioSuite(scenarioFilePath: string, suiteName?: string
           resolvedNumber = resolution.number;
           console.log(`[Test] Resolved number: ${resolvedNumber} (${resolution.source})`);
         }
-
+        
         const headers = interpolate(scenario.headers, resolvedNumber);
         const body = interpolate(scenario.body, resolvedNumber);
         const queryParams = interpolate(scenario.queryParams, resolvedNumber);
-
+        
         console.log(`[Test] Executing: ${scenario.method} ${scenario.endpoint}`);
         if (resolvedNumber) {
           console.log(`[Test] Using account number: ${resolvedNumber}`);
         }
-
+        
         let response: APIResponse;
-
-        // Prepare capture context
+        
         const captureContext = {
           testName: testInfo.title,
           scenarioId: scenario.id,
@@ -93,8 +137,7 @@ export function createScenarioSuite(scenarioFilePath: string, suiteName?: string
           domain: domain,
           mifeApi: scenario.mifeApi
         };
-
-        // Execute request
+        
         if (scenario.method === 'GET') {
           response = await client.get(scenario.endpoint, { headers, queryParams, captureContext });
         } else if (scenario.method === 'POST') {
@@ -106,17 +149,15 @@ export function createScenarioSuite(scenarioFilePath: string, suiteName?: string
         } else {
           throw new Error(`Unsupported method: ${scenario.method}`);
         }
-
+        
         const duration = Date.now() - startTime;
-
-        // Execute assertions from scenario JSON
+        
         if (scenario.assertions) {
           await assertionExecutor.execute(response, scenario.assertions, { duration });
         } else {
           console.warn(`[Test] No assertions defined for scenario: ${scenario.id}`);
         }
-
-        // Log response for debugging
+        
         console.log(`[${scenario.id}] Status: ${response.status()}, Duration: ${duration}ms`);
         try {
           const responseBody = await response.json();
@@ -127,4 +168,40 @@ export function createScenarioSuite(scenarioFilePath: string, suiteName?: string
       });
     }
   });
+}
+
+/**
+ * Create test suite from a directory (recursively finds all scenario files)
+ */
+export function createScenarioSuiteFromDirectory(directoryPath: string, suiteName?: string) {
+  const scenarioFiles = findScenarioFiles(directoryPath);
+  
+  if (scenarioFiles.length === 0) {
+    console.warn(`[Scenario Runner] No scenario files found in: ${directoryPath}`);
+    return;
+  }
+  
+  console.log(`[Scenario Runner] Found ${scenarioFiles.length} scenario files in ${directoryPath}`);
+  
+  for (const filePath of scenarioFiles) {
+    const relativePath = path.relative(directoryPath, filePath);
+    createScenarioSuite(filePath, suiteName ? `${suiteName} - ${relativePath}` : relativePath);
+  }
+}
+
+/**
+ * Create test suite for a specific MIFE API by searching recursively
+ */
+export function createScenarioSuiteForMifeApi(rootDir: string, mifeApiName: string, suiteName?: string) {
+  const scenarioFiles = findScenarioFiles(rootDir);
+  
+  for (const filePath of scenarioFiles) {
+    const scenarioFile = loadScenarioFile(filePath);
+    if (scenarioFile && scenarioFile.mifeApi === mifeApiName) {
+      createScenarioSuite(filePath, suiteName || `${mifeApiName} Tests`);
+      return;
+    }
+  }
+  
+  console.warn(`[Scenario Runner] No scenario file found for MIFE API: ${mifeApiName}`);
 }

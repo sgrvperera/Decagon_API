@@ -1,0 +1,85 @@
+{
+  "metadata": {
+    "mainWorkflow": "Reconnection",
+    "subWorkflow": "temporary",
+    "apiCommonName": "temporary reconnection action",
+    "mifeApi": "SS-DIA-Temporary-Recon-Update - v1.0.0",
+    "generatedAt": "2026-04-02T08:00:00.000Z",
+    "source": "book5-migration"
+  },
+  "mifeApi": "SS-DIA-Temporary-Recon-Update - v1.0.0",
+  "scenarios": [
+    {
+      "id": "temporary-reconnection-postpaid-smoke",
+      "name": "Temporary Reconnection - Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-Temporary-Recon-Update - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/temporary-reconnection/v1/process",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "temporary-reconnection",
+        "operation": "process",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "02",
+          "executionMessage": "Your connection is currently inactive due to an outstanding balance.I Have Already checked if i can provide you with a temporary reconnection.However since you have already obtained this service once I'm unable to proceed with it.To restore your Connection, we kindly ask that the outstanding balance be settled. Once processed, your connection will be reactivated promptly. Thank you for your understanding!"
+        }
+      }
+    },
+    {
+      "id": "temporary-reconnection-hbb",
+      "name": "Temporary Reconnection - HBB Account",
+      "mifeApi": "SS-DIA-Temporary-Recon-Update - v1.0.0",
+      "tags": [
+        "@regression",
+        "@hbb"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/temporary-reconnection/v1/process",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "temporary-reconnection",
+        "operation": "process",
+        "connectionType": "POSTPAID",
+        "serviceType": "HBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 5000,
+        "bodyNotEmpty": true
+      }
+    }
+  ]
+}

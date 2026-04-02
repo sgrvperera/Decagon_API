@@ -1,0 +1,145 @@
+{
+  "metadata": {
+    "mainWorkflow": "Balance and Bill Check",
+    "subWorkflow": "Balance check",
+    "apiCommonName": "send balance bill infor endpoint",
+    "mifeApi": "SS-DIA-Balance-Check-Query - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.106Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-Balance-Check-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "balance-check-postpaid-smoke",
+      "name": "Check Balance - Postpaid Account (Smoke)",
+      "mifeApi": "SS-DIA-Balance-Check-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid",
+        "@gsm"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/balance-check/v1/check",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "balance-check",
+        "operation": "check",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [200, 500],
+      "assertions": {
+        "status": [200, 500],
+        "responseTime": 5000,
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "balance-check-prepaid",
+      "name": "Check Balance - Prepaid Account",
+      "mifeApi": "SS-DIA-Balance-Check-Query - v1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@gsm"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/balance-check/v1/check",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "balance-check",
+        "operation": "check",
+        "connectionType": "PREPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [200, 500],
+      "assertions": {
+        "status": [200, 500],
+        "responseTime": 5000,
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "balance-check-invalid-account",
+      "name": "Check Balance - Invalid Account (Negative)",
+      "mifeApi": "SS-DIA-Balance-Check-Query - v1.0.0",
+      "tags": [
+        "@negative"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/balance-check/v1/check",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "balance-check",
+        "operation": "check",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "negative"
+      },
+      "expectedStatus": [
+        400,
+        404,
+        500
+      ],
+      "assertions": {
+        "status": [
+          400,
+          404,
+          500
+        ],
+        "responseTime": 5000,
+        "bodyNotEmpty": true
+      }
+    },
+    {
+      "id": "balance-check-missing-account",
+      "name": "Check Balance - Missing Account Number (Negative)",
+      "mifeApi": "SS-DIA-Balance-Check-Query - v1.0.0",
+      "tags": [
+        "@negative"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/balance-check/v1/check",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {},
+      "expectedStatus": [
+        400,
+        422,
+        500
+      ],
+      "assertions": {
+        "status": [
+          400,
+          422,
+          500
+        ],
+        "responseTime": 3000,
+        "bodyNotEmpty": true
+      }
+    }
+  ]
+}

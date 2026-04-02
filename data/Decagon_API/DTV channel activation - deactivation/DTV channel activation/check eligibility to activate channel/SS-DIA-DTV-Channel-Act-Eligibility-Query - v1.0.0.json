@@ -1,0 +1,102 @@
+{
+  "metadata": {
+    "mainWorkflow": "DTV channel activation / deactivation",
+    "subWorkflow": "DTV channel activation",
+    "apiCommonName": "check eligibility to activate channel",
+    "mifeApi": "SS-DIA-DTV-Channel-Act-Eligibility-Query - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.121Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-DTV-Channel-Act-Eligibility-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "dtv-channels-check-activation-eligibility-valid",
+      "name": "Check DTV Channel Activation Eligibility - Valid (Smoke)",
+      "mifeApi": "SS-DIA-DTV-Channel-Act-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@dtv",
+        "@channels"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/dtv-channel-act/v1/check-eligibility",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}",
+        "channelNo": 50
+      },
+      "numberResolution": {
+        "apiDomain": "dtv-channel",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "DTV",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "dtv-channels-check-activation-eligibility-invalid",
+      "name": "Check DTV Channel Activation Eligibility - Invalid Account (Negative)",
+      "mifeApi": "SS-DIA-DTV-Channel-Act-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@negative",
+        "@dtv",
+        "@channels"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/dtv-channel-act/v1/check-eligibility",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNo": "{{number}}",
+        "channelNo": 50
+      },
+      "numberResolution": {
+        "apiDomain": "dtv-channel",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "DTV",
+        "scenarioType": "negative"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        },
+        "bodyContains": [
+          "eligible",
+          "false"
+        ]
+      }
+    }
+  ]
+}

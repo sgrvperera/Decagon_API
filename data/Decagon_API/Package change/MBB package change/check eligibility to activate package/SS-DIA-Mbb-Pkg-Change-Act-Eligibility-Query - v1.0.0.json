@@ -1,0 +1,142 @@
+{
+  "metadata": {
+    "mainWorkflow": "Package change",
+    "subWorkflow": "MBB package change",
+    "apiCommonName": "check eligibility to activate package",
+    "mifeApi": "SS-DIA-Mbb-Pkg-Change-Act-Eligibility-Query - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.185Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-Mbb-Pkg-Change-Act-Eligibility-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "mbb-check-eligibility-postpaid-valid",
+      "name": "Check MBB Package Eligibility - Valid Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-Mbb-Pkg-Change-Act-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid",
+        "@mbb"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/mbb-package-change/v1/eligibility",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "msisdn": "{{number}}",
+        "packageCode": "59",
+        "packagePrePost": "Postpaid"
+      },
+      "numberResolution": {
+        "apiDomain": "mbb-packages",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "MBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "mbb-check-eligibility-prepaid-valid",
+      "name": "Check MBB Package Eligibility - Valid Prepaid",
+      "mifeApi": "SS-DIA-Mbb-Pkg-Change-Act-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@mbb"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/mbb-package-change/v1/eligibility",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "msisdn": "{{number}}",
+        "packageCode": "59",
+        "packagePrePost": "Prepaid"
+      },
+      "numberResolution": {
+        "apiDomain": "mbb-packages",
+        "operation": "eligibility",
+        "connectionType": "PREPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "mbb-check-eligibility-invalid-account",
+      "name": "Check MBB Package Eligibility - Invalid Account (Negative)",
+      "mifeApi": "SS-DIA-Mbb-Pkg-Change-Act-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@negative",
+        "@mbb"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/mbb-package-change/v1/eligibility",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "msisdn": "{{number}}",
+        "packageCode": "59",
+        "packagePrePost": "Postpaid"
+      },
+      "numberResolution": {
+        "apiDomain": "mbb-packages",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "MBB",
+        "scenarioType": "negative"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    }
+  ]
+}

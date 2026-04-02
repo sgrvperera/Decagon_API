@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "mainWorkflow": "Ebill",
+    "subWorkflow": "Ebill",
+    "apiCommonName": "Ebill Management",
+    "mifeApi": "SS-DIA-Get-Ebill-Email-Query - v1.0.0",
+    "generatedAt": "2026-04-02T08:00:00.000Z",
+    "source": "book5-migration"
+  },
+  "mifeApi": "SS-DIA-Get-Ebill-Email-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "ebill-get-email-smoke",
+      "name": "Get Ebill Email - Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-Get-Ebill-Email-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/ebill/v1/get-email",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "msisdn": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "ebill",
+        "operation": "get-email",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "ebill-send-email",
+      "name": "Send Ebill Email - Postpaid",
+      "mifeApi": "SS-DIA-Send-Ebill-Email-Insert - v1.0.0",
+      "tags": [
+        "@regression",
+        "@postpaid"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/ebill/v1/send-email",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "msisdn": "{{number}}",
+        "email": "test@example.com"
+      },
+      "numberResolution": {
+        "apiDomain": "ebill",
+        "operation": "send-email",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 10000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    }
+  ]
+}

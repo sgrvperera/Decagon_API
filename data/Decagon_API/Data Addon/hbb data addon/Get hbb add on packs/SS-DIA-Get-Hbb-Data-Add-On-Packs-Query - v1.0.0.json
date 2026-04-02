@@ -1,0 +1,44 @@
+{
+  "metadata": {
+    "mainWorkflow": "Data Addon",
+    "subWorkflow": "hbb data addon",
+    "apiCommonName": "Get hbb add on packs",
+    "mifeApi": "SS-DIA-Get-Hbb-Data-Add-On-Packs-Query       - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.150Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-Get-Hbb-Data-Add-On-Packs-Query       - v1.0.0",
+  "scenarios": [
+    {
+      "id": "hbb-addons-get-packages-smoke",
+      "name": "Get HBB Add-on Packages (Smoke)",
+      "mifeApi": "SS-DIA-Get-Hbb-Data-Add-On-Packs-Query       - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@hbb",
+        "@addons"
+      ],
+      "method": "GET",
+      "endpoint": "/dia-api-engine/api/hbb-data-add-on/v1/get-packages",
+      "headers": {
+        "traceId": "{{traceId}}"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    }
+  ]
+}

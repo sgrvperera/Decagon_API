@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "mainWorkflow": "Package change",
+    "subWorkflow": "mob package change",
+    "apiCommonName": "Get mobile packages",
+    "mifeApi": "SS-DIA-Get-Gsm-Packages-Query - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.141Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-Get-Gsm-Packages-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "gsm-get-packages-postpaid-smoke",
+      "name": "Get GSM Packages - Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-Get-Gsm-Packages-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid",
+        "@gsm"
+      ],
+      "method": "GET",
+      "endpoint": "/dia-api-engine/api/gsm-package/v1/packages",
+      "queryParams": {
+        "connectionType": "POSTPAID"
+      },
+      "headers": {
+        "traceId": "{{traceId}}"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        },
+        "arrayFields": [
+          "responseData"
+        ],
+        "arrayMinLength": {
+          "responseData": 1
+        }
+      }
+    },
+    {
+      "id": "gsm-get-packages-prepaid",
+      "name": "Get GSM Packages - Prepaid",
+      "mifeApi": "SS-DIA-Get-Gsm-Packages-Query - v1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@gsm"
+      ],
+      "method": "GET",
+      "endpoint": "/dia-api-engine/api/gsm-package/v1/packages",
+      "queryParams": {
+        "connectionType": "PREPAID"
+      },
+      "headers": {
+        "traceId": "{{traceId}}"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        },
+        "arrayFields": [
+          "responseData"
+        ]
+      }
+    }
+  ]
+}

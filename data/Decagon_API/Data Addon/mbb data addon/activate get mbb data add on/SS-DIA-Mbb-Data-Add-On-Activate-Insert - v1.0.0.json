@@ -1,0 +1,105 @@
+{
+  "metadata": {
+    "mainWorkflow": "Data Addon",
+    "subWorkflow": "mbb data addon",
+    "apiCommonName": "activate get mbb data add on",
+    "mifeApi": "SS-DIA-Mbb-Data-Add-On-Activate-Insert     - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.178Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-Mbb-Data-Add-On-Activate-Insert     - v1.0.0",
+  "scenarios": [
+    {
+      "id": "mbb-addons-activate-postpaid",
+      "name": "Activate MBB Add-on - Postpaid",
+      "mifeApi": "SS-DIA-Mbb-Data-Add-On-Activate-Insert     - v1.0.0",
+      "tags": [
+        "@regression",
+        "@postpaid",
+        "@mbb",
+        "@addons"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/mbb-data-addons/v1/activate",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "1MORE1D"
+      },
+      "numberResolution": {
+        "apiDomain": "mbb-packages",
+        "operation": "activation",
+        "connectionType": "POSTPAID",
+        "serviceType": "MBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [
+        200,
+        201
+      ],
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "mbb-addons-activate-prepaid",
+      "name": "Activate MBB Add-on - Prepaid",
+      "mifeApi": "SS-DIA-Mbb-Data-Add-On-Activate-Insert     - v1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@mbb",
+        "@addons"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/mbb-data-addons/v1/activate",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "1MORE1D"
+      },
+      "numberResolution": {
+        "apiDomain": "mbb-packages",
+        "operation": "activation",
+        "connectionType": "PREPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [
+        200,
+        201
+      ],
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    }
+  ]
+}

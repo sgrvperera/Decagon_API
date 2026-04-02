@@ -200,6 +200,10 @@ class NumberResolver {
     }
 
     // Get path based on connection type
+    if (!request.connectionType) {
+      console.warn(`[NumberResolver] connectionType is undefined for request:`, request);
+      return null;
+    }
     const connectionTypeLower = request.connectionType.toLowerCase();
     return operationMapping[connectionTypeLower] || null;
   }

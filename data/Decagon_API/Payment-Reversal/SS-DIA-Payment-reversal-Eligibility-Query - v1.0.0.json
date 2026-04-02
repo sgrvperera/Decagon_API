@@ -1,0 +1,96 @@
+{
+  "metadata": {
+    "mainWorkflow": "Payment Reversal",
+    "subWorkflow": "Payment Reversal",
+    "apiCommonName": "Payment Reversal",
+    "mifeApi": "SS-DIA-Payment-reversal-Eligibility-Query - v1.0.0",
+    "generatedAt": "2026-04-02T08:00:00.000Z",
+    "source": "book5-migration"
+  },
+  "mifeApi": "SS-DIA-Payment-reversal-Eligibility-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "payment-reversal-eligibility-smoke",
+      "name": "Check Payment Reversal Eligibility (Smoke)",
+      "mifeApi": "SS-DIA-Payment-reversal-Eligibility-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/payment-reversal/v1/check-eligibility",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageValue": "100"
+      },
+      "numberResolution": {
+        "apiDomain": "payment-reversal",
+        "operation": "eligibility",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "payment-reversal-process",
+      "name": "Process Payment Reversal",
+      "mifeApi": "SS-DIA-Payment-reversal-Insert - v1.0.0",
+      "tags": [
+        "@regression",
+        "@postpaid"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/payment-reversal/v1/process-reversal",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json",
+        "Authorization": "Bearer <token>"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageValue": "50"
+      },
+      "numberResolution": {
+        "apiDomain": "payment-reversal",
+        "operation": "process",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 5000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    }
+  ]
+}

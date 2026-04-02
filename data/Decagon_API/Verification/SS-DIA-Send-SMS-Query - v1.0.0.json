@@ -1,0 +1,157 @@
+{
+  "metadata": {
+    "mainWorkflow": "Verification",
+    "subWorkflow": "Verification",
+    "apiCommonName": "Customer Verification",
+    "mifeApi": "SS-DIA-Send-SMS-Query - v1.0.0",
+    "generatedAt": "2026-04-02T08:00:00.000Z",
+    "source": "book5-migration"
+  },
+  "mifeApi": "SS-DIA-Send-SMS-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "send-sms-smoke",
+      "name": "Send SMS - Verification (Smoke)",
+      "mifeApi": "SS-DIA-Send-SMS-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/send-sms/v1/send-message",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json",
+        "Authorization": "Bearer <token>"
+      },
+      "body": {
+        "msisdn": "{{number}}",
+        "messageContent": "Test verification SMS"
+      },
+      "numberResolution": {
+        "apiDomain": "verification",
+        "operation": "send-sms",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "cx-verify-info",
+      "name": "Get Customer Verification Info",
+      "mifeApi": "SS-DIA-Cx-Verify-Info-Query - v1.0.0",
+      "tags": [
+        "@regression"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/verification/v1/cx-verify-info",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "accountNumber": "{{number}}"
+      },
+      "numberResolution": {
+        "apiDomain": "verification",
+        "operation": "verify-info",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage"
+        ]
+      }
+    },
+    {
+      "id": "save-connection-number",
+      "name": "Save Connection Number",
+      "mifeApi": "SS-DIA-Cx-Connection-Number-Insert - v1.0.0",
+      "tags": [
+        "@regression"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/verified-number/v1/save-connection-number",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "msisdn": "{{number}}",
+        "userId": "user001",
+        "lob": "HBB"
+      },
+      "numberResolution": {
+        "apiDomain": "verification",
+        "operation": "save",
+        "connectionType": "POSTPAID",
+        "serviceType": "HBB",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "get-connection-number",
+      "name": "Get Connection Number",
+      "mifeApi": "SS-DIA-Cx-Connection-Number-Query - v1.0.0",
+      "tags": [
+        "@regression"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/verified-number/v1/get-connection-number",
+      "headers": {
+        "traceId": "{{traceId}}",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "userId": "user001",
+        "lob": "HBB"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage"
+        ]
+      }
+    }
+  ]
+}

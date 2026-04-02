@@ -1,0 +1,105 @@
+{
+  "metadata": {
+    "mainWorkflow": "Package change",
+    "subWorkflow": "mob package change",
+    "apiCommonName": "activate package",
+    "mifeApi": "SS-DIA-Gsm-Package-Change-Activate-Insert - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.146Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-Gsm-Package-Change-Activate-Insert - v1.0.0",
+  "scenarios": [
+    {
+      "id": "gsm-activate-package-postpaid",
+      "name": "Activate GSM Package - Postpaid",
+      "mifeApi": "SS-DIA-Gsm-Package-Change-Activate-Insert - v1.0.0",
+      "tags": [
+        "@regression",
+        "@postpaid",
+        "@gsm"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/gsm-package/v1/activate",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "SPM_2700"
+      },
+      "numberResolution": {
+        "apiDomain": "gsm-packages",
+        "operation": "activation",
+        "connectionType": "POSTPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [
+        200,
+        201
+      ],
+      "assertions": {
+        "status": [
+          200,
+          201
+        ],
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        }
+      }
+    },
+    {
+      "id": "gsm-activate-package-prepaid",
+      "name": "Activate GSM Package - Prepaid",
+      "mifeApi": "SS-DIA-Gsm-Package-Change-Activate-Insert - v1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@gsm"
+      ],
+      "method": "POST",
+      "endpoint": "/dia-api-engine/api/gsm-package/v1/activate",
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "body": {
+        "accountNumber": "{{number}}",
+        "packageCode": "830"
+      },
+      "numberResolution": {
+        "apiDomain": "gsm-packages",
+        "operation": "activation",
+        "connectionType": "PREPAID",
+        "serviceType": "GSM",
+        "scenarioType": "positive"
+      },
+      "expectedStatus": [
+        200,
+        201
+      ],
+      "assertions": {
+        "status": [
+          200,
+          201
+        ],
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ]
+      }
+    }
+  ]
+}

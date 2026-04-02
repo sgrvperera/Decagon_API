@@ -1,0 +1,88 @@
+{
+  "metadata": {
+    "mainWorkflow": "Package change",
+    "subWorkflow": "DTV package change",
+    "apiCommonName": "Get dtv packages",
+    "mifeApi": "SS-DIA-Get-Dtv-Packages-Query - v1.0.0",
+    "generatedAt": "2026-04-02T06:15:45.134Z",
+    "source": "migration-script"
+  },
+  "mifeApi": "SS-DIA-Get-Dtv-Packages-Query - v1.0.0",
+  "scenarios": [
+    {
+      "id": "dtv-get-packages-postpaid-smoke",
+      "name": "Get DTV Packages - Postpaid (Smoke)",
+      "mifeApi": "SS-DIA-Get-Dtv-Packages-Query - v1.0.0",
+      "tags": [
+        "@smoke",
+        "@regression",
+        "@postpaid",
+        "@dtv"
+      ],
+      "method": "GET",
+      "endpoint": "/dia-api-engine/api/dtv-package/v1/packages/available",
+      "queryParams": {
+        "connectionType": "POSTPAID"
+      },
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        },
+        "arrayFields": [
+          "responseData"
+        ]
+      }
+    },
+    {
+      "id": "dtv-get-packages-prepaid",
+      "name": "Get DTV Packages - Prepaid",
+      "mifeApi": "SS-DIA-Get-Dtv-Packages-Query - v1.0.0",
+      "tags": [
+        "@regression",
+        "@prepaid",
+        "@dtv"
+      ],
+      "method": "GET",
+      "endpoint": "/dia-api-engine/api/dtv-package/v1/packages/available",
+      "queryParams": {
+        "connectionType": "PREPAID"
+      },
+      "headers": {
+        "Content-Type": "application/json",
+        "traceId": "{{traceId}}"
+      },
+      "expectedStatus": 200,
+      "assertions": {
+        "status": 200,
+        "responseTime": 3000,
+        "bodyNotEmpty": true,
+        "requiredFields": [
+          "executionStatus",
+          "executionMessage",
+          "responseData"
+        ],
+        "fieldValues": {
+          "executionStatus": "00",
+          "executionMessage": "SUCCESS"
+        },
+        "arrayFields": [
+          "responseData"
+        ]
+      }
+    }
+  ]
+}
